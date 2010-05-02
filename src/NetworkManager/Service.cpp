@@ -84,7 +84,7 @@ mServerService(serverservice)
 	#endif //WIN32
 
 	// Create our socket descriptors
-	SOCKET mLocalSocket = socket(PF_INET, SOCK_DGRAM, 0);
+	SOCKET mLocalSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 	// Bind to our listen port.
 	sockaddr_in   server;
