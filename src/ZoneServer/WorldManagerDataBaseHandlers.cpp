@@ -415,8 +415,6 @@ void WorldManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 						result->ResetRowIndex(static_cast<int>(i));
 						result->GetNextRow(animbinding,&animId);
 
-						std::cout << "tmp address: " << &tmp << std::endl;
-						std::cout << "        tmp: " << tmp.getAnsi() << std::endl;
 						tmp.convert(BSTRType_Unicode16);
 
 						mvNpcChatter.push_back(std::make_pair(BString(tmp.getUnicode16()),animId));
