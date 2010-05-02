@@ -48,8 +48,6 @@ void WorldManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 					DataBinding*	binding = mDatabase->CreateDataBinding(1);
 					binding->addField(DFT_uint32,0,4);
 					result->GetNextRow(binding,&mTotalObjectCount);
-					std::cout << "mTotalObjectCount:" << mTotalObjectCount << std::endl;
-					std::cout << "getRowCount: " << result->getRowCount() << std::endl;
 					if(result->getRowCount())
 						gLogger->logMsgLoadSuccess("WorldManager::Loading %u Objects...",MSG_NORMAL,mTotalObjectCount);
 					else
