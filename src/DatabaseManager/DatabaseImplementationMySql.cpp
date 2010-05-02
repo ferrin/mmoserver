@@ -1,12 +1,12 @@
 /*
-  ---------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
   This source file is part of swgANH (Star Wars Galaxies - A New Hope - Server Emulator)
   For more information, see http://www.swganh.org
 
 
   Copyright (c) 2006 - 2010 The swgANH Team
 
-  ---------------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------
 */
 
 #include "DatabaseImplementationMySql.h"
@@ -119,9 +119,9 @@ void DatabaseImplementationMySql::GetNextRow(DatabaseResult* result, DataBinding
       MYSQL_ROW row = mysql_fetch_row(mySqlResult);
       if (row)
 	{
+	  unsigned long* lengths = mysql_fetch_lengths(mySqlResult);
 	  for ( uint32 i = 0; i < binding->getFieldCount(); ++i)
 	    {
-	      uint32* lengths = (uint32*)mysql_fetch_lengths(mySqlResult);
 	      switch (binding->mDataFields[i].mDataType)
 		{
 		case DFT_int8:
@@ -184,7 +184,8 @@ void DatabaseImplementationMySql::GetNextRow(DatabaseResult* result, DataBinding
 		  }
 		case DFT_string:
 		  {
-		    strncpy(&((char*)object)[binding->mDataFields[i].mDataOffset], row[binding->mDataFields[i].mColumn], lengths[binding->mDataFields[i].mColumn]);
+		    strncpy(((char*)object)+binding->mDataFields[i].mDataOffset, row[binding->mDataFields[i].mColumn],
+			    lengths[binding->mDataFields[i].mColumn]);
 		    ((char*)object)[binding->mDataFields[i].mDataOffset + lengths[binding->mDataFields[i].mColumn]] = 0;  // NULL terminate the string
 		    break;
 		  }
