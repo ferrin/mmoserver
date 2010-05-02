@@ -9,9 +9,9 @@ Copyright (c) 2006 - 2010 The swgANH Team
 ---------------------------------------------------------------------------------------
 */
 
-#include "ZoneTree.h"
-#include "BuildingObject.h"
 
+#include "BuildingObject.h"
+#include "ZoneTree.h"
 #include "ObjectContainer.h"
 #include "CellObject.h"
 #include "WorldManager.h"
@@ -50,8 +50,13 @@ void ZoneTree::Init(double fillFactor,uint32 indexCap,uint32 leafCap,uint32 dime
 		mStorageBuffer = StorageManager::createNewRandomEvictionsBuffer(*mStorageManager,200,false);
 
 		mTree = RTree::createNewRTree(*mStorageBuffer,fillFactor,indexCap,leafCap,dimensions,SpatialIndex::RTree::RV_RSTAR,mIndexIdentifier);
-
+#if 0
+		/**
+		   ResourceUsage not present in newer versions of spatial index
+		   -Xunil
+		*/
 		mResourceUsage.start();
+#endif
 		gLogger->logMsgOk(54);
 	}
 	catch(Tools::Exception& e)
@@ -584,6 +589,11 @@ void ZoneTree::ShutDown()
 {
 	gLogger->logMsg("SpatialIndex Shutdown\n");
 
+#if 0
+	/**
+	   ResourceUsage not present in newer versions of spatial index
+	   -Xunil
+	*/
 	try
 	{
 		mResourceUsage.stop();
@@ -596,7 +606,7 @@ void ZoneTree::ShutDown()
 	{
 		gLogger->logMsg("*** ERROR: Unknown Exception ***\n");
 	}
-
+#endif
 	delete(mTree);
 	delete(mStorageBuffer);
 	delete(mStorageManager);

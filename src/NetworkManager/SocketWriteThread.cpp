@@ -83,8 +83,10 @@ mIsRunning(false)
 
 	mThread = boost::move(t);
 
+#if(ANH_PLATFORM == ANH_PLATFORM_WIN32)
 	HANDLE mtheHandle = mThread.native_handle();
 	SetPriorityClass(mtheHandle,REALTIME_PRIORITY_CLASS);	
+#endif
 
 	
 

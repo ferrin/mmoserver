@@ -907,7 +907,7 @@ void WorldManager::_handleLoadComplete()
 	
 	mSubsystemScheduler->addTask(fastdelegate::MakeDelegate(this,&WorldManager::_handleGeneralObjectTimers),5,2000,NULL);
 	mSubsystemScheduler->addTask(fastdelegate::MakeDelegate(this,&WorldManager::_handleGroupObjectTimers),5,gWorldConfig->getGroupMissionUpdateTime(),NULL);
-	mSubsystemScheduler->addTask(fastdelegate::MakeDelegate(this,&WorldManager::_handleVariousUpdates),7,1000, NULL);
+	mSubsystemScheduler->addTask(fastdelegate::MakeDelegate(this,&WorldManager::_handleVariousUpdates),7,2000, NULL);
 
 	// Init NPC Manager, will load lairs from the DB.
 	(void)NpcManager::Instance();
@@ -969,7 +969,7 @@ bool WorldManager::_handleRegionUpdate(uint64 callTime,void* ref)
 
 //======================================================================================================================
 
-int32 WorldManager::getPlanetIdByName(string name)
+int32 WorldManager::getPlanetIdByName(BString name)
 {
 	uint8	id = 0;
 	name.toLower();
@@ -990,7 +990,7 @@ int32 WorldManager::getPlanetIdByName(string name)
 
 //======================================================================================================================
 
-int32 WorldManager::getPlanetIdByNameLike(string name)
+int32 WorldManager::getPlanetIdByNameLike(BString name)
 {
 	uint8	id = 0;
 	name.toLower();
@@ -1147,7 +1147,7 @@ QTRegion* WorldManager::getQTRegion(uint32 id)
 // get an attribute string value from the global attribute map
 //
 
-string WorldManager::getAttributeKey(uint32 keyId)
+BString WorldManager::getAttributeKey(uint32 keyId)
 {
 	AttributeKeyMap::iterator it = mObjectAttributeKeyMap.find(keyId);
 
@@ -1208,7 +1208,7 @@ void WorldManager::ScriptRegisterEvent(void* script,std::string eventFunction)
 
 void WorldManager::	zoneSystemMessage(std::string message)
 {
-	string msg = (int8*)message.c_str();
+	BString msg = (int8*)message.c_str();
 
 	msg.convert(BSTRType_Unicode16);
 

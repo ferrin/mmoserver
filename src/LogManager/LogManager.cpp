@@ -60,7 +60,9 @@ LogManager::~LogManager()
 	while(it != mLogs.end())
 	{
 		delete(it->second);
-		it = mLogs.erase(it);
+		// Erase returns a void, use a post increment on iterator instead - Xunil
+		mLogs.erase(it++);
+		
 	}
 }
 

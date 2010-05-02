@@ -102,8 +102,8 @@ struct Mission_Names
 {
 	uint32  id;
 	uint32  type;
-	string  mission_name;
-	string  name;
+	BString  mission_name;
+	BString  name;
 };
 
 typedef std::map<uint32,Mission_Names*>		NameMap;
@@ -111,7 +111,7 @@ typedef std::map<uint32,Mission_Names*>		NameMap;
 struct Mission_Types
 {
 	uint64	id;
-	string	stf;
+	BString	stf;
 	uint32	content;
 	uint32	nameprovided;
 	NameMap names;

@@ -25,7 +25,7 @@ class UITicketSelectListBox : public UIListBox
 {
 	public:
 
-		UITicketSelectListBox(UICallback* callback,uint32 id,const int8* eventStr,const int8* caption,const int8* prompt,const BStringVector dataItems,PlayerObject* playerObject,string port,Shuttle* shuttle,uint8 lbType)
+		UITicketSelectListBox(UICallback* callback,uint32 id,const int8* eventStr,const int8* caption,const int8* prompt,const BStringVector dataItems,PlayerObject* playerObject,BString port,Shuttle* shuttle,uint8 lbType)
 			: UIListBox(callback,id,SUI_Window_TicketSelect_ListBox,eventStr,caption,prompt,dataItems,playerObject,lbType),mShuttle(shuttle)
 		{
 			mPort = port.getAnsi();
@@ -33,13 +33,13 @@ class UITicketSelectListBox : public UIListBox
 
 		virtual		~UITicketSelectListBox(){}
 
-		string		getPort(){ return mPort; }
+		BString		getPort(){ return mPort; }
 		Shuttle*	getShuttle(){ return mShuttle; }
 
 	private:
 
 		Shuttle*	mShuttle;
-		string		mPort;
+		BString		mPort;
 };
 
 //================================================================================

@@ -31,7 +31,7 @@ public:
 	uint32 mIconCRC;
 	uint64 mPausedGlobalTick;
 	uint64 mStartGlobalTick;
-	string mName;
+	BString mName;
 };
 class BuffAttributeDBItem
 {

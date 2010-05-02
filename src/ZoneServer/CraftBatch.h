@@ -81,7 +81,7 @@ class CraftAttribute
 		~CraftAttribute(){}
 
 		uint32	getAttributeId(){ return mAttributeId; }
-		string	getAttributeKey(){ return mAttributeKey; }
+		BString	getAttributeKey(){ return mAttributeKey; }
 		float	getMin(){ return mMin; }
 		float	getMax(){ return mMax; }
 
@@ -91,7 +91,7 @@ class CraftAttribute
 	private:
 
 		uint32	mAttributeId;
-		string	mAttributeKey;
+		BString	mAttributeKey;
 		uint8	mType;
 		float	mMin;
 		float	mMax;
@@ -113,10 +113,10 @@ class CraftAttributeWeight
 		~CraftAttributeWeight(){}
 
 		uint32	getAttributeId(){ return mAttributeId; }
-		string	getAttributeKey(){ return mAttributeKey; }
+		BString	getAttributeKey(){ return mAttributeKey; }
 
 		uint32	getAffectedAttributeId(){ return mAffectedAttributeId; }
-		string	getAffectedAttributeKey(){ return mAffectedAttributeKey; }
+		BString	getAffectedAttributeKey(){ return mAffectedAttributeKey; }
 
 		uint32	getManipulation(){ return mManipulation; }
 
@@ -124,10 +124,10 @@ class CraftAttributeWeight
 	private:
 
 		uint32	mAttributeId;
-		string	mAttributeKey;
+		BString	mAttributeKey;
 
 		uint32	mAffectedAttributeId;
-		string	mAffectedAttributeKey;
+		BString	mAffectedAttributeKey;
 
 		AttributePPME_Enum	mManipulation;
 		uint8	mType;

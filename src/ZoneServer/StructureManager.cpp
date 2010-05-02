@@ -17,7 +17,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 #include "HouseObject.h"
 #include "FactoryObject.h"
 #include "Inventory.h"
-#include "DataPad.h"
+#include "Datapad.h"
 #include "ResourceContainer.h"
 #include "ResourceType.h"
 #include "ObjectFactory.h"
@@ -140,7 +140,7 @@ void StructureManager::updateKownPlayerPermissions(PlayerStructure* structure)
 //=======================================================================================================================
 //checks for a name on a permission list
 //=======================================================================================================================
-void StructureManager::checkNameOnPermissionList(uint64 structureId, uint64 playerId, string name, string list, StructureAsyncCommand command)
+void StructureManager::checkNameOnPermissionList(uint64 structureId, uint64 playerId, BString name, BString list, StructureAsyncCommand command)
 {
 
 	StructureManagerAsyncContainer* asyncContainer;
@@ -174,7 +174,7 @@ void StructureManager::checkNameOnPermissionList(uint64 structureId, uint64 play
 //=======================================================================================================================
 //removes a name from a permission list
 //=======================================================================================================================
-void StructureManager::removeNamefromPermissionList(uint64 structureId, uint64 playerId, string name, string list)
+void StructureManager::removeNamefromPermissionList(uint64 structureId, uint64 playerId, BString name, BString list)
 {
 	int8 playerName[64];
 
@@ -200,7 +200,7 @@ void StructureManager::removeNamefromPermissionList(uint64 structureId, uint64 p
 //=======================================================================================================================
 //adds a name to a permission list
 //=======================================================================================================================
-void StructureManager::addNametoPermissionList(uint64 structureId, uint64 playerId, string name, string list)
+void StructureManager::addNametoPermissionList(uint64 structureId, uint64 playerId, BString name, BString list)
 {
 	int8 playerName[64];
 	//we have shown that we are on the admin list, so the name we proposed now will get added
@@ -417,7 +417,7 @@ bool StructureManager::checkinCamp(PlayerObject* player)
 //=========================================================================================0
 // gets the code to confirm structure destruction
 //
-string StructureManager::getCode()
+BString StructureManager::getCode()
 {
 	int8	serial[12],chance[9];
 	bool	found = false;
@@ -610,7 +610,6 @@ bool StructureManager::_handleStructureObjectTimers(uint64 callTime, void* ref)
 			gWorldManager->createObjectinWorld(player,structure);	
 			gMessageLib->sendConstructionComplete(player,structure);
 
-			/*
 			if(structure->getPlayerStructureFamily() == PlayerStructure_House)
 			{
 				float x,y,z;
@@ -621,7 +620,6 @@ bool StructureManager::_handleStructureObjectTimers(uint64 callTime, void* ref)
 				HouseObject* house = dynamic_cast<HouseObject*>(structure);
 				house->setSign(sign);
 			}
-			*/
 			
 
 		}
@@ -1024,7 +1022,7 @@ void StructureManager::processVerification(StructureAsyncCommand command, bool o
 					
 					int8 s[512];
 					sprintf(s,"schematic Mask %u vs factory Mask %u",mask,factory->getMask());
-					string message(s);
+					BString message(s);
 					message.convert(BSTRType_Unicode16);
 					gMessageLib->sendSystemMessage(player,message.getUnicode16());
 			}

@@ -27,7 +27,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 //======================================================================================================================
 //gets the information on a holoemote from the loaded db data
 //
-HoloStruct* EntertainerManager::getHoloEmoteByCRC(uint32 crc)
+HoloStruct* EntertainerManager::getHoloEmote_by_CRC(uint32 crc)
 {
 
 	HoloEmoteEffects::iterator it = mHoloList.begin();
@@ -47,7 +47,7 @@ HoloStruct* EntertainerManager::getHoloEmoteByCRC(uint32 crc)
 //======================================================================================================================
 //gets the information on a holoemote from the loaded db data
 //
-HoloStruct* EntertainerManager::getHoloEmoteByClientCRC(uint32 crc)
+HoloStruct* EntertainerManager::getHoloEmote_by_ClientCRC(uint32 crc)
 {
 
 	HoloEmoteEffects::iterator it = mHoloList.begin();
@@ -66,7 +66,7 @@ HoloStruct* EntertainerManager::getHoloEmoteByClientCRC(uint32 crc)
 
 //======================================================================================================================
 
-string EntertainerManager::getHoloNames()
+BString EntertainerManager::getHoloNames()
 {
 	int8 collection[512];
 	//sprintf(collection,"");
@@ -86,7 +86,7 @@ string EntertainerManager::getHoloNames()
 
 //======================================================================================================================
 
-HoloStruct* EntertainerManager::getHoloEmoteIdbyName(string name)
+HoloStruct* EntertainerManager::getHoloEmoteIdbyName(BString name)
 {
 
 	HoloEmoteEffects::iterator it = mHoloList.begin();
@@ -108,7 +108,7 @@ HoloStruct* EntertainerManager::getHoloEmoteIdbyName(string name)
 //max and min values might need to be DB based at some point
 //however the client has his own max and min values in the iffs so hardcoding at this time should be viable
 
-string EntertainerManager::commitIdheight(PlayerObject* customer, float value)
+BString EntertainerManager::commitIdheight(PlayerObject* customer, float value)
 {
 	float addtoMinScale = 0.0F;
 	float minScale = 1.0F;
@@ -280,7 +280,7 @@ string EntertainerManager::commitIdheight(PlayerObject* customer, float value)
 //returns the XP for a given attribute change
 //
 
-uint32 EntertainerManager::getIdXP(string attribute, uint16 value)
+uint32 EntertainerManager::getIdXP(BString attribute, uint16 value)
 {
 	IDStruct*	iDContainer = getIDAttribute(attribute.getCrc());
 	if(!iDContainer)
@@ -294,12 +294,12 @@ uint32 EntertainerManager::getIdXP(string attribute, uint16 value)
 //looks up the corresponding index and indexstring for Colors
 //updates the indexvalue and prepares the attribute string to be added to the sql string
 //
-string EntertainerManager::commitIdColor(PlayerObject* customer, string attribute, uint16 value)
+BString EntertainerManager::commitIdColor(PlayerObject* customer, BString attribute, uint16 value)
 {
 
 	gLogger->logMsgF("ID : Color Attribute : %s", MSG_NORMAL,attribute.getAnsi());
 
-	string		genderrace;
+	BString		genderrace;
 	int8		mString[64];
 	char		*Token;
 	char		separation[] = ".";
@@ -391,12 +391,12 @@ string EntertainerManager::commitIdColor(PlayerObject* customer, string attribut
 //updates the indexvalue and prepares the attribute string to be added to the sql string
 //
 
-string EntertainerManager::commitIdAttribute(PlayerObject* customer, string attribute, float value)
+BString EntertainerManager::commitIdAttribute(PlayerObject* customer, BString attribute, float value)
 {
 	uint32	crc = attribute.getCrc();
 	int8	add[50],mString[64];
 	uint16	uVal,sk;
-	string genderrace;
+	BString genderrace;
 
 	//sprintf(attrName,"");
 	//sprintf(add,"");
@@ -505,7 +505,7 @@ string EntertainerManager::commitIdAttribute(PlayerObject* customer, string attr
 //gets called by commitIdChanges to
 //apply the Hair changes
 //
-void EntertainerManager::applyHair(PlayerObject* customer,string newHairString)
+void EntertainerManager::applyHair(PlayerObject* customer,BString newHairString)
 {
 	int8 sql[1024];
 
@@ -522,7 +522,7 @@ void EntertainerManager::applyHair(PlayerObject* customer,string newHairString)
 	else
 		hairEquipped = (playerHairSlot->getTangibleType() == TanType_Hair);
 
-	string						customization	= "";
+	BString						customization	= "";
 
 	if(playerHair)
 	{
@@ -636,7 +636,7 @@ void EntertainerManager::applyMoney(PlayerObject* customer,PlayerObject* designe
 //=============================================================================
 //commits the changes of the ID session
 //
-void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* designer, string hair, uint32 amount,uint8 statMigration, string holoEmote,uint8 flagHair)
+void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* designer, BString hair, uint32 amount,uint8 statMigration, BString holoEmote,uint8 flagHair)
 {
 	Ham* ham = designer->getHam();
 	if(ham->checkMainPools(0,0,66))
@@ -671,7 +671,7 @@ void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* de
 	int8						mySQL[2048];
 	AttributesList*				aList			 = customer->getIdAttributesList();
 	AttributesList::iterator	it				 = aList->begin();
-	string						data;
+	BString						data;
 	bool						firstUpdate		 = true;
 
 	sprintf(mySQL,"UPDATE character_appearance set ");
@@ -809,10 +809,10 @@ void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* de
 //=============================================================================
 //Holoemot data is retrieved and the HoloEmote applied to the player Object
 
-void EntertainerManager::applyHoloEmote(PlayerObject* customer,string holoEmote)
+void EntertainerManager::applyHoloEmote(PlayerObject* customer,BString holoEmote)
 {
 	//get the Data
-	HoloStruct* myEmote = getHoloEmoteByClientCRC(holoEmote.getCrc());
+	HoloStruct* myEmote = getHoloEmote_by_ClientCRC(holoEmote.getCrc());
 	if(!myEmote)
 	{
 		gLogger->logMsgF("ID : applyHoloEmote : canot retrieve HoloEmote Data %s : %u", MSG_NORMAL,holoEmote.getAnsi(),holoEmote.getCrc());

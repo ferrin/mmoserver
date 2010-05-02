@@ -24,33 +24,25 @@ ForageManager::ForageManager()
 class ForageAttempt
 {
 public:
-	ForageAttempt::ForageAttempt(PlayerObject* player, uint64 time, forageClasses forageClass)
+	ForageAttempt(PlayerObject* player, uint64 time, forageClasses forageClass)
 	{
 		startTime = time;
 		playerID = player->getId();
 		completed = false;
 
 		mForageClass = forageClass;
-
-		orig_x = player->mPosition.x;
-		orig_y = player->mPosition.y;
-		orig_z = player->mPosition.z;
 	}
 
 	uint64 startTime;
 	uint64 playerID;
 	forageClasses mForageClass;
 	bool completed;
-
-	float orig_x;
-	float orig_y;
-	float orig_z;
 };
 
 class ForagePocket
 {
 public:
-	ForagePocket::ForagePocket(PlayerObject* player, ZoneTree* mSI)
+	ForagePocket(PlayerObject* player, ZoneTree* mSI)
 	{
 		region = mSI->getQTRegion(player->mPosition.z,player->mPosition.z);
 
@@ -60,7 +52,7 @@ public:
 		pNext = NULL;
 	}
 
-	ForagePocket::~ForagePocket()
+	~ForagePocket()
 	{
 		//This shouldn't be a problem, but it's here just in case.
 
@@ -210,23 +202,23 @@ void ForageManager::forageUpdate()
 
 void ForageManager::failForage(PlayerObject* player, forageFails fail)
 {
-	if(!player || !player->isConnected())
+	if(!player || player->isForaging() == false)
 		return;
 
 	switch(fail)
 	{
 	case NOT_OUTSIDE:
 		gMessageLib->sendSystemMessage(player, L"", "skl_use","sys_forage_inside");
-		break;
+		return;
 	case PLAYER_MOVED:
 		gMessageLib->sendSystemMessage(player, L"", "skl_use","sys_forage_movefail");
 		break;
 	case ACTION_LOW:
 		gMessageLib->sendSystemMessage(player, L"", "skl_use","sys_forage_attrib");
-		break;
+		return;
 	case IN_COMBAT:
 		gMessageLib->sendSystemMessage(player, L"", "skl_use","sys_forage_cant");
-		break;
+		return;
 	case AREA_EMPTY:
 		gMessageLib->sendSystemMessage(player, L"", "skl_use","sys_forage_empty");
 		break;
@@ -235,7 +227,7 @@ void ForageManager::failForage(PlayerObject* player, forageFails fail)
 		break;
 	case NO_SKILL:
 		gMessageLib->sendSystemMessage(player, L"", "skl_use","sys_forage_noskill");
-		break;
+		return;
 	case ALREADY_FORAGING:
 		gMessageLib->sendSystemMessage(player, L"", "skl_use","sys_forage_already");
 		return;
@@ -292,24 +284,10 @@ bool ForagePocket::updateAttempts(uint64 currentTime)
 		else
 		{
 			PlayerObject* player = (PlayerObject*)gWorldManager->getObjectById((*it)->playerID);
-			if(!(*it)->completed && player)
+			if(!(*it)->completed && player && player->checkState(CreatureState_Combat))
 			{
-				if(player->checkState(CreatureState_Combat))
-				{
-					ForageManager::failForage(player, ENTERED_COMBAT);
-					(*it)->completed = true;
-				}
-
-				if(!(*it)->completed)
-				{
-					if((*it)->orig_x != player->mPosition.x || (*it)->orig_y != player->mPosition.y || 
-						(*it)->orig_z != player->mPosition.z)
-					{
-						ForageManager::failForage(player, PLAYER_MOVED);
-						(*it)->completed = true;
-					}
-
-				}
+				ForageManager::failForage(player, ENTERED_COMBAT);
+				(*it)->completed = true;
 			}
 
 			it++;

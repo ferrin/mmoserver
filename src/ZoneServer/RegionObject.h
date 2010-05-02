@@ -36,11 +36,11 @@ class RegionObject : public Object
 		RegionObject();
 		virtual ~RegionObject();
 
-		string				getRegionName(){ return mRegionName; }
-		void				setRegionName(const string name){ mRegionName = name; }
+		BString				getRegionName(){ return mRegionName; }
+		void				setRegionName(const BString name){ mRegionName = name; }
 
-		string				getNameFile(){ return mNameFile; }
-		void				setNameFile(const string namefile){ mNameFile = namefile; }
+		BString				getNameFile(){ return mNameFile; }
+		void				setNameFile(const BString namefile){ mNameFile = namefile; }
 
 		RegionType			getRegionType(){ return mRegionType; }
 		void				setType(RegionType rType){ mRegionType = rType; }
@@ -63,8 +63,8 @@ class RegionObject : public Object
 		RegionType			mRegionType;
 		float				mWidth;
 		float				mHeight;
-		string				mRegionName;
-		string				mNameFile;
+		BString				mRegionName;
+		BString				mNameFile;
 		bool				mActive;
 };
 

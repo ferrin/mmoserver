@@ -81,7 +81,7 @@ void ObjectController::_handleNPCConversationStart(uint64 targetId,Message* mess
             float distance = glm::distance(player->mPosition, npc->mPosition);
 			char buffer[100];
 			sprintf(buffer, "You are out of range (%f m).", distance);
-			string msg(buffer);
+			BString msg(buffer);
 			msg.convert(BSTRType_Unicode16);
 			gMessageLib->sendSystemMessage(player,msg);
 			// gMessageLib->sendSystemMessage(player,L"","system_msg","out_of_range");
@@ -136,7 +136,7 @@ void ObjectController::_handleNPCConversationStart(uint64 targetId,Message* mess
 				char quack[5][32];
 				memset(quack, 0, sizeof(quack));
 
-				string phrase = (int8*)(npc->getInternalAttribute<std::string>("npc_chat").c_str());
+				BString phrase = (int8*)(npc->getInternalAttribute<std::string>("npc_chat").c_str());
 				phrase.convert(BSTRType_Unicode16);
 
 				if (!gWorldConfig->isInstance())
@@ -154,7 +154,7 @@ void ObjectController::_handleNPCConversationStart(uint64 targetId,Message* mess
 			{
 				char quack[5][32];
 				memset(quack, 0, sizeof(quack));
-				std::pair<string,uint32> chat = gWorldManager->getRandNpcChatter();
+				std::pair<BString,uint32> chat = gWorldManager->getRandNpcChatter();
 
 				// gLogger->logMsgF("NPC id %"PRIu64" in cell(%"PRIu64")",MSG_NORMAL, npc->getId(),npcParentId);
 				if (!gWorldConfig->isInstance())
@@ -200,7 +200,7 @@ void ObjectController::_handleNPCConversationStop(uint64 targetId,Message* messa
 void ObjectController::_handleNPCConversationSelect(uint64 targetId,Message* message,ObjectControllerCmdProperties* cmdProperties)
 {
 	PlayerObject*	playerObject	= dynamic_cast<PlayerObject*>(mObject);
-	string			dataStr;
+	BString			dataStr;
 	uint32			selectId		= 0;
 
 	message->getStringUnicode16(dataStr);

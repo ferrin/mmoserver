@@ -24,7 +24,7 @@ class Wearable : public Item
 
 		Wearable();
 		virtual ~Wearable();
-		string	getAuctionDetails();
+		BString	getAuctionDetails();
 
 		void	sendAttributes(PlayerObject* playerObject);
 

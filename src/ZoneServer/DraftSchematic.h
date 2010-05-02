@@ -56,8 +56,8 @@ class DraftSchematic
 
 		uint32				getWeightsBatchId(){ return mWeightsBatchId; }
 		void				setWeightsBatchId(uint32 id){ mWeightsBatchId = id; }
-		string				getModel(){ return mModel; }
-		void				setModel(string model){ mModel = model; }
+		BString				getModel(){ return mModel; }
+		void				setModel(BString model){ mModel = model; }
 		DraftSlots*			getDraftSlots(){ return &mDraftSlots; }
 		WeightsBatches*		getAssemblyWeights(){ return &mAssemblyBatch; }
 		WeightsBatches*		getExperimentWeights(){ return &mExperimentBatch; }
@@ -84,7 +84,7 @@ class DraftSchematic
 		uint32				mCrc;
 
 		uint32				mWeightsBatchId;
-		string				mModel;
+		BString				mModel;
 		SchematicLoadState	mLoadState;
 		DraftSlots			mDraftSlots;
 		WeightsBatches		mAssemblyBatch;

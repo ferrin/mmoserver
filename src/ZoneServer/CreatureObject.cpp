@@ -29,7 +29,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 
 #include "Utils/clock.h"
 
-#include "utils/rand.h"
+#include "Utils/rand.h"
 #include <cfloat>
 
 //=============================================================================
@@ -452,14 +452,6 @@ bool CreatureObject::GetBuffExists(uint32 BuffIcon)
 //=============================================================================
 void CreatureObject::AddBuff(Buff* buff,  bool stackable, bool overwrite)
 {
-	if(!buff) return;
-
-	if(buff->GetRemainingTime(gWorldManager->GetCurrentGlobalTick()) <= 0)
-	{
-		SAFE_DELETE(buff);
-		return;
-	}
-
 	//Use this opportunity to clean up any dead buffs in BuffList
 	this->CleanUpBuffs();
 

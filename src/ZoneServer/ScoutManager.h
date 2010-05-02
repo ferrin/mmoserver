@@ -60,7 +60,7 @@ public:
 	}
 
 	//camps
-	bool createCamp(uint32 typeId,uint64 parentId, const glm::vec3& position, const string& customName, PlayerObject* player);
+	bool createCamp(uint32 typeId,uint64 parentId, const glm::vec3& position, const BString& customName, PlayerObject* player);
 
 	//foraging
 	static void successForage(PlayerObject* player);
@@ -71,7 +71,7 @@ public:
 	uint32 getCreatureFactor(CreatureObject* object);
 
 protected:
-	ScoutManager::ScoutManager();
+	ScoutManager();
 	~ScoutManager(void);
 
 private:

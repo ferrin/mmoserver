@@ -15,7 +15,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 #include "FactoryObject.h"
 #include "ManufacturingSchematic.h"
 #include "Inventory.h"
-#include "DataPad.h"
+#include "Datapad.h"
 #include "Bank.h"
 #include "ResourceContainer.h"
 #include "ResourceType.h"
@@ -35,11 +35,11 @@ void StructureManager::createNewFactorySchematicBox(PlayerObject* player, Factor
 {
 
 	
-	string wText = "Current schematic installed: ";
+	BString wText = "Current schematic installed: ";
 	
 	if(factory->getManSchemID())
 	{
-		string name = factory->getSchematicCustomName();
+		BString name = factory->getSchematicCustomName();
 		name.convert(BSTRType_ANSI);
 		wText << name.getAnsi();	
 		
@@ -61,7 +61,7 @@ void StructureManager::createNewFactorySchematicBox(PlayerObject* player, Factor
 
 	while(mListIt != mList->end())
 	{
-		string lText;
+		BString lText;
 
 		ManufacturingSchematic* man = (*mListIt);
 		if(!man)
@@ -81,7 +81,7 @@ void StructureManager::createNewFactorySchematicBox(PlayerObject* player, Factor
 
 		}
 		
-		string name = item->getCustomName();
+		BString name = item->getCustomName();
 
 		
 		//string name = factory->getSchematicCustomName();
@@ -119,8 +119,8 @@ void StructureManager::createNewStructureStatusBox(PlayerObject* player, PlayerS
 {
 	//player_structure structure_name_prompt
 
-	string wText = "Structure Name: ";
-	string name = structure->getCustomName();
+	BString wText = "Structure Name: ";
+	BString name = structure->getCustomName();
 	name.convert(BSTRType_ANSI);
 	wText << name.getAnsi();	
 	
@@ -236,7 +236,7 @@ void StructureManager::createNewStructureStatusBox(PlayerObject* player, PlayerS
 void StructureManager::createRenameStructureBox(PlayerObject* player, PlayerStructure* structure)
 {
 
-	string text = "Please enter the new name you would like for this object.";
+	BString text = "Please enter the new name you would like for this object.";
 	
 	int8 caption[32];
 	sprintf(caption,"NAME THE OBJECT");
@@ -246,7 +246,7 @@ void StructureManager::createRenameStructureBox(PlayerObject* player, PlayerStru
 
 	int8 sName[128];
 
-	string name = structure->getCustomName();			
+	BString name = structure->getCustomName();			
 	name.convert(BSTRType_ANSI);
 	sprintf(sName,"%s",name.getAnsi());
 	if(!name.getLength())
@@ -278,7 +278,7 @@ void StructureManager::createPowerTransferBox(PlayerObject* player, PlayerStruct
 	sprintf(caption,"SELECT AMOUNT");
 	int8 sName[128];
 
-	string name = structure->getCustomName();			
+	BString name = structure->getCustomName();			
 	name.convert(BSTRType_ANSI);
 	sprintf(sName,"%s",name.getAnsi());
 	if(!name.getLength())
@@ -307,7 +307,7 @@ void StructureManager::createPayMaintenanceTransferBox(PlayerObject* player, Pla
 	sprintf(caption,"SELECT AMOUNT");
 	int8 sName[128];
 
-	string name = structure->getCustomName();			
+	BString name = structure->getCustomName();			
 	name.convert(BSTRType_ANSI);
 	sprintf(sName,"%s",name.getAnsi());
 	if(!name.getLength())
@@ -327,7 +327,7 @@ void StructureManager::createPayMaintenanceTransferBox(PlayerObject* player, Pla
 void StructureManager::createNewStructureDeleteConfirmBox(PlayerObject* player, PlayerStructure* structure)
 {
 
-	string text = "Your structure";
+	BString text = "Your structure";
 	if(structure->getRedeed())
 	{
 		text <<"\\#"SOE_GREEN"WILL\\#FFFFFF ";
@@ -355,7 +355,7 @@ void StructureManager::createNewStructureDestroyBox(PlayerObject* player, Player
 {
 	BStringVector attributesMenu;
 
-	string text = "You have elected to destroy a structure. Pertinent structure data can be found in the list below. Please complete the following steps to confirm structure deletion.\xa\xa";
+	BString text = "You have elected to destroy a structure. Pertinent structure data can be found in the list below. Please complete the following steps to confirm structure deletion.\xa\xa";
 			text <<"If you wish to redeed your structure, all structure data must be \\#"SOE_GREEN" GREEN\\#. To continue with structure deletion, click YES. Otherwise, please click NO.\xa";
 
 	if(structure->canRedeed())
@@ -410,7 +410,7 @@ void StructureManager::createNewStructureDestroyBox(PlayerObject* player, Player
 
 	int8 sName[128];
 
-	string name = structure->getCustomName();			
+	BString name = structure->getCustomName();			
 	name.convert(BSTRType_ANSI);
 	sprintf(sName,"%s",name.getAnsi());
 	if(!name.getLength())

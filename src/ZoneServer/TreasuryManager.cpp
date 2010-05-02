@@ -312,11 +312,11 @@ void TreasuryManager::saveAndUpdateBankCredits(PlayerObject* playerObject)
 
 //======================================================================================================================
 
-void TreasuryManager::bankTipOffline(int32 amount,PlayerObject* playerObject,string targetName)
+void TreasuryManager::bankTipOffline(int32 amount,PlayerObject* playerObject,BString targetName)
 {
 	if(amount > dynamic_cast<Bank*>(playerObject->getEquipManager()->getEquippedObject(CreatureEquipSlot_Bank))->getCredits())
 	{
-		string uniName = targetName;
+		BString uniName = targetName;
 		uniName.convert(BSTRType_Unicode16);
 
 		gMessageLib->sendSystemMessage(playerObject, L"","base_player","prose_tip_nsf_bank","","",uniName.getUnicode16(),amount);
@@ -345,7 +345,7 @@ void TreasuryManager::bankTipOnline(int32 amount, PlayerObject* playerObject, Pl
 	//check if we have enough money
 	if(amount > dynamic_cast<Inventory*>(playerObject->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory))->getCredits())
 	{
-		string s;
+		BString s;
 		s = targetObject->getFirstName();
 		s.convert(BSTRType_Unicode16);
 		gMessageLib->sendSystemMessage(playerObject, L"","base_player","prose_tip_nsf_cash","","",L"",amount,"","",s.getUnicode16());

@@ -15,7 +15,8 @@ Copyright (c) 2006 - 2010 The swgANH Team
 // #define     gHeightmap    Heightmap::getSingletonPtr()
 
 #include "Utils/typedefs.h"
-#include "Utils/lockfree_queue.h"
+// lockfree_queue doesn't seem to be used - Xunil
+//#include "Utils/lockfree_queue.h"
 #include <boost/thread/thread.hpp>
 #include <string>
 #include "HeightmapAsyncContainer.h"
@@ -45,7 +46,7 @@ class Heightmap
 		static inline bool isHeightmapCacheAvaliable(void) { return mCacheAvaliable;}
 		inline bool isHighResCache(void) { return (mCacheResoulutionDivider == 1);}
 		float getCachedHeightAt2DPosition(float xPos, float zPos) const;
-		float Heightmap::getHeight(float x, float y);
+		float getHeight(float x, float y);
 	protected:
 		Heightmap(const char* planet_name);
 		~Heightmap();

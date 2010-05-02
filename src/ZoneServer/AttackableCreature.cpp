@@ -24,7 +24,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 #include "WorldConfig.h"
 #include "ZoneTree.h"
 #include "ZoneServer/NonPersistentNpcFactory.h"
-#include "utils/rand.h"
+#include "Utils/rand.h"
 
 // TODO: Implement by functionality.
 static const int64 readyDefaultPeriodTime = 1000;
@@ -207,7 +207,7 @@ void AttackableCreature::handleObjectMenuSelect(uint8 messageType,Object* srcObj
 
 									int8 str[64];
 									sprintf(str,"%u", lootedCredits);
-									string lootCreditsString(str);
+									BString lootCreditsString(str);
 									lootCreditsString.convert(BSTRType_Unicode16);
 
 									if (splittedCredits == 0)
@@ -239,7 +239,7 @@ void AttackableCreature::handleObjectMenuSelect(uint8 messageType,Object* srcObj
 
 										int8 str[64];
 										sprintf(str,"%u", totalProse);
-										string splitedLootCreditsString(str);
+										BString splitedLootCreditsString(str);
 										splitedLootCreditsString.convert(BSTRType_Unicode16);
 
 										// "GROUP] You split %TU credits and receive %TT credits as your share."
@@ -460,7 +460,7 @@ bool AttackableCreature::setTargetInAttackRange(void)
 		{
 			// gLogger->logMsgF("AttackableCreature::setTargetInAttackRange() Attack taunt = %s", MSG_NORMAL, this->getAttackStartMessage().getAnsi());
 			// for now, let's just taunt him.
-			string msg(this->getAttackStartMessage());
+			BString msg(this->getAttackStartMessage());
 			msg.convert(BSTRType_Unicode16);
 			char quack[5][32];
 			memset(quack, 0, sizeof(quack));
@@ -559,7 +559,7 @@ bool AttackableCreature::showWarningInRange(void)
 
 		if (getAttackWarningMessage().getLength())
 		{
-			string msg(getAttackWarningMessage());
+			BString msg(getAttackWarningMessage());
 			msg.convert(BSTRType_Unicode16);
 			char quack[5][32];
 			memset(quack, 0, sizeof(quack));
@@ -638,7 +638,7 @@ bool AttackableCreature::setTargetDefenderWithinWeaponRange(void)
 		{
 			// gLogger->logMsgF("AttackableCreature::setTargetDefenderWithinWeaponRange() Attack taunt = %s", MSG_NORMAL, getAttackedMessage().getAnsi());
 			// for now, let's just taunt him.
-			string msg(getAttackedMessage());
+			BString msg(getAttackedMessage());
 			msg.convert(BSTRType_Unicode16);
 			char quack[5][32];
 			memset(quack, 0, sizeof(quack));
@@ -2297,7 +2297,7 @@ void AttackableCreature::respawn(void)
 
 	if (this->hasInternalAttribute("creature_warning_message"))
 	{
-		string warningMessage = (int8*)(this->getInternalAttribute<std::string>("creature_warning_message").c_str());
+		BString warningMessage = (int8*)(this->getInternalAttribute<std::string>("creature_warning_message").c_str());
 		// gLogger->logMsgF("creature_warning_message = %s", MSG_NORMAL, warningMessage.getAnsi());
 		mAttackWarningMessage = warningMessage;
 	}
@@ -2309,7 +2309,7 @@ void AttackableCreature::respawn(void)
 
 	if (this->hasInternalAttribute("creature_attacking_message"))
 	{
-		string attackingMessage = (int8*)(this->getInternalAttribute<std::string>("creature_attacking_message").c_str());
+		BString attackingMessage = (int8*)(this->getInternalAttribute<std::string>("creature_attacking_message").c_str());
 		// gLogger->logMsgF("creature_attacking_message = %s", MSG_NORMAL, attackingMessage.getAnsi());
 		mAttackStartMessage = attackingMessage;
 	}
@@ -2322,7 +2322,7 @@ void AttackableCreature::respawn(void)
 
 	if (this->hasInternalAttribute("creature_attacked_message"))
 	{
-		string attackedMessage = (int8*)(this->getInternalAttribute<std::string>("creature_attacked_message").c_str());
+		BString attackedMessage = (int8*)(this->getInternalAttribute<std::string>("creature_attacked_message").c_str());
 		// gLogger->logMsgF("creature_attacked_message = %s", MSG_NORMAL, attackedMessage.getAnsi());
 		mAttackedMessage = attackedMessage;
 	}

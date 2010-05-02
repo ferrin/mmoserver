@@ -48,7 +48,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 void ObjectController::_handleRequestDraftslotsBatch(uint64 targetId,Message* message,ObjectControllerCmdProperties* cmdProperties)
 {
 	PlayerObject*	playerObject	= dynamic_cast<PlayerObject*>(mObject);
-	string			requestStr;
+	BString			requestStr;
 	BStringVector	dataElements;
 	uint16			elementCount;
 
@@ -85,7 +85,7 @@ void ObjectController::_handleRequestDraftslotsBatch(uint64 targetId,Message* me
 void ObjectController::_handleRequestResourceWeightsBatch(uint64 targetId,Message* message,ObjectControllerCmdProperties* cmdProperties)
 {
 	PlayerObject*	playerObject	= dynamic_cast<PlayerObject*>(mObject);
-	string			requestStr;
+	BString			requestStr;
 	BStringVector	dataElements;
 	uint16			elementCount;
 
@@ -164,9 +164,6 @@ void ObjectController::_handleRequestCraftingSession(uint64 targetId,Message* me
 		expFlag = false;
 	}
 
-	if(playerObject->isDead() || !playerObject->getHam()->checkMainPools(1,1,1))
-		return;
-
 	if(playerObject->getPerformingState() != PlayerPerformance_None)
 	{
 		gMessageLib->sendSystemMessage(playerObject,L"You cannot do this at this time.");
@@ -208,7 +205,7 @@ void ObjectController::_handleSelectDraftSchematic(uint64 targetId,Message* mess
 	PlayerObject*		playerObject	= dynamic_cast<PlayerObject*>(mObject);
 	CraftingSession*	session			= playerObject->getCraftingSession();
 	//DraftSchematic*		schematic		= NULL;
-	string				dataStr;
+	BString				dataStr;
 	uint32				schematicIndex	= 0;
 
 	message->getStringUnicode16(dataStr);
@@ -324,7 +321,7 @@ void ObjectController::handleCraftCustomization(Message* message)
 {
 	PlayerObject*		player		= dynamic_cast<PlayerObject*>(mObject);
 	CraftingSession*	session		= player->getCraftingSession();
-	string				itemName;
+	BString				itemName;
 	uint8				hmmm1,hmmm2;
 	uint32				amount,color;
 
@@ -376,7 +373,7 @@ void ObjectController::_handleNextCraftingStage(uint64 targetId,Message* message
 {
 	PlayerObject*		playerObject	= dynamic_cast<PlayerObject*>(mObject);
 	CraftingSession*	session			= playerObject->getCraftingSession();
-	string				dataStr;
+	BString				dataStr;
 	uint32				counter			= 1;
 
 	if(!session)
@@ -452,7 +449,7 @@ void ObjectController::_handleCreatePrototype(uint64 targetId,Message* message,O
 {
 	PlayerObject*		player	= dynamic_cast<PlayerObject*>(mObject);
 	CraftingSession*	session	= player->getCraftingSession();
-	string				dataStr;
+	BString				dataStr;
 	uint32				mode,counter;
 
 	if(!session)
@@ -478,7 +475,7 @@ void ObjectController::_handleCreateManufactureSchematic(uint64 targetId,Message
 {
 	PlayerObject*		player	= dynamic_cast<PlayerObject*>(mObject);
 	CraftingSession*	session	= player->getCraftingSession();
-	string				dataStr;
+	BString				dataStr;
 	uint32				counter;
 
 	if(!session)

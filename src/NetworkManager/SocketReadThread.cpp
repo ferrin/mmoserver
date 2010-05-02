@@ -90,9 +90,11 @@ mIsRunning(false)
     boost::thread t(std::tr1::bind(&SocketReadThread::run, this));
     mThread = boost::move(t);
 
+#if(ANH_PLATFORM == ANH_PLATFORM_WIN32)
 	HANDLE th =  mThread.native_handle();
 	SetPriorityClass(th,REALTIME_PRIORITY_CLASS);	
 	//SetPriorityClass(th,NORMAL_PRIORITY_CLASS);	
+#endif
 }
 
 //======================================================================================================================

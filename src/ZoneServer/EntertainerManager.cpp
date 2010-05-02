@@ -177,7 +177,7 @@ void EntertainerManager::showOutcastList(PlayerObject* entertainer)
 //toggle a player on the entertainers denyServiceList
 //======================================================================================================================
 
-void EntertainerManager::toggleOutcastId(PlayerObject* entertainer,uint64 outCastId, string outCastName)
+void EntertainerManager::toggleOutcastId(PlayerObject* entertainer,uint64 outCastId, BString outCastName)
 {
 	//check if the player is already on our list - add or remove the player
 
@@ -264,7 +264,7 @@ bool	EntertainerManager::checkDenyServiceList(PlayerObject* audience, PlayerObje
 //======================================================================================================================
 //verifies if a player exists in the db
 //======================================================================================================================
-void EntertainerManager::verifyOutcastName(PlayerObject* entertainer,string outCastName)
+void EntertainerManager::verifyOutcastName(PlayerObject* entertainer,BString outCastName)
 {
 	int8 sql[256], name[50];
 	mDatabase->Escape_String(name,outCastName.getAnsi(),outCastName.getLength());
@@ -310,7 +310,7 @@ void EntertainerManager::removeAudience(PlayerObject* mEntertainer,CreatureObjec
 //======================================================================================================================
 //looks up the data for a specific performance
 //======================================================================================================================
-PerformanceStruct* EntertainerManager::getPerformance(string performance,uint32 type)
+PerformanceStruct* EntertainerManager::getPerformance(BString performance,uint32 type)
 {
 	PerformanceList::iterator it = mPerformanceList.begin();
 	//bool found = false;
@@ -368,7 +368,7 @@ IDStruct* EntertainerManager::getIDAttribute(uint32 CustomizationCRC)
 //looks up the data for a specific performance
 //======================================================================================================================
 
-PerformanceStruct* EntertainerManager::getPerformance(string performance)
+PerformanceStruct* EntertainerManager::getPerformance(BString performance)
 {
 
 	PerformanceList::iterator it = mPerformanceList.begin();
@@ -439,7 +439,7 @@ void EntertainerManager::handleDatabaseJobComplete(void* ref,DatabaseResult* res
 				holo = new(HoloStruct);
 				result->GetNextRow(binding,holo);
 				mHoloList.push_back(holo);
-				string emote("holoemote_");
+				BString emote("holoemote_");
 				emote << holo->pEmoteName;
 				holo->pClientCRC = emote.getCrc();
 
@@ -581,7 +581,7 @@ void EntertainerManager::handleDatabaseJobComplete(void* ref,DatabaseResult* res
 
 		case EMQuery_DenyServiceListNames:
 		{
-			string outCast;
+			BString outCast;
 			outCast.setLength(40);
 			BStringVector availableOutCasts;
 
@@ -631,7 +631,7 @@ void EntertainerManager::handleDatabaseJobComplete(void* ref,DatabaseResult* res
 			{
 				int8 str[111];
 				sprintf(str,"'%s' does not exist in the known universe",asynContainer->outCastName.getAnsi());
-				string sstr;
+				BString sstr;
 				sstr = BString(str);
 				sstr.convert(BSTRType_Unicode16);
 				gMessageLib->sendSystemMessage(entertainer,sstr);
@@ -713,7 +713,7 @@ void EntertainerManager::handleDatabaseJobComplete(void* ref,DatabaseResult* res
 //=======================================================================================================================
 // changes the entertainers dance
 //=======================================================================================================================
-void	EntertainerManager::changeDance(PlayerObject* pEntertainer,string performance)
+void	EntertainerManager::changeDance(PlayerObject* pEntertainer,BString performance)
 {
 	PerformanceStruct* mPerformance;
 	if(pEntertainer->getPerformingState()==PlayerPerformance_Dance)
@@ -739,7 +739,7 @@ void	EntertainerManager::changeDance(PlayerObject* pEntertainer,string performan
 //=======================================================================================================================
 // changes the entertainers music
 //=======================================================================================================================
-void EntertainerManager::changeMusic(PlayerObject* entertainer,string songString)
+void EntertainerManager::changeMusic(PlayerObject* entertainer,BString songString)
 {
 	PerformanceStruct* performance;
 
@@ -762,7 +762,7 @@ void EntertainerManager::changeMusic(PlayerObject* entertainer,string songString
 //=======================================================================================================================
 // starts a music performance for the specified entertainer
 //=======================================================================================================================
-void	EntertainerManager::startMusicPerformance(PlayerObject* entertainer,string performance)
+void	EntertainerManager::startMusicPerformance(PlayerObject* entertainer,BString performance)
 {
 	entertainer->setFlourishCount(0);
 	PerformanceStruct* performanceStuct;
@@ -862,7 +862,7 @@ void	EntertainerManager::startMusicPerformance(PlayerObject* entertainer,string 
 //=======================================================================================================================
 // starts a dancing performance for the specified Entertainer
 //=======================================================================================================================
-void	EntertainerManager::startDancePerformance(PlayerObject* entertainer,string performance)
+void	EntertainerManager::startDancePerformance(PlayerObject* entertainer,BString performance)
 {
 	entertainer->setFlourishCount(0);
 	PerformanceStruct* performanceStruct;
@@ -2006,32 +2006,8 @@ void EntertainerManager::playInstrument(PlayerObject* entertainer, Item* pInstru
 	{
 		if (gWorldManager->objectsInRange(entertainer->getId(), instrumentId, 6.0))
 		{
-			if(entertainer->getParentId() != pInstrument->getParentId())
-			{
-				gMessageLib->sendSystemMessage(entertainer,L"","performance","music_must_unequip");
-				return;
-			}
-
 			// We are in range.
-			//move player to instrument vs move instrument to player
-
-			pInstrument->mDirection = entertainer->mDirection;
-			pInstrument->mPosition	= entertainer->mPosition;
-
-			if (entertainer->getParentId())
-			{
-				// We are both inside same building.
-				// Ensure we end up in the same cell also.
-				gMessageLib->sendDataTransformWithParent(entertainer);
-				gMessageLib->sendUpdateTransformMessageWithParent(entertainer);
-			}
-			else
-			{
-				gMessageLib->sendDataTransform(entertainer);
-				gMessageLib->sendUpdateTransformMessage(entertainer);
-			}
-
-			/*entertainer->mPosition = pInstrument->mPosition;
+			entertainer->mPosition = pInstrument->mPosition;
 			entertainer->mDirection = pInstrument->mDirection;
 			if (entertainer->getParentId())
 			{
@@ -2046,7 +2022,6 @@ void EntertainerManager::playInstrument(PlayerObject* entertainer, Item* pInstru
 				gMessageLib->sendDataTransform(entertainer);
 				gMessageLib->sendUpdateTransformMessage(entertainer);
 			}
-			*/
 		}
 	}
 	else
@@ -2168,14 +2143,13 @@ void EntertainerManager::handleObjectReady(Object* object,DispatchClient* client
 
 			if(!permanentinstrument)
 			{
-				gLogger->logMsg("EntertainerManager::handleObjectReady: no permanent instrument");
+				gLogger->logMsg("EntertainerManager::handleObjectReady: no permanent instrument\n");
 				return;
 			}
 
 			placedInstrument->setPersistantCopy(permanentinstrument->getId());
 			permanentinstrument->setNonPersistantCopy(placedInstrument->getId());
 			placedInstrument->setPlaced(true);
-			placedInstrument->setStatic(false);
 
 			//now set the nonpersistant Instrument in the playerObject
 			player->setPlacedInstrumentId(placedInstrument->getId());
@@ -2190,12 +2164,24 @@ void EntertainerManager::handleObjectReady(Object* object,DispatchClient* client
 			//add it to MainObjectMap and SI
 			gWorldManager->addObject(object);
 
-			//it needs to have a knownplayerlist!!!
-			gWorldManager->initPlayersInRange(object,NULL);
+			//gWorldManager->initPlayersInRange(itemObject);
+			TangibleObject* tangible = dynamic_cast<TangibleObject*>(object);
 
 			//create it for us and players around us
 			gWorldManager->createObjectinWorld(player,object);
 			
+			// We move the player, not the instrument.
+			if (player->getParentId())
+			{
+				// We are inside a cell.
+				gMessageLib->sendDataTransformWithParent(player);
+				gMessageLib->sendUpdateTransformMessageWithParent(player);
+			}
+			else
+			{
+				gMessageLib->sendDataTransform(player);
+				gMessageLib->sendUpdateTransformMessage(player);
+			}
 			// gMessageLib->sendDataTransform(placedInstrument);
 		}
 		else
@@ -2214,15 +2200,8 @@ void EntertainerManager::handleObjectReady(Object* object,DispatchClient* client
 //=======================================================================================================================
 //handles the start of the individual performances on starting a band
 //=======================================================================================================================
-bool EntertainerManager::handleStartBandIndividual(PlayerObject* performer, string performance)
+bool EntertainerManager::handleStartBandIndividual(PlayerObject* performer, BString performance)
 {
-
-	//we cant start performing when were about to log out!
-	if(performer->getConnectionState() != PlayerConnState_Connected)
-	{
-		return false;
-	}
-
 	SkillCommandList*	entertainerSkillCommands = performer->getSkillCommands();
 	SkillCommandList::iterator entertainerIt = entertainerSkillCommands->begin();
 
@@ -2241,7 +2220,7 @@ bool EntertainerManager::handleStartBandIndividual(PlayerObject* performer, stri
 	//check if we are able to perform this piece of music
 	while(entertainerIt != entertainerSkillCommands->end())
 	{
-		string mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
+		BString mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
 		//look for our selected dance
 		if(BString(musicStr).getCrc() == mEntertainerString.getCrc() )
 		{
@@ -2266,7 +2245,7 @@ bool EntertainerManager::handleStartBandIndividual(PlayerObject* performer, stri
 //=======================================================================================================================
 //handles the start of the individual performances for dancers on starting a band
 //=======================================================================================================================
-bool EntertainerManager::handleStartBandDanceIndividual(PlayerObject* performer, string performance)
+bool EntertainerManager::handleStartBandDanceIndividual(PlayerObject* performer, BString performance)
 {
 	SkillCommandList*	entertainerSkillCommands = performer->getSkillCommands();
 	SkillCommandList::iterator entertainerIt = entertainerSkillCommands->begin();
@@ -2281,7 +2260,7 @@ bool EntertainerManager::handleStartBandDanceIndividual(PlayerObject* performer,
 		//check if we are able to perform this dance
 		while(entertainerIt != entertainerSkillCommands->end())
 		{
-			string mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
+			BString mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
 			//look for our selected dance
 			if(BString(musicStr).getCrc() == mEntertainerString.getCrc() )
 			{
@@ -2322,7 +2301,6 @@ uint64 EntertainerManager::gettargetedInstrument(PlayerObject* entertainer)
 	return 0;
 
 }
-
 bool EntertainerManager::checkInstrumentSkill(PlayerObject* entertainer,uint64 instrumentId)
 {
 	Item* instrument = dynamic_cast<Item*> (gWorldManager->getObjectById(instrumentId));
@@ -2524,26 +2502,13 @@ bool EntertainerManager::approachInstrument(PlayerObject* entertainer, uint64 in
 				{
 					// We are in range.
 					moveSucceeded = true;
-					
-					//player to instrument vs instrument to player ... ???
-					//entertainer->mPosition = instrument->mPosition;
-					//entertainer->mDirection = instrument->mDirection;
 					entertainer->mPosition = instrument->mPosition;
 					entertainer->mDirection = instrument->mDirection;
-				
-					// We are both inside same cell?? otherwise leave
-					// AAAAAAAAAAAAARGHH
-					if(entertainer->getParentId() != instrument->getParentId())
-					{
-						//no way we get away to change a players parentcell by just setting it 
-						//and doing an update transform!!!!! better to opt out otherwise its just an invite
-						//for crashes/weird happenings of all sorts
-						return false;
-					}
-
-
 					if (entertainer->getParentId())
-					{						
+					{
+						// We are both inside same building.
+						// Ensure we end up in tyhe same cell also.
+						entertainer->setParentId(instrument->getParentId());
 						gMessageLib->sendDataTransformWithParent(entertainer);
 						gMessageLib->sendUpdateTransformMessageWithParent(entertainer);
 					}

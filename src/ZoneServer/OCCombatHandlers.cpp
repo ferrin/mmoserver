@@ -46,7 +46,7 @@ void ObjectController::_handleDuel(uint64 targetId,Message* message,ObjectContro
 		PlayerObject* targetPlayer = dynamic_cast<PlayerObject*>(target);
 
 		// don't duel ourself
-		if(player == targetPlayer || targetPlayer->isDead() || !targetPlayer->getHam()->checkMainPools(1, 1, 1))
+		if(player == targetPlayer)
 		{
 			return;
 		}
@@ -77,7 +77,7 @@ void ObjectController::_handleDuel(uint64 targetId,Message* message,ObjectContro
 			else
 			{
 				// If target have me ignored, auto decline the invitation.
-				string ignoreName = player->getFirstName();
+				BString ignoreName = player->getFirstName();
 				ignoreName.toLower();
 
 				// check our ignorelist
@@ -471,7 +471,7 @@ void ObjectController::lootAll(uint64 targetId, PlayerObject* playerObject)
 											
 							int8 str[64];
 							sprintf(str,"%u", lootedCredits);
-							string lootCreditsString(str);
+							BString lootCreditsString(str);
 							lootCreditsString.convert(BSTRType_Unicode16);
 
 							if (splittedCredits == 0)
@@ -503,7 +503,7 @@ void ObjectController::lootAll(uint64 targetId, PlayerObject* playerObject)
 
 								int8 str[64];
 								sprintf(str,"%u", totalProse);
-								string splitedLootCreditsString(str);
+								BString splitedLootCreditsString(str);
 								splitedLootCreditsString.convert(BSTRType_Unicode16);
 
 								// "GROUP] You split %TU credits and receive %TT credits as your share."

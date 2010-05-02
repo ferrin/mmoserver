@@ -115,7 +115,7 @@ void ScriptEventListener::unregisterScript(Script* script)
 
 //======================================================================================================================
 
-void ScriptEventListener::handleScriptEvent(const int8* functionName,string params)
+void ScriptEventListener::handleScriptEvent(const int8* functionName,BString params)
 {
 	// gLogger->logMsgF("ScriptEventListener Entering with function name %s and param = %s",MSG_NORMAL,functionName, params.getAnsi());
 	ScriptList* scriptList = getScriptList(functionName);

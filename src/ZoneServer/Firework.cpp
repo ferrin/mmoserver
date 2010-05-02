@@ -279,7 +279,7 @@ void FireworkShow::handleObjectMenuSelect(uint8 messageType,Object* srcObject)
 	*/
 }
 
-void FireworkShow::handleUIEvent(uint32 action,int32 element,string inputStr,UIWindow* window)
+void FireworkShow::handleUIEvent(uint32 action,int32 element,BString inputStr,UIWindow* window)
 {
 	/*if (action==1)
 	{
@@ -348,7 +348,7 @@ void FireworkShow::handleUIEvent(uint32 action,int32 element,string inputStr,UIW
 	*/
 }
 
-void FireworkShow::handleUIEvent(string strAvailable, string strDelay, UIWindow* window)
+void FireworkShow::handleUIEvent(BString strAvailable, BString strDelay, UIWindow* window)
 {
 	if(window == NULL)
 	{
@@ -391,7 +391,7 @@ ObjectList* FireworkShow::_getInventoryFireworks(PlayerObject* playerObject)
 	return returnList;
 }
 
-string FireworkShow::_getType(uint32 type)
+BString FireworkShow::_getType(uint32 type)
 {
 	switch(type)
 	{

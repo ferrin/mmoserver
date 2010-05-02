@@ -49,10 +49,6 @@ void ObjectController::_handleRequestSurvey(uint64 targetId,Message* message,Obj
 		return;
 	}
 
-	if(playerObject->isDead() || !playerObject->getHam()->checkMainPools(1,1,1))
-		return;
-		
-
 	if(playerObject->getPerformingState() != PlayerPerformance_None)
 	{
 		gMessageLib->sendSystemMessage(playerObject,L"You cannot do this at this time.");
@@ -67,7 +63,7 @@ void ObjectController::_handleRequestSurvey(uint64 targetId,Message* message,Obj
 
 	SurveyTool*			tool			= dynamic_cast<SurveyTool*>(gWorldManager->getObjectById(targetId));
 	CurrentResource*	resource		= NULL;
-	string				resourceName;
+	BString				resourceName;
 
 	message->getStringUnicode16(resourceName);
 	resourceName.convert(BSTRType_ANSI);
@@ -79,7 +75,7 @@ void ObjectController::_handleRequestSurvey(uint64 targetId,Message* message,Obj
 		playerObject->setSurveyState(true);
 
 		// play effect
-		string effect = gWorldManager->getClientEffect(tool->getInternalAttribute<uint32>("survey_effect"));
+		BString effect = gWorldManager->getClientEffect(tool->getInternalAttribute<uint32>("survey_effect"));
 
 		gMessageLib->sendPlayClientEffectLocMessage(effect,playerObject->mPosition,playerObject);
 
@@ -151,7 +147,7 @@ void ObjectController::_handleRequestCoreSample(uint64 targetId,Message* message
 	SurveyTool*			tool		= dynamic_cast<SurveyTool*>(gWorldManager->getObjectById(targetId));
 	CurrentResource*	resource	= NULL;
 
-	string resourceName;
+	BString resourceName;
 
 	message->getStringUnicode16(resourceName);
 	resourceName.convert(BSTRType_ANSI);

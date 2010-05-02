@@ -19,7 +19,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 #include "ZoneServer/CurrentResource.h"
 #include "ZoneServer/Datapad.h"
 #include "ZoneServer/HouseObject.h"
-#include "ZoneServer/InTangibleObject.h"
+#include "ZoneServer/IntangibleObject.h"
 #include "ZoneServer/HarvesterObject.h"
 #include "ZoneServer/FactoryObject.h"
 #include "ZoneServer/FactoryCrate.h"

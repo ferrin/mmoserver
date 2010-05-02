@@ -34,12 +34,12 @@ class DraftSlot
 		DraftSlot();
 		~DraftSlot();
 
-		string	getComponentName(){ return mName; }
-		void	setComponentName(string name){ mName = name; }
-		string	getComponentFile(){ return mFile; }
-		void	setComponentFile(string file){ mFile = file; }
-		string	getResourceName(){ return mResourceName; }
-		void	setResourceName(string res){ mResourceName = res; }
+		BString	getComponentName(){ return mName; }
+		void	setComponentName(BString name){ mName = name; }
+		BString	getComponentFile(){ return mFile; }
+		void	setComponentFile(BString file){ mFile = file; }
+		BString	getResourceName(){ return mResourceName; }
+		void	setResourceName(BString res){ mResourceName = res; }
 		
 		//the amount necessary to fill the slot
 		uint32	getNecessaryAmount(){ return mAmount; }
@@ -55,9 +55,9 @@ class DraftSlot
 
 	private:
 
-		string	mName;
-		string	mFile;
-		string	mResourceName;
+		BString	mName;
+		BString	mFile;
+		BString	mResourceName;
 		uint32	mAmount;
 		
 		uint8	mType;

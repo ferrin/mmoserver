@@ -40,10 +40,10 @@ class ResourceCategory
 		void					setParentId(uint32 id){ mParentId = id; }
 		ResourceCategoryList*	getChildren(){ return &mChildren; }
 		ResourceList*			getSiblings(){ return &mSiblings; }
-		string					getName(){ return mName; }
-		void					setName(const string name){ mName = name; }
-		string					getDescriptor(){ return mDescriptor; }
-		void					setDescriptor(const string desc){ mDescriptor = desc; }
+		BString					getName(){ return mName; }
+		void					setName(const BString name){ mName = name; }
+		BString					getDescriptor(){ return mDescriptor; }
+		void					setDescriptor(const BString desc){ mDescriptor = desc; }
 		void					insertCategory(ResourceCategory* cat){ mChildren.push_back(cat); }
 		void					insertResource(Resource* res){ mSiblings.push_back(res); }
 		void					getResources(ResourceList& resourceList,bool currentOnly);
@@ -52,8 +52,8 @@ class ResourceCategory
 
 		uint32					mId;
 		uint32					mParentId;
-		string					mName;
-		string					mDescriptor;
+		BString					mName;
+		BString					mDescriptor;
 		ResourceCategoryList	mChildren;
 		ResourceList			mSiblings;
 };

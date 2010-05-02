@@ -181,7 +181,7 @@ void PlayerStructureTerminal::handleObjectMenuSelect(uint8 messageType,Object* s
 
 //=============================================================================
 
-void PlayerStructureTerminal::handleUIEvent(uint32 action,int32 element,string inputStr,UIWindow* window)
+void PlayerStructureTerminal::handleUIEvent(uint32 action,int32 element,BString inputStr,UIWindow* window)
 {
 	// gLogger->logMsgF("InsuranceTerminal::handleUIEvent You are here!",MSG_NORMAL);
 

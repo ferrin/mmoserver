@@ -41,7 +41,7 @@ void ObjectController::_handleResourceContainerTransfer(uint64 targetId,Message*
 
 	if(selectedContainer)
 	{
-		string dataStr;
+		BString dataStr;
 
 		message->getStringUnicode16(dataStr);
 		dataStr.convert(BSTRType_ANSI);
@@ -122,7 +122,7 @@ void ObjectController::_handleResourceContainerSplit(uint64 targetId,Message* me
 		return;
 	}
 
-	string dataStr;
+	BString dataStr;
 
 	message->getStringUnicode16(dataStr);
 	dataStr.convert(BSTRType_ANSI);

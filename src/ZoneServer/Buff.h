@@ -93,7 +93,7 @@ public:
 	uint32 GetNoOfTicks();
 	uint32 GetCurrentTickNumber();
 	uint32 GetIcon();
-	string GetName();
+	BString GetName();
 	uint64 GetStartGlobalTick();
 	void SetInit(bool init);
 
@@ -103,12 +103,12 @@ private:
 	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	AttributeList			Attributes;
-	string					mName;
+	BString					mName;
 	Buff*					mChild;
 	Buff*					mParent;
 	CreatureObject*			mInstigator;
 	CreatureObject*			mTarget;
-	uint64					mTick; //Length of Tick in ms
+	int64					mTick; //Length of Tick in ms
 	uint64					mDBID;
 	uint64					mID;
 	uint64					mNextTickLength; //Store the length of the next tick (for when reloading from DB)

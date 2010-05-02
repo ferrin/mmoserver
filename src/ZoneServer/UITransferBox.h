@@ -34,12 +34,12 @@ class UITransferBox : public UIWindow
 
 		void		_initChildren();
 
-		string		mCaption;
-		string		mPrompt;
-		string		mLeftTitle;
-		string		mRightTitle;
-		string		mLeftValue;
-		string		mRightValue;
+		BString		mCaption;
+		BString		mPrompt;
+		BString		mLeftTitle;
+		BString		mRightTitle;
+		BString		mLeftValue;
+		BString		mRightValue;
 		uint8		mLbType;
 };
 

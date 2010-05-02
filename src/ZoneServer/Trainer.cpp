@@ -866,7 +866,7 @@ void Trainer::postProcessfilter(ActiveConversation* av, PlayerObject* player, ui
 				{
 					sprintf(buffer,masterStringSingleName, player->getFirstName().getAnsi());
 				}
-				string aMess(buffer);
+				BString aMess(buffer);
 				aMess.convert(BSTRType_Unicode16);
 				if (!gWorldConfig->isInstance())
 				{
@@ -1023,7 +1023,7 @@ bool Trainer::preProcessfilterConversation(ActiveConversation* av,Conversation* 
 					char elements[5][32];
 					memset(elements, 0, sizeof(elements));
 					// string aMess("@skill_teacher:no_qualify");
-					string aMess("I'm sorry, but I cannot teach you anymore. You have already learned everything I have to teach.");
+					BString aMess("I'm sorry, but I cannot teach you anymore. You have already learned everything I have to teach.");
 					aMess.convert(BSTRType_Unicode16);
 					// gMessageLib->sendSpatialChat(this,aMess,elements);
 					if (!gWorldConfig->isInstance())
@@ -1071,7 +1071,7 @@ bool Trainer::preProcessfilterConversation(ActiveConversation* av,Conversation* 
 					memset(elements, 0, sizeof(elements));
 
 					// string aMess("@skill_teacher:no_qualify");
-					string aMess("You do not qualify for any of my teachings. Come back and speak with me later if you acquire the following skills...");
+					BString aMess("You do not qualify for any of my teachings. Come back and speak with me later if you acquire the following skills...");
 					aMess.convert(BSTRType_Unicode16);
 					// gMessageLib->sendSpatialChat(this,aMess,elements);
 					if (!gWorldConfig->isInstance())

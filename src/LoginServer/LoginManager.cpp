@@ -217,7 +217,7 @@ void LoginManager::handleDatabaseJobComplete(void* ref, DatabaseResult* result)
 void LoginManager::_handleLoginClientId(LoginClient* client, Message* message)
 {
   // Extract our username, password, and id string
-  string username, password, clientId;
+  BString username, password, clientId;
   message->getStringAnsi(username);
   message->getStringAnsi(password);
   message->getStringAnsi(clientId);
@@ -297,7 +297,7 @@ void LoginManager::_authenticateClient(LoginClient* client, DatabaseResult* resu
   {
 	  Message* newMessage;
 
-    string errType, errMsg;
+    BString errType, errMsg;
     errType = "@cpt_login_fail";
     errMsg = "@msg_login_fail";
 
@@ -425,7 +425,7 @@ void LoginManager::_sendCharacterList(LoginClient* client, DatabaseResult* resul
     result->GetNextRow(binding, &data);
 
     // Append first and last names
-    string fullName, baseModel;
+    BString fullName, baseModel;
 
     fullName << data.mFirstName;
 

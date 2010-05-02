@@ -63,7 +63,7 @@ class TreasuryManagerAsyncContainer
 		PlayerObject*		player;
 		PlayerObject*		target;
 		uint64				targetId;
-		string				targetName;
+		BString				targetName;
 };
 
 //======================================================================================================================
@@ -92,7 +92,7 @@ class TreasuryManager : public DatabaseCallback
 		void						    saveAndUpdateBankCredits(PlayerObject* playerObject);
 
 		//handles bank tip to offline player
-		void						    bankTipOffline(int32 amount, PlayerObject* playerObject, string targetName);
+		void						    bankTipOffline(int32 amount, PlayerObject* playerObject, BString targetName);
 		void						    inventoryTipOnline(int32 amount, PlayerObject* playerObject, PlayerObject* targetObject );
 		void						    bankTipOnline(int32 amount, PlayerObject* playerObject, PlayerObject* targetObject );
 

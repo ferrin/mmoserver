@@ -18,7 +18,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 
 #include <vector>
 
-typedef std::vector<std::pair<string,uint64> >	SortedInventoryItemList;
+typedef std::vector<std::pair<BString,uint64> >	SortedInventoryItemList;
 class CreatureObject;
 class PlayerObject;
 

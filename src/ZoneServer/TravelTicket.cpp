@@ -46,7 +46,7 @@ TravelTicket::~TravelTicket()
 
 //=============================================================================
 
-string TravelTicket::getBazaarName()
+BString TravelTicket::getBazaarName()
 {
 	int8	ticketStr[256];
 
@@ -54,7 +54,7 @@ string TravelTicket::getBazaarName()
 		,((getAttribute<std::string>("travel_departure_planet")).c_str())
 		,((getAttribute<std::string>("travel_arrival_planet")).c_str()));
 
-	string value = ticketStr;
+	BString value = ticketStr;
 	
 	return value;
 }

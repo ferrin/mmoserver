@@ -77,7 +77,10 @@ class ZoneTree
         SpatialIndex::StorageManager::IBuffer*	mStorageBuffer;
         SpatialIndex::ISpatialIndex*			mTree;
 		int64						            mIndexIdentifier;
+#if 0
+		//Xunil - not present in newer versions of spatial index
 		Tools::ResourceUsage 		            mResourceUsage;
+#endif
 };
 
 //======================================================================================================================

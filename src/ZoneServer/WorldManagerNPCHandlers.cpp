@@ -10,7 +10,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 */
 
 #include "WorldManager.h"
-#include "utils/rand.h"
+#include "Utils/rand.h"
 #include "PlayerObject.h"
 #include "ConversationManager.h"
 #include "NpcManager.h"
@@ -387,7 +387,7 @@ bool WorldManager::removeNpId(uint64 id)
 // get a random npc phrase
 //
 
-std::pair<string,uint32> WorldManager::getRandNpcChatter()
+std::pair<BString,uint32> WorldManager::getRandNpcChatter()
 {
 
 	if(mvNpcChatter.size())

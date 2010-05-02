@@ -37,8 +37,8 @@ class Configuration_QueryContainer
 
 		Configuration_QueryContainer(){}
 
-		string	mKey;
-		string	mValue;
+		BString	mKey;
+		BString	mValue;
 };
 
 class WorldConfig : public DatabaseCallback
@@ -56,7 +56,7 @@ class WorldConfig : public DatabaseCallback
 			}
 		}
 
-		static WorldConfig*	Init(uint32 zoneId,Database* database, string zoneName);
+		static WorldConfig*	Init(uint32 zoneId,Database* database, BString zoneName);
 		static WorldConfig*	getSingletonPtr() { return mSingleton; }
 
 		virtual void		handleDatabaseJobComplete(void* ref,DatabaseResult* result);
@@ -64,13 +64,13 @@ class WorldConfig : public DatabaseCallback
 
 		// configuration attributes
 		ConfigurationMap*			getConfigurationMap(){ return &mConfigurationMap; }
-		template<typename T> T		getConfiguration(string key, T fallback) const;
-		template<typename T> T		getConfiguration(string key) const;
+		template<typename T> T		getConfiguration(BString key, T fallback) const;
+		template<typename T> T		getConfiguration(BString key) const;
 		template<typename T> T		getConfiguration(uint32 keyCrc) const;
-		void						setConfiguration(string key,std::string value);
-		void						addConfiguration(string key,std::string value);
-		bool						hasConfiguration(string key) const;
-		void						removeConfiguration(string key);
+		void						setConfiguration(BString key,std::string value);
+		void						addConfiguration(BString key,std::string value);
+		bool						hasConfiguration(BString key) const;
+		void						removeConfiguration(BString key);
 
 
 		uint32				getGroupMissionUpdateTime(){return mGroupMissionUpdateTime;}
@@ -101,7 +101,7 @@ class WorldConfig : public DatabaseCallback
 
 	private:
 
-		WorldConfig(uint32 zoneId,Database* database, string zoneName);
+		WorldConfig(uint32 zoneId,Database* database, BString zoneName);
 
 		ConfigurationMap		mConfigurationMap;
 		static WorldConfig*		mSingleton;
@@ -109,7 +109,7 @@ class WorldConfig : public DatabaseCallback
 
 		Database*				mDatabase;
 		uint32					mZoneId;
-		string					mZoneName;
+		BString					mZoneName;
 
 		//
 		// configuration variables
@@ -159,7 +159,7 @@ class WorldConfig : public DatabaseCallback
 //=============================================================================
 
 template<typename T>
-T	WorldConfig::getConfiguration(string key, T fallback) const
+T	WorldConfig::getConfiguration(BString key, T fallback) const
 {
 	ConfigurationMap::const_iterator it = mConfigurationMap.find(key.getCrc());
 
@@ -181,7 +181,7 @@ T	WorldConfig::getConfiguration(string key, T fallback) const
 }
 
 template<typename T>
-T	WorldConfig::getConfiguration(string key) const
+T	WorldConfig::getConfiguration(BString key) const
 {
 	ConfigurationMap::const_iterator it = mConfigurationMap.find(key.getCrc());
 

@@ -28,7 +28,7 @@ Heightmap::Heightmap(const char* planet_name)
 	mFilename += ".hmpw";
 	Connect();
 
-	boost::thread t(std::tr1::bind(&Heightmap::RunThread, this));
+	boost::thread t(std::bind(&Heightmap::RunThread, this));
 	mThread = boost::move(t);
 
 	mExit = false;

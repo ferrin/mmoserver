@@ -29,7 +29,7 @@ class SchematicGroup
 		~SchematicGroup();
 
 		uint32					mId;
-		string					mName;
+		BString					mName;
 		SchematicsList			mSchematics;
 };
 

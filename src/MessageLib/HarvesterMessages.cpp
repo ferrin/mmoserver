@@ -53,7 +53,7 @@ bool MessageLib::sendBaselinesHINO_3(HarvesterObject* harvester,PlayerObject* pl
 	mMessageFactory->addUint32(0);
 	mMessageFactory->addString(harvester->getName());
 	
-	string name;
+	BString name;
 	name = harvester->getCustomName();
 	name.convert(BSTRType_Unicode16);
 
@@ -183,7 +183,7 @@ bool MessageLib::sendBaselinesHINO_7(HarvesterObject* harvester,PlayerObject* pl
 
 	ResourceList::iterator resourceIt = resourceList.begin();
 
-	while(resourceIt != resourceList.end() && (*resourceIt) != NULL)
+	while(resourceIt != resourceList.end())
 	{
 		Resource* tmpResource = (*resourceIt);
 
@@ -202,7 +202,7 @@ bool MessageLib::sendBaselinesHINO_7(HarvesterObject* harvester,PlayerObject* pl
 
 	resourceIt = resourceList.begin();
 
-	while(resourceIt != resourceList.end() && (*resourceIt) != NULL)
+	while(resourceIt != resourceList.end())
 	{
 		Resource* tmpResource = (*resourceIt);
 
@@ -220,7 +220,7 @@ bool MessageLib::sendBaselinesHINO_7(HarvesterObject* harvester,PlayerObject* pl
 	
 	resourceIt = resourceList.begin();
 
-	while(resourceIt != resourceList.end() && (*resourceIt) != NULL)
+	while(resourceIt != resourceList.end())
 	{
 		Resource* tmpResource = (*resourceIt);
 		mMessageFactory->addString(tmpResource->getName().getAnsi());
@@ -237,7 +237,7 @@ bool MessageLib::sendBaselinesHINO_7(HarvesterObject* harvester,PlayerObject* pl
 
 	resourceIt = resourceList.begin();
 
-	while(resourceIt != resourceList.end() && (*resourceIt) != NULL)
+	while(resourceIt != resourceList.end())
 	{
 		Resource* tmpResource = (*resourceIt);	
 		mMessageFactory->addString((tmpResource->getType())->getDescriptor().getAnsi());
@@ -329,7 +329,7 @@ bool MessageLib::sendBaselinesINSO_3(FactoryObject* factory,PlayerObject* player
 	mMessageFactory->addUint32(0);
 	mMessageFactory->addString(factory->getName());
 	
-	string name;
+	BString name;
 	name = factory->getCustomName();
 	name.convert(BSTRType_Unicode16);
 
@@ -450,7 +450,7 @@ bool MessageLib::sendBaselinesINSO_3(PlayerStructure* structure,PlayerObject* pl
 	mMessageFactory->addUint32(0);
 	mMessageFactory->addString(structure->getName());
 	
-	string name;
+	BString name;
 	name = structure->getCustomName();
 	name.convert(BSTRType_Unicode16);
 
@@ -564,7 +564,7 @@ void MessageLib::sendNewHarvesterName(PlayerStructure* harvester)
 	mMessageFactory->addUint16(1);
 	mMessageFactory->addUint16(2);
 	//Unicode
-	string name;
+	BString name;
 	name = harvester->getCustomName();
 	name.convert(BSTRType_Unicode16);
 
@@ -618,13 +618,17 @@ void MessageLib::sendHarvesterResourceData(PlayerStructure* structure,PlayerObje
 	mMessageFactory->addUint32(0);           
 	mMessageFactory->addUint64(harvester->getId());
 
+	mMessageFactory->addUint32(resourceList.size());
 
 	ResourceList::iterator resourceIt = resourceList.begin();
-	
-	//browse ressource and get only those with more than 0%
-	while(resourceIt != resourceList.end() && (*resourceIt) != NULL)
+
+	while(resourceIt != resourceList.end())
 	{
 		Resource* tmpResource = (*resourceIt);
+
+		mMessageFactory->addUint64(tmpResource->getId());
+		mMessageFactory->addString(tmpResource->getName());
+		mMessageFactory->addString((tmpResource->getType())->getDescriptor());
 	
 		CurrentResource* cR = reinterpret_cast<CurrentResource*>(tmpResource);
 		//resource = reinterpret_cast<CurrentResource*>(gResourceManager->getResourceByNameCRC(resourceName.getCrc()));
@@ -635,38 +639,21 @@ void MessageLib::sendHarvesterResourceData(PlayerStructure* structure,PlayerObje
 		else
 		{
 			ratio	= (cR->getDistribution((int)posX + 8192,(int)posZ + 8192)*100);
+			if(ratio > 100.0)
+			{
+				ratio = 100.0;
+			}
+			if(ratio < 0.0)
+			{
+				ratio = 0.0;
+			}
 		}
-		//remove less than 1% resources from the list
-		if(ratio < 1)
-		{
-			resourceIt = resourceList.erase(resourceIt);
-			
-		}
-		else
-		{
-			++resourceIt;
-		}
-	}
-	//Send ressource data size
-	mMessageFactory->addUint32(resourceList.size());
 
-	//Reloop across resource list cause list size have to be sent before ressource data
-	resourceIt = resourceList.begin();
-	while (resourceIt != resourceList.end() && (*resourceIt) != NULL)
-	{
-		Resource* tmpResource = (*resourceIt);
-		CurrentResource* cR = reinterpret_cast<CurrentResource*>(tmpResource);
-		ratio	= (cR->getDistribution((int)posX + 8192,(int)posZ + 8192)*100);
-		if(ratio>100)
-		{
-			ratio=100;
-		}
-		mMessageFactory->addUint64(tmpResource->getId());
-		mMessageFactory->addString(tmpResource->getName());
-		mMessageFactory->addString((tmpResource->getType())->getDescriptor());
 		mMessageFactory->addUint8((uint8)ratio);
+
 		++resourceIt;
 	}
+
 	(player->getClient())->SendChannelA(mMessageFactory->EndMessage(), player->getAccountId(),CR_Client,4);
 }
 
@@ -830,7 +817,7 @@ bool MessageLib::sendHopperList(PlayerStructure* structure, PlayerObject* player
 	mMessageFactory->addUint32(opSendPermissionList);  
 	mMessageFactory->addUint32(structure->getStrucureHopperList().size() );
 
-	string name;
+	BString name;
 	BStringVector vector = 	structure->getStrucureHopperList();
 	BStringVector::iterator it = vector.begin();
 	while(it != vector.end())

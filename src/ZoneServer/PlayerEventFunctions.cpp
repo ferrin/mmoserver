@@ -30,7 +30,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 #include "Common/Message.h"
 #include "Common/MessageFactory.h"
 
-#include "utils/rand.h"
+#include "Utils/rand.h"
 
 #include <algorithm>
 
@@ -178,13 +178,13 @@ void PlayerObject::onSample(const SampleEvent* event)
 		return;
 	}
 
-	string					effect			= gWorldManager->getClientEffect(tool->getInternalAttribute<uint32>("sample_effect"));
+	BString					effect			= gWorldManager->getClientEffect(tool->getInternalAttribute<uint32>("sample_effect"));
 	bool					foundSameType	= false;
 	float					ratio			= (resource->getDistribution((int)mPosition.x + 8192,(int)mPosition.z + 8192));
 	int32					surveyMod		= getSkillModValue(SMod_surveying);
 	uint32					sampleAmount	= 0;
 	ObjectSet::iterator	it					= mKnownObjects.begin();
-	string					resName			= resource->getName().getAnsi();
+	BString					resName			= resource->getName().getAnsi();
 	uint32					resType			= resource->getType()->getCategoryId();
 	uint16					resPE			= resource->getAttribute(ResAttr_PE);
 	//bool					radioA			= false;

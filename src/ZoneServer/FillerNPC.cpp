@@ -15,7 +15,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 #include "WorldConfig.h"
 #include "WorldManager.h"
 
-#include "utils/rand.h"
+#include "Utils/rand.h"
 #include "MessageLib/MessageLib.h"
 
 
@@ -179,7 +179,7 @@ void FillerNPC::randomChatWithPlayer(PlayerObject* player, TutorialTauntConfigDa
 	if (player && player->isConnected())
 	{
 		uint8 index = gRandom->getRand() % 5;
-		string chatMsg = configData->taunts[index];
+		BString chatMsg = configData->taunts[index];
 		chatMsg.convert(BSTRType_Unicode16);
 		char quack[5][32];
 		memset(quack, 0, sizeof(quack));
@@ -192,7 +192,7 @@ void FillerNPC::randomChatWithPlayer(PlayerObject* player, TutorialTauntConfigDa
 // Setup taunts for semi-random execution in the tutorial.
 //
 
-void FillerNPC::setupTutorialTaunts(uint64 playerId, uint64 maxTauntPeriod, string taunt1, string taunt2, string taunt3, string taunt4, string taunt5)
+void FillerNPC::setupTutorialTaunts(uint64 playerId, uint64 maxTauntPeriod, BString taunt1, BString taunt2, BString taunt3, BString taunt4, BString taunt5)
 {
 	// lol
 	TutorialTauntConfigData* configData = new TutorialTauntConfigData;

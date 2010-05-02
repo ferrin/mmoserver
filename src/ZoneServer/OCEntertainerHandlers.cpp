@@ -197,7 +197,7 @@ void ObjectController::_handleflourish(uint64 targetId,Message* message,ObjectCo
 		flourishMax = 9;
 
 	//find out what flourish we are supposed to play
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	uint32 mFlourishId;
 	swscanf(dataStr.getUnicode16(),L"%u",&mFlourishId);
@@ -231,7 +231,7 @@ void ObjectController::_handleChangeDance(uint64 targetId,Message* message,Objec
 	SkillCommandList*	dancerSkillCommands = entertainer->getSkillCommands();
 	SkillCommandList::iterator dancerIt = dancerSkillCommands->begin();
 
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	dataStr.convert(BSTRType_ANSI);
 
@@ -244,7 +244,7 @@ void ObjectController::_handleChangeDance(uint64 targetId,Message* message,Objec
 		//check if we are able to perform this dance
 		while(dancerIt != dancerSkillCommands->end())
 		{
-			string mDanceString = gSkillManager->getSkillCmdById((*dancerIt));
+			BString mDanceString = gSkillManager->getSkillCmdById((*dancerIt));
 			//look for our selected dance
 			if(BString(danceStr).getCrc() == mDanceString.getCrc() ){
 				//yay we are able to perform this dance :)
@@ -299,7 +299,7 @@ void ObjectController::_handleDenyService(uint64 targetId,Message* message,Objec
 	//either add or remove a player from the list if one is added to the commandline
 	//or show a list box with all Players on the List to select one to be removed
 
-	string dataStr;
+	BString dataStr;
 	dataStr.setType(BSTRType_Unicode16);
 	PlayerObject* outcast;
 	//find out the id of the player if he should happen to be near
@@ -351,7 +351,7 @@ void ObjectController::_handleChangeMusic(uint64 targetId,Message* message,Objec
 	SkillCommandList*	entertainerSkillCommands = entertainer->getSkillCommands();
 	SkillCommandList::iterator entertainerIt = entertainerSkillCommands->begin();
 
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	dataStr.convert(BSTRType_ANSI);
 	int8 musicStr[32];
@@ -363,7 +363,7 @@ void ObjectController::_handleChangeMusic(uint64 targetId,Message* message,Objec
 		//check if we are able to perform this dance
 		while(entertainerIt != entertainerSkillCommands->end())
 		{
-			string mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
+			BString mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
 			//look for our selected dance
 			if(BString(musicStr).getCrc() == mEntertainerString.getCrc() )
 			{
@@ -442,7 +442,7 @@ void ObjectController::_handlestartdance(uint64 targetId,Message* message,Object
 	SkillCommandList*	dancerSkillCommands = performer->getSkillCommands();
 	SkillCommandList::iterator dancerIt = dancerSkillCommands->begin();
 
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	dataStr.convert(BSTRType_ANSI);
 
@@ -455,7 +455,7 @@ void ObjectController::_handlestartdance(uint64 targetId,Message* message,Object
 		//check if we are able to perform this dance
 		while(dancerIt != dancerSkillCommands->end())
 		{
-			string mDanceString = gSkillManager->getSkillCmdById((*dancerIt));
+			BString mDanceString = gSkillManager->getSkillCmdById((*dancerIt));
 			//look for our selected dance
 			if(BString(danceStr).getCrc() == mDanceString.getCrc() ){
 				//yay we are able to perform this dance :)
@@ -528,7 +528,7 @@ void ObjectController::_handlestartmusic(uint64 targetId,Message* message,Object
 	SkillCommandList*	entertainerSkillCommands = performer->getSkillCommands();
 	SkillCommandList::iterator entertainerIt = entertainerSkillCommands->begin();
 
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	dataStr.convert(BSTRType_ANSI);
 	int8 musicStr[32];
@@ -540,7 +540,7 @@ void ObjectController::_handlestartmusic(uint64 targetId,Message* message,Object
 		//check if we are able to perform this piece of music
 		while(entertainerIt != entertainerSkillCommands->end())
 		{
-			string mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
+			BString mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
 			//look for our selected dance
 			if(BString(musicStr).getCrc() == mEntertainerString.getCrc() )
 			{
@@ -651,7 +651,7 @@ void ObjectController::_handleStartBand(uint64 targetId,Message* message,ObjectC
 	bool music = true;
 
 	//get song
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	dataStr.convert(BSTRType_ANSI);
 
@@ -672,7 +672,7 @@ void ObjectController::_handleStartBand(uint64 targetId,Message* message,ObjectC
 		//check if we are able to perform this piece of music
 		while(entertainerIt != entertainerSkillCommands->end())
 		{
-			string mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
+			BString mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
 			//look for our selected dance
 			if(BString(musicStr).getCrc() == mEntertainerString.getCrc() )
 			{
@@ -698,7 +698,7 @@ void ObjectController::_handleStartBand(uint64 targetId,Message* message,ObjectC
 			//check if we are able to perform this piece of dance
 			while(entertainerIt != entertainerSkillCommands->end())
 			{
-				string mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
+				BString mEntertainerString = gSkillManager->getSkillCmdById((*entertainerIt));
 				//look for our selected dance
 				if(BString(musicStr).getCrc() == mEntertainerString.getCrc() )
 				{
@@ -746,7 +746,7 @@ void ObjectController::_handleStartBand(uint64 targetId,Message* message,ObjectC
 	while(memberIt != members.end())
 	{
 		//check if we are performing
-		if(((*memberIt)->getPerformingState() == PlayerPerformance_None)&&((*memberIt)->getConnectionState() == PlayerConnState_Connected))
+		if((*memberIt)->getPerformingState() == PlayerPerformance_None)
 		{
 			if(music)
 			{
@@ -789,7 +789,7 @@ void ObjectController::_handleBandFlourish(uint64 targetId,Message* message,Obje
 		flourishMax = 9;
 
 
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	//dataStr.convert(BSTRType_ANSI);
 	//printf(" flourish : %s",dataStr.getAnsi());
@@ -838,39 +838,27 @@ void ObjectController::_handleImageDesign(uint64 targetId,Message* message,Objec
 	if(!imageDesigner)
 		return;
 
-	if(designObject->getPosture() == CreaturePosture_Dead)
-	{
-		gMessageLib->sendSystemMessage(imageDesigner,L"","image_designer","target_dead");
-		return;
-	}
-
 	if(!imageDesigner->checkSkill(SMSkill_NoviceEntertainer))
 	{
 		gMessageLib->sendSystemMessage(imageDesigner,L"","image_designer","not_an_image_designer");
 		return;
 	}
-    //Sch we need to add more states and checks - Rouse
+
 	if(imageDesigner->checkStatesEither(CreatureState_Combat | CreatureState_Tumbling | CreatureState_Swimming | CreatureState_Crafting))
 	{
-		gMessageLib->sendSystemMessage(imageDesigner,L"You cannot perform that action on this target");
+		gMessageLib->sendSystemMessage(imageDesigner,L"You cannot do this at this time.");
 		return;
 	}
 
 	if(imageDesigner->getImageDesignSession() != IDSessionNONE)
 	{
-		if(imageDesigner->getImageDesignSession() == IDSessionID)
-			gMessageLib->sendSystemMessage(imageDesigner,L"","image_designer","already_image_designing");
-		else
-			gMessageLib->sendSystemMessage(imageDesigner,L"","image_designer","already_being_image_designed");
+		gMessageLib->sendSystemMessage(imageDesigner,L"You cannot do this at this time.");
 		return;
 	}
 
 	if(designObject->getImageDesignSession() != IDSessionNONE)
 	{
-		if(designObject->getImageDesignSession() == IDSessionID)
-			gMessageLib->sendSystemMessage(imageDesigner,L"","image_designer","target_is_image_designing");
-		else
-			gMessageLib->sendSystemMessage(imageDesigner,L"","image_designer","outstanding_offer");
+		gMessageLib->sendSystemMessage(designObject,L"You cannot do this at this time.");
 		return;
 	}
 
@@ -882,7 +870,7 @@ void ObjectController::_handleImageDesign(uint64 targetId,Message* message,Objec
 
 	if((designObject != imageDesigner) && (designObject->getGroupId() != imageDesigner->getGroupId() ))
 	{
-		gMessageLib->sendSystemMessage(imageDesigner,L"","image_designer","not_in_same_group");
+		gMessageLib->sendSystemMessage(imageDesigner,L"You must be grouped in order to imagedesign.");
 		return;
 	}
 
@@ -906,8 +894,8 @@ void ObjectController::handleImageDesignChangeMessage(Message* message,uint64 ta
 
 	uint32 ColorCounter;
 	uint32 AttributeCounter;
-	string hair;
-	string holoEmote;
+	BString hair;
+	BString holoEmote;
 
 	PlayerObject*	imageDesigner	= dynamic_cast<PlayerObject*>(mObject);
 	PlayerObject*	customer	= dynamic_cast<PlayerObject*>(gWorldManager->getObjectById(dsgObjectId));
@@ -951,7 +939,7 @@ void ObjectController::handleImageDesignChangeMessage(Message* message,uint64 ta
 	message->getUint32(skillLevel4);
 
 	message->getUint32(AttributeCounter);
-	string attribute;
+	BString attribute;
 	float value;
 	for(uint32 i=0; i<AttributeCounter;i++)
 	{
@@ -1021,7 +1009,7 @@ void ObjectController::handleImageDesignStopMessage(Message* message,uint64 targ
 
 	//always remember id and prey are swapped here
 	message->getUint8(flag1);
-	string hair;
+	BString hair;
 	message->getStringAnsi(hair);
 	uint16 unknown1;
 	uint32 counter1,counter2,creditsDemanded,creditsOffered;
@@ -1063,7 +1051,7 @@ void ObjectController::handleImageDesignStopMessage(Message* message,uint64 targ
 void ObjectController::_handleRequestStatMigrationData(uint64 targetId,Message* message,ObjectControllerCmdProperties* cmdProperties)
 {
 	PlayerObject*	we	= dynamic_cast<PlayerObject*>(mObject);
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 
 	uint32 value1,value2,value3,value4,value5,value6,value7,value8,value9;
@@ -1113,7 +1101,7 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 	//start parsing the commandline
 	//either we need to give help
 	//or we have a request for a specific emote
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 
 	// Have to convert BEFORE using toLower, since the conversion done there is removed It will assert().
@@ -1126,7 +1114,7 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 	if(!we)
 		return;
 
-	HoloStruct* myEmote = gEntertainerManager->getHoloEmoteByCRC(we->getHoloEmote());
+	HoloStruct* myEmote = gEntertainerManager->getHoloEmote_by_CRC(we->getHoloEmote());
 
 	if(!myEmote)
 	{
@@ -1153,7 +1141,7 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 		return;
 	}
 
-	string emoteName;
+	BString emoteName;
 
 	if(!strcmp(cmdLine,"help"))
 	{
@@ -1165,20 +1153,10 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 			emoteName = myEmote->pEmoteName;
 
 		//just give help
-		int8 sql[512], sql1[1024];
-		sprintf(sql,"Your current Holo Emote is %s.\xa You have %u charges remaining."
-		"\xa To play your Holo-Emote type \x2fholoemote <name>.\xa To delete your Holo-Emote type \x2fholoemote delete. "
-		"\xa Purchasing a new Holo-Emote will automatically delete your current Holo-Emote.",emoteName.getAnsi(),we->getHoloCharge());
+		int8 sql[512];
+		sprintf(sql,"Your current Holo Emote is %s.\xa You have %u charges remaining. \xa To play your Holo-Emote type \x2fholoemote.\xa To delete your Holo-Emote type \x2fholoemote delete. \xa Purchasing a new Holo-Emote will automatically delete your current Holo-Emote.",emoteName.getAnsi(),we->getHoloCharge());
 
-		sprintf(sql1,"%s \xa \xa The available Holo-Emote names are: \xa \xa"
-			"Beehive \x9 \x9 Blossom \x9 Brainstorm \xa"
-			"Bubblehead \x9 Bullhorns \x9 Butterflies \xa"
-			"Champagne \x9 Haunted \x9 Hearts \xa"
-			"Hologlitter \x9 \x9 Holonotes \x9 Imperial \xa"
-			"Kitty \x9 \x9 \x9 Phonytail \x9 Rebel \xa"
-			"Sparky",sql);
-
-		gUIManager->createNewMessageBox(NULL,"holoHelpOff","Holo-Emote Help",sql1,we);
+		gUIManager->createNewMessageBox(NULL,"holoHelpOff","Holo-Emote Help",sql,we);
 
 		return;
 	}
@@ -1194,25 +1172,15 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 	if(strcmp(myEmote->pEmoteName,"all"))
 	{
 		//its *not* all
-		//only play if we give the proper name
 		if(requestedEmote->pId == myEmote->pId)
-		{			
-			if(we->decHoloCharge())
-			{
-				string effect = gWorldManager->getClientEffect(myEmote->pId);
-				gMessageLib->sendPlayClientEffectObjectMessage(effect,"head",we);
-				int8 sql[256];
-				sprintf(sql,"update swganh.character_holoemotes set charges = charges-1 where character_id = %I64u", we->getId());
-				mDatabase->ExecuteSqlAsync(this,NULL,sql);
-			}
-			else
-			{
-				gMessageLib->sendSystemMessage(we,L"","image_designer","no_charges_holoemote","","",L"",0,"","",L"");
-				return;
-			}
+		{
+			//only play if we give the proper name
+			BString effect = gWorldManager->getClientEffect(myEmote->pId);
+			gMessageLib->sendPlayClientEffectObjectMessage(effect,"head",we);
 		}
 		else
 		{
+			//think of a better message ?
 			gMessageLib->sendSystemMessage(we,L"","image_designer","holoemote_help","","",L"",0,"","",L"");
 			return;
 		}
@@ -1220,8 +1188,8 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 	else
 	{
 		//it is all
-		gMessageLib->sendSystemMessage(we,L"This is not a valid holoemote name");
-		return;
+		BString effect = gWorldManager->getClientEffect(requestedEmote->pId);
+		gMessageLib->sendPlayClientEffectObjectMessage(effect,"head",we);
 	}
 }
 
@@ -1232,7 +1200,7 @@ void ObjectController::_handleDistract(uint64 targetId,Message* message,ObjectCo
 	//start parsing the commandline
 	//either we need to give help
 	//or we have a request for a specific emote
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	// Have to convert BEFORE using toLower, since the conversion done there is removed It will assert().
 	// Either do the conversion HERE, or better fix the toLower so it handles unicode also.
@@ -1297,7 +1265,7 @@ void ObjectController::_handleFireJet(uint64 targetId,Message* message,ObjectCon
 	//start parsing the commandline
 	//either we need to give help
 	//or we have a request for a specific emote
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 
 	// Have to convert BEFORE using toLower, since the conversion done there is removed It will assert().
@@ -1361,7 +1329,7 @@ void ObjectController::_handleDazzle(uint64 targetId,Message* message,ObjectCont
 	//start parsing the commandline
 	//either we need to give help
 	//or we have a request for a specific emote
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 
 	// Have to convert BEFORE using toLower, since the conversion done there is removed It will assert().
@@ -1425,7 +1393,7 @@ void ObjectController::_handleColorLights(uint64 targetId,Message* message,Objec
 	//start parsing the commandline
 	//either we need to give help
 	//or we have a request for a specific emote
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 
 	// Have to convert BEFORE using toLower, since the conversion done there is removed It will assert().
@@ -1489,7 +1457,7 @@ void ObjectController::_handleSmokeBomb(uint64 targetId,Message* message,ObjectC
 	//start parsing the commandline
 	//either we need to give help
 	//or we have a request for a specific emote
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 
 	// Have to convert BEFORE using toLower, since the conversion done there is removed It will assert().
@@ -1553,7 +1521,7 @@ void ObjectController::_handleSpotLight(uint64 targetId,Message* message,ObjectC
 	//start parsing the commandline
 	//either we need to give help
 	//or we have a request for a specific emote
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 	// Have to convert BEFORE using toLower, since the conversion done there is removed It will assert().
 	// Either do the conversion HERE, or better fix the toLower so it handles unicode also.
@@ -1616,7 +1584,7 @@ void ObjectController::_handleVentriloquism(uint64 targetId,Message* message,Obj
 	//start parsing the commandline
 	//either we need to give help
 	//or we have a request for a specific emote
-	string dataStr;
+	BString dataStr;
 	message->getStringUnicode16(dataStr);
 
 	// Have to convert BEFORE using toLower, since the conversion done there is removed It will assert().

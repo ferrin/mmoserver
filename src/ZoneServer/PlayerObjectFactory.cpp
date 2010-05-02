@@ -182,7 +182,7 @@ void PlayerObjectFactory::handleDatabaseJobComplete(void* ref,DatabaseResult* re
 		case POFQuery_Friends:
 		{
 			PlayerObject* playerObject = dynamic_cast<PlayerObject*>(asyncContainer->mObject);
-			string name;
+			BString name;
 
 			DataBinding* binding = mDatabase->CreateDataBinding(1);
 			binding->addField(DFT_bstring,0,64);
@@ -260,7 +260,7 @@ void PlayerObjectFactory::handleDatabaseJobComplete(void* ref,DatabaseResult* re
 		case POFQuery_Ignores:
 		{
 			PlayerObject* playerObject = dynamic_cast<PlayerObject*>(asyncContainer->mObject);
-			string name;
+			BString name;
 
 			DataBinding* binding = mDatabase->CreateDataBinding(1);
 			binding->addField(DFT_bstring,0,64);
@@ -739,8 +739,26 @@ void PlayerObjectFactory::_setupDatabindings()
 	mPlayerBinding->addField(DFT_uint32,offsetof(PlayerObject,mHam.mMind.mEncumbrance),4,161);
 	mPlayerBinding->addField(DFT_uint32,offsetof(PlayerObject,mHam.mBattleFatigue),4,162);				 //70
 
+#if(ANH_PLATFORM == ANH_PLATFORM_WIN32)
 	for(uint16 i = 0;i < 0x71;i++)
 		mPlayerBinding->addField(DFT_uint16,offsetof(PlayerObject,mCustomization[i]),2,i + 17);//+113 = 183
+#else
+	/**
+	   Kludge, since variable cannot appear in offsetof macro in gcc. -Xunil
+	*/
+	unsigned int dataTypeSize = sizeof(uint16);
+	unsigned int startData = offsetof(PlayerObject,mCustomization[0]);
+	unsigned int endData = offsetof(PlayerObject,mCustomization[0x70]) + dataTypeSize;
+	unsigned int offset = startData;
+	if( (0x70 * dataTypeSize) == (endData-startData) )
+	  {
+	    for(uint16 i = 0;i < 0x71; ++i)
+	      {
+		mPlayerBinding->addField(DFT_uint16, offset, 2, i+17); //+113 = 183
+		offset += dataTypeSize;
+	      }
+	  }
+#endif
 
 	mPlayerBinding->addField(DFT_uint16,offsetof(PlayerObject,mCustomization[171]),2,130);
 	mPlayerBinding->addField(DFT_uint16,offsetof(PlayerObject,mCustomization[172]),2,131);				   //185

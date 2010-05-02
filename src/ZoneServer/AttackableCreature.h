@@ -129,12 +129,12 @@ class AttackableCreature : public NPCObject
 
 		void	setAttackWarningRange(float attackWarningRange) {mAttackWarningRange = attackWarningRange;}
 
-		void	setAttackWarningMessage(string theMessage) {mAttackWarningMessage = theMessage;}
+		void	setAttackWarningMessage(BString theMessage) {mAttackWarningMessage = theMessage;}
 
-		const	string& getAttackStartMessage(void) {return mAttackStartMessage;}
-		void	setAttackStartMessage(string theMessage) {mAttackStartMessage = theMessage;}
+		const	BString& getAttackStartMessage(void) {return mAttackStartMessage;}
+		void	setAttackStartMessage(BString theMessage) {mAttackStartMessage = theMessage;}
 
-		void	setAttackedMessage(string theMessage) {mAttackedMessage = theMessage;}
+		void	setAttackedMessage(BString theMessage) {mAttackedMessage = theMessage;}
 
 
 		void	setRespawnPeriod(uint64 respawnPeriod) {mRespawnPeriod = respawnPeriod;}
@@ -213,9 +213,9 @@ class AttackableCreature : public NPCObject
 		void	setWarningTauntSent(void);
 		void	clearWarningTauntSent(void);
 
-		const string getAttackStartMessage(void) const {return mAttackStartMessage;}
-		const string getAttackWarningMessage(void) const {return mAttackWarningMessage;}
-		const string getAttackedMessage(void) const {return mAttackedMessage;}
+		const BString getAttackStartMessage(void) const {return mAttackStartMessage;}
+		const BString getAttackWarningMessage(void) const {return mAttackWarningMessage;}
+		const BString getAttackedMessage(void) const {return mAttackedMessage;}
 
 		// The transfered functions are placed here.
 		void	spawn(void);
@@ -282,13 +282,13 @@ public:
 		float mMaxAggroRange;
 
 		// Taunt message, to be used when enemy comes near the "attackRange" when in "aggressiveMode".
-		string mAttackWarningMessage;
+		BString mAttackWarningMessage;
 
 		// Taunt message, to be used when creature initiates combat.
-		string mAttackStartMessage;
+		BString mAttackStartMessage;
 
 		// Taunt message, to be used when enemy initiates combat with this creature.
-		string mAttackedMessage;
+		BString mAttackedMessage;
 
 		// Position we are moving towards. Used by roaming among others...
         glm::vec3 mDestination;

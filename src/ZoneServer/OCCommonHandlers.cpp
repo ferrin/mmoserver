@@ -71,7 +71,7 @@ void ObjectController::_handleBoardTransport(uint64 targetId,Message* message,Ob
 		return;
 	}
 
-	string str;
+	BString str;
 	message->getStringUnicode16(str);
 	str.convert(BSTRType_ANSI);
 	str.toLower();
@@ -219,7 +219,7 @@ void ObjectController::_handleTransferItem(uint64 targetId,Message* message,Obje
 	Object*			itemObject		=	gWorldManager->getObjectById(targetId);
 	Inventory*		inventory		=	dynamic_cast<Inventory*>(playerObject->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory));
 
-	string			dataStr;
+	BString			dataStr;
 	uint64			targetContainerId;
 	uint32			linkType;
 	float			x,y,z;
@@ -486,7 +486,7 @@ bool ObjectController::checkContainingContainer(uint64 containingContainer, uint
 
 	if(BuildingObject* building = dynamic_cast<BuildingObject*>(object))
 	{
-		if(building->hasAdminRights(playerId) || gWorldConfig->isTutorial())
+		if(building->hasAdminRights(playerId))
 		{
 			return true;
 		}
@@ -499,16 +499,7 @@ bool ObjectController::checkContainingContainer(uint64 containingContainer, uint
 		{
 			if(building->hasAdminRights(playerId))
 			{
-				//now test whether we are in the same building
-				PlayerObject* player = dynamic_cast<PlayerObject*>(gWorldManager->getObjectById(playerId));
-				if(CellObject* playercell = dynamic_cast<CellObject*>(gWorldManager->getObjectById(player->getParentId())))
-				{
-					if(BuildingObject* playerparent = dynamic_cast<BuildingObject*>(gWorldManager->getObjectById(playercell->getParentId())))
-					{
-						//still get in a range check ???
-						return true;
-					}
-				}
+				return true;
 			}
 		}
 		return false;
@@ -893,7 +884,7 @@ void ObjectController::_handleTransferItemMisc(uint64 targetId,Message* message,
 	Object*			itemObject		=	gWorldManager->getObjectById(targetId);
 	Inventory*		inventory		=	dynamic_cast<Inventory*>(playerObject->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory));
 
-	string			dataStr;
+	BString			dataStr;
 	uint64			targetContainerId;
 	uint32			linkType;
 	float			x,y,z;
@@ -1118,7 +1109,7 @@ void ObjectController::_handleTransferItemMisc(uint64 targetId,Message* message,
 void ObjectController::_handlePurchaseTicket(uint64 targetId,Message* message,ObjectControllerCmdProperties* cmdProperties)
 {
 	PlayerObject*	playerObject = dynamic_cast<PlayerObject*>(mObject);
-	string			dataStr;
+	BString			dataStr;
 	BStringVector	dataElements;
 	uint16			elements;
 
@@ -1241,7 +1232,7 @@ void ObjectController::_handlePurchaseTicket(uint64 targetId,Message* message,Ob
 void ObjectController::_handleGetAttributesBatch(uint64 targetId,Message* message,ObjectControllerCmdProperties* cmdProperties)
 {
 	PlayerObject*	playerObject	= dynamic_cast<PlayerObject*>(mObject);
-	string			requestStr;
+	BString			requestStr;
 	BStringVector	dataElements;
 	BStringVector	dataElements2;
 	uint16			elementCount;
@@ -1402,7 +1393,7 @@ void ObjectController::_endBurstRun(uint64 targetId,Message* message,ObjectContr
 void ObjectController::_handleSurrenderSkill(uint64 targetId,Message* message,ObjectControllerCmdProperties* cmdProperties)
 {
 	PlayerObject*	player		= dynamic_cast<PlayerObject*>(mObject);
-	string			skillStr;
+	BString			skillStr;
 
 	message->getStringUnicode16(skillStr);
 	skillStr.convert(BSTRType_ANSI);
@@ -1458,7 +1449,7 @@ void ObjectController::handleObjectMenuRequest(Message* message)
 
 	uint32 itemCount = message->getUint32();
 
-	string extendedDescription;
+	BString extendedDescription;
 	MenuItemList menuItemList;
 
 	MenuItem* menuItem;
@@ -1637,7 +1628,7 @@ void ObjectController::_handleNewbieSelectStartingLocation(uint64 targetId,Messa
 	// Find the planet and position.
 	if (gWorldConfig->isTutorial())
 	{
-		string name;
+		BString name;
 		message->getStringUnicode16(name);
 
 		if (!(name.getLength()))
@@ -1724,7 +1715,7 @@ void ObjectController::_BurstRun(uint64 targetId,Message* message,ObjectControll
 
 	if(!player->getHam()->checkMainPools(healthcost,actioncost,mindcost))
 	{
-		gMessageLib->sendSystemMessage(player,L"You cannot burst run right now."); // the stf doesn't work!
+		gMessageLib->sendSystemMessage(player,L"","combat_effects","burst_run_no");
 		return;
 	}
 

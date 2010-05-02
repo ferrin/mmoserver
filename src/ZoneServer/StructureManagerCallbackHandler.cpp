@@ -79,7 +79,7 @@ void StructureManager::_HandleQueryHopperPermissionData(StructureManagerAsyncCon
 
 	PlayerStructure* structure = dynamic_cast<PlayerStructure*>(gWorldManager->getObjectById(asynContainer->mStructureId));
 
-	string playerName;
+	BString playerName;
 	DataBinding* binding = gWorldManager->getDatabase()->CreateDataBinding(1);
 	binding->addField(DFT_bstring,0,64);
 
@@ -109,7 +109,7 @@ void StructureManager::_HandleQueryAdminPermissionData(StructureManagerAsyncCont
 {
 	PlayerStructure* structure = dynamic_cast<PlayerStructure*>(gWorldManager->getObjectById(asynContainer->mStructureId));
 
-	string playerName;
+	BString playerName;
 	DataBinding* binding = mDatabase->CreateDataBinding(1);
 	binding->addField(DFT_bstring,0,64);
 
@@ -140,7 +140,7 @@ void StructureManager::_HandleQueryEntryPermissionData(StructureManagerAsyncCont
 
 	PlayerStructure* structure = dynamic_cast<PlayerStructure*>(gWorldManager->getObjectById(asynContainer->mStructureId));
 
-	string playerName;
+	BString playerName;
 	DataBinding* binding = mDatabase->CreateDataBinding(1);
 	binding->addField(DFT_bstring,0,64);
 
@@ -171,7 +171,7 @@ void StructureManager::_HandleQueryBanPermissionData(StructureManagerAsyncContai
 {
 	PlayerStructure* structure = dynamic_cast<PlayerStructure*>(gWorldManager->getObjectById(asynContainer->mStructureId));
 
-	string playerName;
+	BString playerName;
 	DataBinding* binding = mDatabase->CreateDataBinding(1);
 	binding->addField(DFT_bstring,0,64);
 
@@ -538,7 +538,7 @@ void StructureManager::_HandleRemovePermission(StructureManagerAsyncContainer* a
 
 	if(returnValue == 0)
 	{
-		string name;
+		BString name;
 		name = asynContainer->name;
 		name.convert(BSTRType_Unicode16);
 		gMessageLib->sendSystemMessage(player,L"","player_structure","player_removed","","",name.getUnicode16());
@@ -555,7 +555,7 @@ void StructureManager::_HandleRemovePermission(StructureManagerAsyncContainer* a
 
 	if(returnValue == 1)
 	{
-		string name;
+		BString name;
 		name = asynContainer->name;
 		name.convert(BSTRType_Unicode16);
 
@@ -564,7 +564,7 @@ void StructureManager::_HandleRemovePermission(StructureManagerAsyncContainer* a
 
 	if(returnValue == 2)
 	{
-		string name;
+		BString name;
 		name = asynContainer->name;
 		//name.convert(BSTRType_Unicode16);
 		name.convert(BSTRType_ANSI);
@@ -575,7 +575,7 @@ void StructureManager::_HandleRemovePermission(StructureManagerAsyncContainer* a
 
 	if(returnValue == 3)
 	{
-		string name;
+		BString name;
 		name = asynContainer->name;
 		name.convert(BSTRType_Unicode16);
 
@@ -652,7 +652,7 @@ void StructureManager::_HandleAddPermission(StructureManagerAsyncContainer* asyn
 
 	if(returnValue == 0)
 	{
-		string name;
+		BString name;
 		name = asynContainer->name;
 		//gMessageLib->sendSystemMessage(player,L"","player_structure","player_added","",name.getAnsi());
 		name.convert(BSTRType_Unicode16);
@@ -673,7 +673,7 @@ void StructureManager::_HandleAddPermission(StructureManagerAsyncContainer* asyn
 	//no valid name
 	if(returnValue == 1)
 	{
-		string name;
+		BString name;
 		name = asynContainer->name;
 		name.convert(BSTRType_ANSI);
 		gLogger->logMsgF("StructurManager add %s failed ", MSG_HIGH,name.getAnsi());
@@ -685,7 +685,7 @@ void StructureManager::_HandleAddPermission(StructureManagerAsyncContainer* asyn
 	//name already on the list
 	if(returnValue == 2)
 	{
-		string name;
+		BString name;
 		name = asynContainer->name;
 		name.convert(BSTRType_ANSI);
 		name << " is already on the list";
@@ -795,7 +795,7 @@ void StructureManager::_HandleCheckPermission(StructureManagerAsyncContainer* as
 
 	if(returnValue == 1)
 	{
-		string name;
+		BString name;
 		name = asynContainer->name;
 		name.convert(BSTRType_ANSI);
 		

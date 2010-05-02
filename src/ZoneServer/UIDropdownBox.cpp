@@ -14,7 +14,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 
 //================================================================================
 
-UIDropdownBox::UIDropdownBox(uint32 id,string name,bool enabled,const BStringVector elements,uint16 maxLength)
+UIDropdownBox::UIDropdownBox(uint32 id,BString name,bool enabled,const BStringVector elements,uint16 maxLength)
 : UIElement(id,SUI_Element_DropdownBox),mEnabled(enabled),mMaxLength(maxLength)
 {
 	mName		= name.getAnsi();
@@ -44,10 +44,10 @@ uint32 UIDropdownBox::getPropertyCount()
 
 void UIDropdownBox::addMessageData()
 {
-	string	strFalse	= L"False";
-	string	strTrue		= L"True";
+	BString	strFalse	= L"False";
+	BString	strTrue		= L"True";
 
-	string lengthStr;
+	BString lengthStr;
 	lengthStr.setLength(sprintf(lengthStr.getAnsi(),"%u",mMaxLength));
 	lengthStr.convert(BSTRType_Unicode16);
 

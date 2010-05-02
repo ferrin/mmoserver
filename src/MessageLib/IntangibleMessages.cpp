@@ -39,7 +39,7 @@ bool MessageLib::sendBaselinesITNO_3(IntangibleObject* intangibleObject,PlayerOb
 		return(false);
 
 	Message* message;
-	string customName = intangibleObject->getCustomName().getAnsi();
+	BString customName = intangibleObject->getCustomName().getAnsi();
 	customName.convert(BSTRType_Unicode16);
 
 	mMessageFactory->StartMessage();

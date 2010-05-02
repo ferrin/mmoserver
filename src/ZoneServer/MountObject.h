@@ -9,28 +9,44 @@ Copyright (c) 2006 - 2010 The swgANH Team
 ---------------------------------------------------------------------------------------
 */
 
-#ifndef ZONESERVER_MOUNTOBJECT_H_
-#define ZONESERVER_MOUNTOBJECT_H_
+#ifndef ANH_ZONESERVER_MOUNT_OBJECT_H
+#define ANH_ZONESERVER_MOUNT_OBJECT_H
 
+#include "Ham.h"
+#include "MovingObject.h"
+#include "SkillManager.h"
+#include "CreatureEnums.h"
 #include "CreatureObject.h"
+#include <map>
+#include <list>
 
-/// Encapsulates mount specific functionality.
-/**
- * The MountObject class handles mount specific functionality like custom radial actions.
- */
-class MountObject : public CreatureObject {
- public:  
-   // Declare and define the default constructor and destructor.
-   MountObject() : CreatureObject() {}
-   virtual ~MountObject() {}
-   
-   /// Prepares the custom radial menu for MountObject's.
-   virtual void prepareCustomRadialMenu(CreatureObject* creature, uint8 item_count);
-   
-   /// Handles a menu selection from MountObject's custom radial menu.
-   virtual void handleObjectMenuSelect(uint8 message_type, Object* source_object);
+//=============================================================================
+
+
+//=============================================================================
+
+
+class MountObject : public CreatureObject
+{
+	public:
+
+
+		MountObject(){;}
+		~MountObject(){;}
+
+		virtual void prepareCustomRadialMenu(CreatureObject* creatureObject, uint8 itemCount);
+		virtual void handleObjectMenuSelect(uint8 messageType,Object* srcObject);
+
+
+		
+
+	protected:
+
+
+	public:
+
 };
 
 //=============================================================================
 
-#endif  // ZONESERVER_MOUNTOBJECT_H_
+#endif

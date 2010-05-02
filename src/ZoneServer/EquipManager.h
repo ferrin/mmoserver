@@ -38,7 +38,7 @@ class EquipManager
 		EquipManager();
 		~EquipManager();
 
-		ObjectList*			EquipManager::getEquippedObjects();
+		ObjectList*			getEquippedObjects();
 
 		// the slot map
 		SlotMap*			getSlotMap(){ return &mSlotMap; }

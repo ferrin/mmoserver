@@ -41,7 +41,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 #include "Common/atMacroString.h"
 
 
-#include "utils/rand.h"
+#include "Utils/rand.h"
 
 
 class TutorialQueryContainer
@@ -125,7 +125,7 @@ Tutorial::~Tutorial()
 	}
 }
 
-void Tutorial::warpToStartingLocation(string startingLocation)
+void Tutorial::warpToStartingLocation(BString startingLocation)
 {
 	gLogger->logMsgF("Tutorial::warpToStartingLocation: Starting city = %s",MSG_NORMAL, startingLocation.getAnsi());
 
@@ -241,7 +241,7 @@ void Tutorial::scriptPlayMusic(uint32 soundId)
 
 void Tutorial::scriptSystemMessage(std::string message)
 {
-	string msg = (int8*)message.c_str();
+	BString msg = (int8*)message.c_str();
 
 	msg.convert(BSTRType_Unicode16);
 
@@ -331,7 +331,7 @@ void Tutorial::disableHudElement(std::string customMessage)
 //
 //
 
-void Tutorial::tutorialResponse(string tutorialEventString)
+void Tutorial::tutorialResponse(BString tutorialEventString)
 {
 	if (strcmp(tutorialEventString.getAnsi(), "zoomCamera") == 0)
 	{
@@ -379,7 +379,7 @@ void Tutorial::tutorialResponse(string tutorialEventString)
 //
 //
 
-void Tutorial::tutorialResponseReset(string tutorialEventString)
+void Tutorial::tutorialResponseReset(BString tutorialEventString)
 {
 	if (strcmp(tutorialEventString.getAnsi(), "zoomCamera") == 0)
 	{
@@ -597,7 +597,7 @@ void Tutorial::spatialChat(uint64 targetId, std::string chatMsg)
 	NPCObject* npc = dynamic_cast<NPCObject*>(gWorldManager->getObjectById(targetId));
 	if (mPlayerObject && mPlayerObject->isConnected() && npc)
 	{
-		string msg = (int8*)chatMsg.c_str();
+		BString msg = (int8*)chatMsg.c_str();
 		msg.convert(BSTRType_Unicode16);
 		char quack[5][32];
 		memset(quack, 0, sizeof(quack));
@@ -610,7 +610,7 @@ void Tutorial::spatialChatShout(uint64 targetId, std::string chatMsg)
 	NPCObject* npc = dynamic_cast<NPCObject*>(gWorldManager->getObjectById(targetId));
 	if (mPlayerObject && mPlayerObject->isConnected() && npc)
 	{
-		string msg = (int8*)chatMsg.c_str();
+		BString msg = (int8*)chatMsg.c_str();
 		msg.convert(BSTRType_Unicode16);
 		char quack[5][32];
 		memset(quack, 0, sizeof(quack));
@@ -892,7 +892,7 @@ static const uint64 MarksmanTrainerId[3] = {47244640339, 47244640363, 4724464045
 static const uint64 ScoutTrainerId[3] = {47244640311, 47244640461, 47244640525};
 */
 
-uint64 Tutorial::getSkillTrainerTypeId(string startingProfession)
+uint64 Tutorial::getSkillTrainerTypeId(BString startingProfession)
 {
 	uint64 typeId = 0;
 	uint8 index = (uint8)(gRandom->getRand() % 3);

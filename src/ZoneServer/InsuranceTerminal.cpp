@@ -90,7 +90,7 @@ void InsuranceTerminal::handleObjectMenuSelect(uint8 messageType,Object* srcObje
 					SortedInventoryItemList::iterator it = mSortedInsuranceList.begin();
 					while (it != mSortedInsuranceList.end())
 					{
-						string selectedItemm = (*it).first;
+						BString selectedItemm = (*it).first;
 						selectedItemm.convert(BSTRType_Unicode16);
 
 						Object* object = gWorldManager->getObjectById((*it).second);
@@ -203,7 +203,7 @@ void InsuranceTerminal::handleObjectMenuSelect(uint8 messageType,Object* srcObje
 
 //=============================================================================
 
-void InsuranceTerminal::handleUIEvent(uint32 action,int32 element,string inputStr,UIWindow* window)
+void InsuranceTerminal::handleUIEvent(uint32 action,int32 element,BString inputStr,UIWindow* window)
 {
 	// gLogger->logMsgF("InsuranceTerminal::handleUIEvent You are here!",MSG_NORMAL);
 
@@ -286,7 +286,7 @@ void InsuranceTerminal::handleUIEvent(uint32 action,int32 element,string inputSt
 					}
 					else
 					{
-						string selectedItemm((mSortedInsuranceList.at(element).first).getAnsi());
+						BString selectedItemm((mSortedInsuranceList.at(element).first).getAnsi());
 						selectedItemm.convert(BSTRType_Unicode16);
 
 						Object* object = gWorldManager->getObjectById(mSortedInsuranceList.at(element).second);
@@ -338,7 +338,7 @@ void InsuranceTerminal::handleUIEvent(uint32 action,int32 element,string inputSt
 							gMessageLib->sendSystemMessage(playerObject, L"", "base_player", "prose_pay_acct_success", "terminal_name", "terminal_insurance", L"", mInsuranceFee);
 
 							// Update attribute.
-							// string str("insured");
+							// BString str("insured");
 							tangibleObject->setInternalAttribute("insured","1");
 							gWorldManager->getDatabase()->ExecuteSqlAsync(NULL,NULL,"UPDATE item_attributes SET value=1 WHERE item_id=%"PRIu64" AND attribute_id=%u",tangibleObject->getId(), 1270);
 
@@ -420,7 +420,7 @@ void InsuranceTerminal::handleUIEvent(uint32 action,int32 element,string inputSt
 				{
 					// Insure all insurable items.
 					int32 creditsAtBank = (dynamic_cast<Bank*>(playerObject->getEquipManager()->getEquippedObject(CreatureEquipSlot_Bank))->getCredits());
-					string selectedItemm;
+					BString selectedItemm;
 					int32 fee = mSortedInsuranceList.size() * mInsuranceFee;
 
 					if (mSortedInsuranceList.size() ==  0)

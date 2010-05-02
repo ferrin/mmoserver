@@ -22,7 +22,7 @@ WorldConfig*	WorldConfig::mSingleton = NULL;
 
 //======================================================================================================================
 
-WorldConfig::WorldConfig(uint32 zoneId,Database* database, string zoneName) :
+WorldConfig::WorldConfig(uint32 zoneId,Database* database, BString zoneName) :
 mDatabase(database),
 mZoneId(zoneId),
 mTutorialEnabled(true),
@@ -44,7 +44,7 @@ mInstanceEnabled(false)
 
 //======================================================================================================================
 
-WorldConfig* WorldConfig::Init(uint32 zoneId,Database* database, string zoneName)
+WorldConfig* WorldConfig::Init(uint32 zoneId,Database* database, BString zoneName)
 {
 	if(!mSingleton)
 	{
@@ -216,7 +216,7 @@ void WorldConfig::buildAttributeMap(DatabaseResult* result)
 
 //=========================================================================
 
-void WorldConfig::setConfiguration(string key,std::string value)
+void WorldConfig::setConfiguration(BString key,std::string value)
 {
 	ConfigurationMap::iterator it = mConfigurationMap.find(key.getCrc());
 
@@ -231,14 +231,14 @@ void WorldConfig::setConfiguration(string key,std::string value)
 
 //=============================================================================
 
-void WorldConfig::addConfiguration(string key,std::string value)
+void WorldConfig::addConfiguration(BString key,std::string value)
 {
 	mConfigurationMap.insert(std::make_pair(key.getCrc(),value));
 }
 
 //=============================================================================
 
-bool WorldConfig::hasConfiguration(string key) const
+bool WorldConfig::hasConfiguration(BString key) const
 {
 	if(mConfigurationMap.find(key.getCrc()) != mConfigurationMap.end())
 		return(true);
@@ -248,7 +248,7 @@ bool WorldConfig::hasConfiguration(string key) const
 
 //=============================================================================
 
-void WorldConfig::removeConfiguration(string key)
+void WorldConfig::removeConfiguration(BString key)
 {
 	ConfigurationMap::iterator it = mConfigurationMap.find(key.getCrc());
 

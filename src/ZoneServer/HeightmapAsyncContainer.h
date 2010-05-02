@@ -48,4 +48,5 @@ private:
 	HeightMapCallBack* callback;
 
 };
-#endif HEIGHTMAPASYNCCONTAINER_H
+#endif
+// HEIGHTMAPASYNCCONTAINER_H

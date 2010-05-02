@@ -57,7 +57,7 @@ uint32 CraftingSession::getComponentSerial(ManufactureSlot*	manSlot, Inventory* 
 	while(filledResIt != manSlot->mFilledResources.end())
 	{
 		uint64		itemId = (*filledResIt).first;
-		string filledSerial;
+		BString filledSerial;
 
 		filledComponent = dynamic_cast<Item*>(inventory->getObjectById(itemId));
 		if(filledComponent->hasAttribute("serial"))
@@ -124,10 +124,10 @@ bool CraftingSession::AdjustComponentStack(Item* item, Inventory* inventory, uin
 // thats easy for stacks and a little more involved for factory crates
 // 
 
-string CraftingSession::ComponentGetSerial(Item* component)
+BString CraftingSession::ComponentGetSerial(Item* component)
 {
 
-	string componentSerial = "";
+	BString componentSerial = "";
 
 	FactoryCrate* fC  = dynamic_cast<FactoryCrate*>(component);
 	if(fC)
@@ -345,8 +345,8 @@ void CraftingSession::handleFillSlotComponent(uint64 componentId,uint32 slotId,u
 	uint32				totalNeededAmount	= manSlot->mDraftSlot->getNecessaryAmount();
 
 
-	string				componentSerial	= "";
-	string				filledSerial	= "";
+	BString				componentSerial	= "";
+	BString				filledSerial	= "";
 
 
 	componentSerial = ComponentGetSerial(component);
@@ -1036,7 +1036,7 @@ void CraftingSession::emptySlot(uint32 slotId,ManufactureSlot* manSlot,uint64 co
 
 //=============================================================================
  //this creates the serial for a crafted item
-string CraftingSession::getSerial()
+BString CraftingSession::getSerial()
 {
 	int8	serial[12],chance[9];
 	bool	found = false;
@@ -1292,7 +1292,7 @@ void CraftingSession::collectResources()
 	int8			attr[64];
 	
 	CheckResources::iterator checkResIt = mCheckRes.begin();
-	string			name;
+	BString			name;
 	while(manIt != mManufacturingSchematic->getManufactureSlots()->end())
 	{
 		
@@ -1332,7 +1332,7 @@ void CraftingSession::collectResources()
 		//build these attributes by hand the attribute wont be found in the attributes table its custom made
 		name = gResourceManager->getResourceById((*checkResIt).first)->getName();
 		sprintf(attr,"cat_manf_schem_ing_resource.\"%s",name .getAnsi());
-		string attrName = BString(attr);
+		BString attrName = BString(attr);
 
 		sprintf(str,"%u",(*checkResIt).second);
 
@@ -1366,7 +1366,7 @@ void CraftingSession::collectComponents()
 	int8			attr[64];
 	
 	CheckResources::iterator checkResIt = mCheckRes.begin();
-	string			name;
+	BString			name;
 	while(manIt != mManufacturingSchematic->getManufactureSlots()->end())
 	{
 		
@@ -1391,7 +1391,7 @@ void CraftingSession::collectComponents()
 				assert(false && "CraftingSession::collectComponents No tangible object found in world manager");
 			}
 
-			string componentSerial = "";
+			BString componentSerial = "";
 			
 			if(tO->hasAttribute("serial"))
 				componentSerial = tO->getAttribute<std::string>("serial").c_str();
@@ -1428,13 +1428,13 @@ void CraftingSession::collectComponents()
 			gLogger->logErrorF("Crafting","CraftingSession::collectComponents() no component",MSG_NORMAL);
 			continue;
 		}
-		string componentSerial = "";
+		BString componentSerial = "";
 		if(tO->hasAttribute("serial"))
 				componentSerial = tO->getAttribute<std::string>("serial").c_str();
 
 		name = tO->getName();
 		sprintf(attr,"cat_manf_schem_ing_component.\"%s",name .getAnsi());
-		string attrName = BString(attr);
+		BString attrName = BString(attr);
 
 		sprintf(str,"%u",(*checkResIt).second);
 

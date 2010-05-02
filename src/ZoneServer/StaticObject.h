@@ -24,7 +24,7 @@ class StaticObject : public ObjectContainer
 	public:
 
 		StaticObject();
-		StaticObject(uint64 id,uint64 parentId,const string model,ObjectType type);
+		StaticObject(uint64 id,uint64 parentId,const BString model,ObjectType type);
 		virtual ~StaticObject();
 
 	protected:

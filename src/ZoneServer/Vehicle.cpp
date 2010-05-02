@@ -67,14 +67,14 @@ void Vehicle::handleObjectMenuSelect(uint8 messageType,Object* srcObject)
 		switch(messageType)
 		{
 			case radId_vehicleGenerate:
+			{
+				call();
+			}
+			break;
+
 			case radId_vehicleStore:
 			{
-        // If a body for the vehicle exists then store it, if it doesn't then call it.
-        if (mBody) {
-          store();
-        } else {
-				  call();
-        }
+				store();
 			}
 			break;
 
@@ -91,11 +91,22 @@ void Vehicle::handleObjectMenuSelect(uint8 messageType,Object* srcObject)
 //handles the radial selection
 void Vehicle::prepareCustomRadialMenu(CreatureObject* creatureObject, uint8 itemCount)
 {
-  mRadialMenu.reset(new RadialMenu());
-  
-	mRadialMenu->addItem(1, 0, radId_vehicleGenerate, radAction_ObjCallback, "@pet/pet_menu:menu_call");
-	mRadialMenu->addItem(2, 0, radId_itemDestroy, radAction_Default);
-	mRadialMenu->addItem(3, 0, radId_examine, radAction_Default);
+	RadialMenu* radial = new RadialMenu();	
+
+	if(mBody)
+	{
+		radial->addItem(3,0,radId_vehicleStore,radAction_ObjCallback,"@pet/pet_menu:menu_store");
+	}
+	else
+	{
+		radial->addItem(3,0,radId_vehicleGenerate,radAction_ObjCallback,"@pet/pet_menu:menu_call");
+	}
+
+	radial->addItem(1,0,radId_examine,radAction_Default);
+	radial->addItem(2,0,radId_itemDestroy,radAction_Default);
+
+	mRadialMenu = RadialMenuPtr(radial);
+
 }
 
 
@@ -106,8 +117,8 @@ void Vehicle::call()
 {
 	if(mBody)
 	{   //Destory the old body before creating a new one
-		gLogger->logMsgF("void Vehicle::call() body already exists", MSG_HIGH);
-    return;
+		gLogger->logMsgF("void Vehicle::call() destroy the old body", MSG_HIGH);
+		store();
 	}
 
 	if(mOwner->checkIfMountCalled())
@@ -117,7 +128,7 @@ void Vehicle::call()
 
 	}
 
-	if(!mOwner->isConnected() || mOwner->isDead() || !mOwner->getHam()->checkMainPools(1,1,1))
+	if(!mOwner->isConnected())
 	{
 		return;
 	}
@@ -127,7 +138,7 @@ void Vehicle::call()
 
 	mBody = new MountObject();
 
-	string cust;
+	BString cust;
 	cust.initRawBSTR((int8*)Swoop_Customization,BSTRType_ANSI);
 	mBody->setCustomizationStr(cust.getAnsi());
 	mBody->setCreoGroup(CreoGroup_Vehicle);
@@ -159,31 +170,15 @@ void Vehicle::call()
 	mOwner->setMounted(false);
 	mOwner->setMountCalled(false);
 
-	// Set default direction and position for the body.
+	//Set direction to match the player
 	mBody->mDirection = mOwner->mDirection;
-    mBody->mPosition = mOwner->mPosition;
 
-	// Move it forward 2 meters
-    mBody->moveForward(2);
-	
-	// And drop it a little below the terrain to allow the client to normalize it.
-	mBody->mPosition.y = Heightmap::Instance()->getHeight(mBody->mPosition.x, mBody->mPosition.z) - 0.3f;
+	//Spawn it to the side of the player
+    mBody->mPosition.x = mOwner->mPosition.x + ( 2 * cos(glm::gtx::quaternion::angle(mOwner->mDirection) + 1.5708f));
+	mBody->mPosition.z = mOwner->mPosition.z + ( 2 * sin(glm::gtx::quaternion::angle(mOwner->mDirection) + 1.5708f));
 
-    // Finally rotate it perpendicular to the player.
-    mBody->rotateRight(90.0f);
-
-	//we still get nan's here occasionally
-	//which will assert our quadtree
-
-	if(_isnan(mBody->mPosition.x))
-		mBody->mPosition.x = mOwner->mPosition.x;
-	
-	if(_isnan(mBody->mPosition.y))
-		mBody->mPosition.y = mOwner->mPosition.y;
-
-	if(_isnan(mBody->mPosition.z))
-		mBody->mPosition.z = mOwner->mPosition.z;
-		
+	//And a little above the terrian (help prevent sticking)
+	mBody->mPosition.y =  Heightmap::Instance()->getHeight(mBody->mPosition.x, mBody->mPosition.z) + 0.3f;
 
 	// add to world
 	if(!gWorldManager->addObject(mBody))
@@ -215,7 +210,7 @@ void Vehicle::store()
 		return;
 	}
 
-	if(!mOwner || mOwner->isDead() || !mOwner->getHam()->checkMainPools(1,1,1))
+	if(!mOwner)
 	{
 		gLogger->logMsg("Vehicle::store() couldnt find owner");
 		return;
@@ -311,7 +306,7 @@ void Vehicle::mountPlayer()
 
 	mOwner->toggleStateOn(CreatureState_RidingMount);
 	mBody->toggleStateOn(CreatureState_MountedCreature);
-
+	mOwner->setPosture(CreaturePosture_DrivingVehicle);
 	gMessageLib->sendStateUpdate(mOwner);
 	gMessageLib->sendStateUpdate(mBody);
 

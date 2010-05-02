@@ -365,7 +365,7 @@ void SkillManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 			struct SkillDescriptions
 			{
 				uint32 skillId;
-				string skillInfo;
+				BString skillInfo;
 			};
 
 			DataBinding* binding = mDatabase->CreateDataBinding(2);
@@ -458,30 +458,28 @@ bool SkillManager::learnSkill(uint32 skillId,CreatureObject* creatureObject,bool
 
 		gMessageLib->sendSystemMessage(player,L"","skill_teacher","prose_skill_learned","skl_n",skill->mName);
 
-		// Update cap for this type of xp as long as it isn't of type none.
-        if (skill->mXpType != XpType_none) {
-		    int32 newXpCap = getXpCap(player, skill->mXpType);
-		    (void)player->UpdateXpCap(skill->mXpType, newXpCap);
+		// Update cap for this type of xp.
+		int32 newXpCap = getXpCap(player, skill->mXpType);
+		(void)player->UpdateXpCap(skill->mXpType, newXpCap);
 
-		    int32 xpCost = skill->mXpCost;
-		    if (!subXp)
-		    {
-			    // When training skillines...
-			    xpCost = 0;
-		    }
+		int32 xpCost = skill->mXpCost;
+		if (!subXp)
+		{
+			// When training skillines...
+			xpCost = 0;
+		}
 
-		    // gLogger->logMsg("SkillManager::learnSkill: Trained a skill");
+		// gLogger->logMsg("SkillManager::learnSkill: Trained a skill");
 
-		    // handle XP cap and system messages.
-		    int32 newXpCost = handleExperienceCap(skill->mXpType, -xpCost, player);
+		// handle XP cap and system messages.
+		int32 newXpCost = handleExperienceCap(skill->mXpType, -xpCost, player);
 
-		    // We don't wanna miss any "You now qualify for the skill: ..."
-		    (void)player->UpdateXp(skill->mXpType, newXpCost);
+		// We don't wanna miss any "You now qualify for the skill: ..."
+		(void)player->UpdateXp(skill->mXpType, newXpCost);
 
-		    // gLogger->logMsgF("SkillManager::learnSkill: Removing %i xp of type %u",MSG_NORMAL, -newXpCost, skill->mXpType);
-		    mDatabase->ExecuteSqlAsync(NULL,NULL,"UPDATE character_xp SET value=value+%i WHERE xp_id=%u AND character_id=%"PRIu64"",newXpCost, skill->mXpType, player->getId());
-		    gMessageLib->sendXpUpdate(skill->mXpType,player);
-        }
+		// gLogger->logMsgF("SkillManager::learnSkill: Removing %i xp of type %u",MSG_NORMAL, -newXpCost, skill->mXpType);
+		mDatabase->ExecuteSqlAsync(NULL,NULL,"UPDATE character_xp SET value=value+%i WHERE xp_id=%u AND character_id=%"PRIu64"",newXpCost, skill->mXpType, player->getId());
+		gMessageLib->sendXpUpdate(skill->mXpType,player);
 	}
 	else
 	{
@@ -516,10 +514,10 @@ bool SkillManager::checkLearnSkill(uint32 skillId,PlayerObject* pupilObject)
 //************************************************************************************
 //returns either the name of the profession if its not already on the skillist or the language string
 //************************************************************************************
-string SkillManager::getSkillProfession(uint32 skillId,string leaveAsIs)
+BString SkillManager::getSkillProfession(uint32 skillId,BString leaveAsIs)
 {
 	Skill* theSkill= getSkillById(skillId);
-	string skillString = theSkill->mName.getAnsi();
+	BString skillString = theSkill->mName.getAnsi();
 	int8 str[128];
 
 	//just return languages
@@ -578,13 +576,8 @@ bool SkillManager::learnSkillLine(uint32 skillId, CreatureObject* creatureObject
 
 //======================================================================================================================
 
-void SkillManager::teach(PlayerObject* pupilObject,PlayerObject* teacherObject,string show)
+void SkillManager::teach(PlayerObject* pupilObject,PlayerObject* teacherObject,BString show)
 {
-	if(pupilObject->isDead() || teacherObject->isDead() || !pupilObject->getHam()->checkMainPools(1, 1, 1) 
-		|| !teacherObject->getHam()->checkMainPools(1, 1, 1))
-	{
-		return;
-	}
 	// pupil and teacher bozh exist and are grouped
 	// we will now compare the teachers skill list to the pupils skill list
 	// and assemble a list with the skills the pupil does not have but were she/he has the prerequesits
@@ -608,7 +601,7 @@ void SkillManager::teach(PlayerObject* pupilObject,PlayerObject* teacherObject,s
 				//is it teachable???
 				if (checkTeachSkill((*teacherIt)->mId,pupilObject))
 				{
-					string str;
+					BString str;
 
 					//now get the corresponding profession
 					//languages or the profession provided are just returned as is
@@ -652,7 +645,7 @@ void SkillManager::teach(PlayerObject* pupilObject,PlayerObject* teacherObject,s
 bool SkillManager::checkTeachSkill(uint32 skillId,PlayerObject* pupilObject)
 {
 	Skill* theSkill= getSkillById(skillId);
-	string skillString = theSkill->mName.getAnsi();
+	BString skillString = theSkill->mName.getAnsi();
 
 	//make sure its no novice profession
 	if(strstr(skillString.getAnsi(),"novice"))
@@ -786,7 +779,7 @@ void SkillManager::dropSkill(uint32 skillId,CreatureObject* creatureObject)
 
 //======================================================================================================================
 
-Skill* SkillManager::getSkillByName(string skillName)
+Skill* SkillManager::getSkillByName(BString skillName)
 {
 	SkillList::iterator it = mSkillList.begin();
 
@@ -801,9 +794,9 @@ Skill* SkillManager::getSkillByName(string skillName)
 }
 
 //======================================================================================================================
-string SkillManager::getSkillInfoById(uint32 skillId)
+BString SkillManager::getSkillInfoById(uint32 skillId)
 {
-	static string empty("");
+	static BString empty("");
 	SkillInfoList::iterator it = mSkillInfoList.begin();	// find(skillId);
 	while (it != mSkillInfoList.end())
 	{
