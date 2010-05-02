@@ -57,10 +57,10 @@ class MessageFactory
 		void                    addUint64(uint64 data);
 		void                    addFloat(float data);
 		void                    addDouble(double data);
-		void                    addString(const string& data);
-		void					addString(const char* cstring);
-		void					addString(const wchar_t* ustring);
-		void					addString(const unsigned short* ustring);
+		void                    addString(const BString& data);
+		void			addString(const char* cBString);
+		void			addString(const wchar_t* uBString);
+		void			addString(const unsigned short* uBString);
 		void                    addData(int8* data, uint16 len);
 
 		float					getHeapsize(){return mCurrentUsed;}
