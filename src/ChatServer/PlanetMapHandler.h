@@ -40,7 +40,7 @@ class PlanetMapHandlerAsyncContainer
 {
 public:
   DispatchClient*     mClient;
-  string              mPlanetName;
+  BString              mPlanetName;
 };
 
 

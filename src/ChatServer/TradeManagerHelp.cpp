@@ -109,7 +109,7 @@ void AuctionClass::AddAuction(AuctionItem Auction)
 	found = false;
 	while(itD != mNameStringList.end())
 		{
-			string s = (*itD)->GetName();
+			BString s = (*itD)->GetName();
 			if (strcmp(s.getAnsi(),Auction.Name ) == 0)//Des known s.getAnsi() == Auction.Description )
 			{
 				//get the id of our strings to save it for the auction
@@ -238,7 +238,7 @@ void CommoditiesClass::AddCommoditie(TypeListItem Commoditie)
 	//1) for every subcategory a CommoditiesType List
 
 	//get the crc we are using for identification
-	string crcstring = Commoditie.name;
+	BString crcstring = Commoditie.name;
 	uint32 crc = crcstring.getCrc();
 
 	CommoditiesItemClass* CommoditiesHashClass = new(CommoditiesItemClass);

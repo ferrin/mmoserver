@@ -229,8 +229,8 @@ void CSRManager::_processConnectPlayerMessage(Message* message, DispatchClient* 
 void CSRManager::_processAppendCommentMessage( Message* message, DispatchClient* client )
 {
 	gLogger->logMsg("CSRManager::_processAppendCommentMessage");
-	string poster;
-	string comment;
+	BString poster;
+	BString comment;
 
 	uint32 ticketid = message->getUint32();
 	message->getStringAnsi(poster);
@@ -272,11 +272,11 @@ void CSRManager::_processCancelTicketMessage( Message* message, DispatchClient* 
 
 void CSRManager::_processCreateTicketMessage( Message* message, DispatchClient* client )
 {
-	string playername;
-	string comment;
-	string info;
-	string harrassinguser;
-	string language;
+	BString playername;
+	BString comment;
+	BString info;
+	BString harrassinguser;
+	BString language;
 
 	message->getStringAnsi(playername);
 	uint32 category = message->getUint32();
@@ -311,7 +311,7 @@ void CSRManager::_processCreateTicketMessage( Message* message, DispatchClient* 
 
 void CSRManager::_processGetArticleMessage(Message *message, DispatchClient* client)
 {
-	string id;
+	BString id;
 	message->getStringAnsi(id);
 	id.convert(BSTRType_ANSI);
 
@@ -358,7 +358,7 @@ void CSRManager::_processNewTicketActivityMessage(Message *message, DispatchClie
 
 void CSRManager::_processRequestCategoriesMessage(Message *message, DispatchClient* client)
 {
-	string language;
+	BString language;
 	message->getStringAnsi(language);
 	gLogger->logMsgF("CSRManager::_processRequestCategoriesMessage %s\n", MSG_NORMAL, language.getAnsi());
 	gChatMessageLib->sendRequestCategoriesResponseMessage(client, &mCategoryList);
@@ -370,14 +370,14 @@ void CSRManager::_processRequestCategoriesMessage(Message *message, DispatchClie
 void CSRManager::_processSearchKnowledgeBaseMessage(Message *message, DispatchClient* client)
 {
 	//gLogger->logMsg("CSRManager::_processSearchKnowledgeBaseMessage\n");
-	string search;
+	BString search;
 	message->getStringUnicode16(search);
 	search.convert(BSTRType_ANSI);
 	BStringVector splitstring;
 	search.split(splitstring, ' ');
 	BStringVector::iterator iter = splitstring.begin();
 
-	string sql = "%";
+	BString sql = "%";
 	while (iter != splitstring.end())
 	{
 		int8 cleanSearchString[4000];
