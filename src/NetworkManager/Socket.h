@@ -17,7 +17,7 @@ Copyright (c) 2006 - 2010 The swgANH Team
 #ifdef WIN32
 //#define socklen_t int
 #else
-#define SOCKET unsigned int
+#define SOCKET int
 
 #endif //WIN32
 
