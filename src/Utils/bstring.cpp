@@ -699,7 +699,7 @@ int BString::split(BStringVector& retVec,char delimiter)
 
 	while(1)
 	{
-		string tmpStr;
+		BString tmpStr;
 
 		beginIndex = endIndex;
 
