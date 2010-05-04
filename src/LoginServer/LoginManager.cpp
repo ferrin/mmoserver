@@ -269,8 +269,6 @@ void LoginManager::_handleLoginClientId(LoginClient* client, Message* message)
 //======================================================================================================================
 void LoginManager::_authenticateClient(LoginClient* client, DatabaseResult* result)
 {
-  AccountData data;
-
   // This DataBinding code I'm not sure where to put atm.  I've thought about a base class for any objects that want
   // DataBinding, but I don't want to go overboard on abstraction.  Any suggestions would be appreciated.  :)
   DataBinding* binding = mDatabase->CreateDataBinding(8);
@@ -285,6 +283,7 @@ void LoginManager::_authenticateClient(LoginClient* client, DatabaseResult* resu
 
   if (result->getRowCount())
   {
+    AccountData data;
     result->GetNextRow(binding, (void*)&data);
     client->setAccountId(data.mId);
 	  client->setCharsAllowed(data.mCharsAllowed);
