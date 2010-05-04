@@ -292,7 +292,7 @@ void Session::ProcessWriteThread(void)
   uint64 wholeTime = packetBuildTime = packetBuildTimeStart = now;
 
   //only process when we are busy - we dont need to iterate through possible resends all the time
-  if((!mUnreliableMessageQueue.size())&&(!mOutgoingMessageQueue.size()))
+  if((mUnreliableMessageQueue.empty())&&(mOutgoingMessageQueue.empty()))
   {
 	  if(!mSendDelayedAck)
 	  {
@@ -322,7 +322,6 @@ void Session::ProcessWriteThread(void)
   // Process our delayed ack here
   if(mSendDelayedAck)
   {
-	
 	  //addoutgoing packet is already locking
 	// boost::recursive_mutex::scoped_lock lk(mSessionMutex);//			   
     //please note that we push it directly on the packet queue it wont be build as unreliable and wont end up in a 00 03
@@ -419,7 +418,7 @@ void Session::ProcessWriteThread(void)
 				break;
 
 			_addOutgoingReliablePacket(windowPacket);
-			iterRoll = mNewRolloverWindowPacketList.erase(iterRoll);
+			mNewRolloverWindowPacketList.erase(iterRoll++);
 			mRolloverWindowPacketList.push_back(windowPacket);
 			packetsSent++;
 
