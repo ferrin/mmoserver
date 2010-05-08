@@ -441,7 +441,7 @@ void MessageLib::sendTitleUpdate(PlayerObject* playerObject)
 	mMessageFactory->addUint16(7);
 	mMessageFactory->addString(playerObject->getTitle());
 
-	_sendToInRange(mMessageFactory->EndMessage(),playerObject,5);
+	_sendToInRange(mMessageFactory->EndMessage(),playerObject,5, true);
 }
 
 //======================================================================================================================
@@ -452,15 +452,17 @@ void MessageLib::sendTitleUpdate(PlayerObject* playerObject)
 
 void MessageLib::sendUpdatePlayerFlags(PlayerObject* playerObject)
 {
+	gLogger->logMsg("Updating Player Flags2"); 
+
 	mMessageFactory->StartMessage();               
 	mMessageFactory->addUint32(opDeltasMessage);  
 	mMessageFactory->addUint64(playerObject->getPlayerObjId());          
-	mMessageFactory->addUint32(opPLAY);           
-	mMessageFactory->addUint8(3);
+	mMessageFactory->addUint32(opPLAY);  // Type        
+	mMessageFactory->addUint8(3); // Type #
 
-	mMessageFactory->addUint32(24);
-	mMessageFactory->addUint16(1);
-	mMessageFactory->addUint16(5);
+	mMessageFactory->addUint32(24); //Object Data Size
+	mMessageFactory->addUint16(1); // Update Count
+	mMessageFactory->addUint16(5); // Update ID
 
 	mMessageFactory->addUint32(4);
 	mMessageFactory->addUint32(playerObject->getPlayerFlags());
@@ -468,7 +470,7 @@ void MessageLib::sendUpdatePlayerFlags(PlayerObject* playerObject)
 	mMessageFactory->addUint32(0);
 	mMessageFactory->addUint32(0);
 
-	_sendToInRange(mMessageFactory->EndMessage(),playerObject,5);
+	_sendToInRange(mMessageFactory->EndMessage(),playerObject,5, true);
 }
 
 //======================================================================================================================
