@@ -119,7 +119,7 @@ void ResourceCollectionManager::handleDatabaseJobComplete(void* ref,DatabaseResu
 gLogger->logMsgLoadSuccess("ResourceCollectionManager::Loading sample costs...",MSG_NORMAL);	
 #endif
 
-				else
+				else	
 					gLogger->logMsgLoadFailure("ResourceCollectionManager::Loading sample costs...",MSG_NORMAL);					
 
 			}

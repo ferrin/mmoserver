@@ -128,7 +128,10 @@ WorldManager::WorldManager(uint32 zoneId,ZoneServer* zoneServer,Database* databa
 
 	SkillManager::Init(database);
 	SchematicManager::Init(database);
-	ResourceManager::Init(database,mZoneId);
+	if(zoneId!=41)
+	{
+		ResourceManager::Init(database,mZoneId);
+	}
 	ResourceCollectionManager::Init(database);
 	TreasuryManager::Init(database);
 	ConversationManager::Init(database);
@@ -854,7 +857,10 @@ void WorldManager::_handleLoadComplete()
 	mDatabase->releaseBindingPoolMemory();
 	mWM_DB_AsyncPool.release_memory();
 	gObjectFactory->releaseAllPoolsMemory();
-	//gResourceManager->releaseAllPoolsMemory();
+	if(mZoneId!=41)
+	{
+		gResourceManager->releaseAllPoolsMemory();
+	}
 	gSchematicManager->releaseAllPoolsMemory();
 	gSkillManager->releaseAllPoolsMemory();
 

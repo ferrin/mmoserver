@@ -65,11 +65,13 @@ void WorldManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 					{
 						// this loads all buildings with cells and objects they contain
 						_loadBuildings();	 //NOT PlayerStructures!!!!!!!!!!!!!!!!!!!!!!!!!! they are handled seperately further down
-						// load objects in world
-						_loadAllObjects(0);
 						
 						if(mZoneId!=41)
 						{
+							// load objects in world
+							_loadAllObjects(0);
+						
+						
 							// load zone regions
 							mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_ZoneRegions),"SELECT id FROM zone_regions WHERE planet_id=%u ORDER BY id;",mZoneId);
 						}
