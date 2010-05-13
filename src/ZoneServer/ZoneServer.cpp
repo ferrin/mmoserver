@@ -147,7 +147,10 @@ mDatabase(0)
 	FoodCommandMapClass::Init();
 	
 	//structuremanager callback functions 
-	StructureManagerCommandMapClass::Init();
+	//if(zoneId!=41)
+	//{	
+		StructureManagerCommandMapClass::Init();
+	//}
 
 	WorldManager::Init(zoneId,this,mDatabase);
 
@@ -173,7 +176,11 @@ mDatabase(0)
 	AdminManager::Init(mMessageDispatch);
 	EntertainerManager::Init(mDatabase,mMessageDispatch);
 	GroupManager::Init(mDatabase,mMessageDispatch);
-	StructureManager::Init(mDatabase,mMessageDispatch);
+	
+	if(zoneId!=41)
+	{	
+		StructureManager::Init(mDatabase,mMessageDispatch);
+	}
 	// Invoked when all creature regions for spawning of lairs are loaded
 	// (void)NpcManager::Instance();
 

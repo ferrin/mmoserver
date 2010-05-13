@@ -133,8 +133,10 @@ WorldManager::WorldManager(uint32 zoneId,ZoneServer* zoneServer,Database* databa
 	TreasuryManager::Init(database);
 	ConversationManager::Init(database);
 	CraftingSessionFactory::Init(database);
-    MissionManager::Init(database,mZoneId);
-
+    if(zoneId!=41)
+	{	
+		MissionManager::Init(database,mZoneId);
+	}
 	// register world script hooks
 	_registerScriptHooks();
 
