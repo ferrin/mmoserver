@@ -63,7 +63,10 @@ void AttackableStaticNpc::prepareCustomRadialMenu(CreatureObject* creatureObject
 
 	if (this->checkPvPState(CreaturePvPStatus_Attackable))
 	{
-		gLogger->logMsgF("AttackableStaticNpc::prepareCustomRadialMenu IS attackable\n" ,MSG_NORMAL);
+		#if defined(_DEBUG)
+			gLogger->logMsgF("AttackableStaticNpc::prepareCustomRadialMenu IS attackable\n" ,MSG_NORMAL);
+		#endif
+			
 
 		// mRadialMenu = RadialMenuPtr(new RadialMenu());
 		mRadialMenu->addItem(1,0,radId_combatAttack,radAction_Default); 
@@ -71,14 +74,19 @@ void AttackableStaticNpc::prepareCustomRadialMenu(CreatureObject* creatureObject
 	}
 	else
 	{
-		gLogger->logMsgF("AttackableStaticNpc::prepareCustomRadialMenu is NOT attackable\n" ,MSG_NORMAL);
+		#if defined(_DEBUG)
+			gLogger->logMsgF("AttackableStaticNpc::prepareCustomRadialMenu is NOT attackable\n" ,MSG_NORMAL);
+		#endif
 		mRadialMenu->addItem(1,0,radId_examine,radAction_Default); 
 	}
 }
 
 void AttackableStaticNpc::respawn(void)
 {
-	gLogger->logMsgF("AttackableStaticNpc::respawn: Added new static object for spawn, with id = %"PRIu64"", MSG_NORMAL, this->getId());
+	#if defined(_DEBUG)
+			gLogger->logMsgF("AttackableStaticNpc::respawn: Added new static object for spawn, with id = %"PRIu64"", MSG_NORMAL, this->getId());
+	#endif
+			
 
 	// The cell we will spawn in.
 	this->setParentId(getCellIdForSpawn());

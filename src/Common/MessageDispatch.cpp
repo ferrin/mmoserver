@@ -186,7 +186,9 @@ void MessageDispatch::handleSessionMessage(NetworkClient* client, Message* messa
 	}
 	else
 	{
-		gLogger->logMsgF("Unhandled opcode in MessageDispatch - 0x%x (%i)", MSG_NORMAL, opcode, opcode);
+		#if defined(_DEBUG)
+			gLogger->logMsgF("Unhandled opcode in MessageDispatch - 0x%x (%i)", MSG_NORMAL, opcode, opcode);
+		#endif
 	}
 
 	

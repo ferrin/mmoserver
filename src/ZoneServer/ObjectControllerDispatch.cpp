@@ -58,7 +58,10 @@ void ObjectControllerDispatch::handleDispatchMessage(uint32 opcode,Message* mess
 		_dispatchObjectMenuSelect(message,client);
 
 	else
-		gLogger->logMsgF("ObjectControllerDispatch: Unhandled opcode %u",MSG_HIGH,opcode);
+		#if defined(_DEBUG)
+			gLogger->logMsgF("ObjectControllerDispatch: Unhandled opcode %u",MSG_HIGH,opcode);
+		#endif
+	
 
 	message->setPendingDelete(true);
 	message->mSourceId = 55;

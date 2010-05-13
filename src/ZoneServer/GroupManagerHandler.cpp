@@ -108,7 +108,10 @@ void GroupManagerHandler::handleDispatchMessage(uint32 opcode, Message* message,
 		break;
 
 		default:
+		#if defined(_DEBUG)
 			gLogger->logMsgF("GroupManagerHandlerMessage::handleDispatchMessage: Unhandled opcode %u",MSG_NORMAL,opcode);
+		#endif
+			
 		break;
 	}
 }

@@ -203,7 +203,7 @@ void CharacterLoginHandler::handleDispatchMessage(uint32 opcode, Message* messag
 		// request a load from db
 		else
 		{
-			gLogger->logMsgF("all other cases",MSG_NORMAL);
+		//	gLogger->logMsgF("all other cases",MSG_NORMAL);
 //			gLogger->logMsgF("New Player: %"PRIu64", Total Players on zone : %i",MSG_NORMAL,playerId,(gWorldManager->getPlayerAccMap())->size() + 1);
 			gObjectFactory->requestObject(ObjType_Player,0,0,this,playerId,client);
 		}
@@ -338,7 +338,9 @@ void CharacterLoginHandler::handleDispatchMessage(uint32 opcode, Message* messag
 	break;
 
 	default:
-		gLogger->logMsgF("CharacterLoginHandler::handleDispatchMessage: Unhandled opcode %u",MSG_NORMAL,opcode);
+		#if defined(_DEBUG)
+			gLogger->logMsgF("CharacterLoginHandler::handleDispatchMessage: Unhandled opcode %u",MSG_NORMAL,opcode);
+		#endif
 	break;
   }
 }

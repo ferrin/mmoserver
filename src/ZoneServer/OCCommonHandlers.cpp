@@ -242,7 +242,10 @@ void ObjectController::_handleTransferItem(uint64 targetId,Message* message,Obje
 
 	if (!itemObject)
 	{
-		gLogger->logMsg("ObjController::_handleTransferItemMisc: No Object to transfer :(");
+		#if defined(_DEBUG)
+			gLogger->logMsg(" ObjController::_handleTransferItemMisc: No Object to transfer :(");
+		#endif
+			
 		//no Object :(
 		return;
 	}
