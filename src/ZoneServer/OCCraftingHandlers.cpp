@@ -237,7 +237,9 @@ void ObjectController::_handleCancelCraftingSession(uint64 targetId,Message* mes
 
 	gCraftingSessionFactory->destroySession(playerObject->getCraftingSession());
 
-	gLogger->logMsg("session canceled");
+	#if defined(_DEBUG)
+		gLogger->logMsg("session canceled");
+	#endif
 	//client complains over crafting tool already hacing an item when we go out of the slot screen!!!!!
 }
 

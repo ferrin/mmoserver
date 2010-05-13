@@ -127,11 +127,12 @@ void MessageDispatch::handleSessionMessage(NetworkClient* client, Message* messa
 			dispatchClient = (*iter).second;
 			mAccountClientMap.erase(iter);
 
-			gLogger->logMsgF("Destroying DispatchClient for account %u.", MSG_NORMAL, message->getAccountId());
+			#if defined(_DEBUG)
+				gLogger->logMsgF("Destroying DispatchClient for account %u.", MSG_NORMAL, message->getAccountId());
+			#endif
 
 			// Mark it for deletion
 			deleteClient = true;
-	
 		}
 		else
 		{
