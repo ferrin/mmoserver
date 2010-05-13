@@ -376,9 +376,11 @@ void WorldManager::LoadCurrentGlobalTick()
 	mDatabase->DestroyDataBinding(tickbinding);
 	mDatabase->DestroyResult(temp);
 
-	char strtemp[100];
-	sprintf(strtemp, " Current Global Tick Count = %"PRIu64"\n",Tick);
-	gLogger->logMsg(strtemp, FOREGROUND_GREEN);
+	#if defined(_DEBUG)
+		char strtemp[100];
+		sprintf(strtemp, " Current Global Tick Count = %"PRIu64"\n",Tick);
+		gLogger->logMsg(strtemp, FOREGROUND_GREEN);
+	#endif
 	mTick = Tick;
 	mSubsystemScheduler->addTask(fastdelegate::MakeDelegate(this,&WorldManager::_handleTick),7,1000,NULL);
 }

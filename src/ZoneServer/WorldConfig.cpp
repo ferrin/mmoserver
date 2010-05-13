@@ -64,9 +64,10 @@ WorldConfig::~WorldConfig()
 
 void WorldConfig::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 {
-	
-	buildAttributeMap(result);
-
+	if(mZoneId!=41)
+	{
+		buildAttributeMap(result);
+	}
 	// verify loaded settings, unless we cant do table level checks with crap mysql
 	
 	// Container Depth
@@ -188,8 +189,9 @@ void WorldConfig::buildAttributeMap(DatabaseResult* result)
 	mConfigurationBinding->addField(DFT_bstring,offsetof(Configuration_QueryContainer,mValue),128,1);
 	
 	#if !defined(_DEBUG)
-	#endif
 		gLogger->logMsg(" Adding Configuration:");
+	#endif
+
 	#if defined(_DEBUG)
 		gLogger->logMsg(" WorldConfig::adding Configuration: ");
 	#endif
@@ -197,14 +199,11 @@ void WorldConfig::buildAttributeMap(DatabaseResult* result)
 	for(uint64 i = 0;i < count;i++)
 	{
 		result->GetNextRow(mConfigurationBinding,(void*)&attribute);
-		#if !defined(_DEBUG)
-	#endif
 		gLogger->logMsgF("Adding Attribute %s: %s ",MSG_NORMAL,attribute.mKey.getAnsi(),attribute.mValue.getAnsi());
-	#if defined(_DEBUG)
-		gLogger->logMsgF("WorldConfig::adding Attribute %s :: %s ",MSG_NORMAL,attribute.mKey.getAnsi(),attribute.mValue.getAnsi());
-	#endif
+		#if defined(_DEBUG)
+			gLogger->logMsgF("WorldConfig::adding Attribute %s :: %s ",MSG_NORMAL,attribute.mKey.getAnsi(),attribute.mValue.getAnsi());
+		#endif
 		
-
 		if(hasConfiguration(attribute.mKey))
 		{
 			setConfiguration(attribute.mKey,std::string(attribute.mValue.getAnsi()));
@@ -217,24 +216,23 @@ void WorldConfig::buildAttributeMap(DatabaseResult* result)
 
 	if(count > 0)
 	{
-				#if !defined(_DEBUG)
-	gLogger->logMsgLoadSuccess(" %u attributes mapped...",MSG_NORMAL,count);
-#endif
-	
-#if defined(_DEBUG)
-gLogger->logMsgLoadSuccess("WorldConfig:: %u attributes mapped...",MSG_NORMAL,count);		
-#endif
+		#if !defined(_DEBUG)
+			gLogger->logMsgLoadSuccess(" %u attributes mapped...",MSG_NORMAL,count);
+		#endif
+		
+		#if defined(_DEBUG)
+			gLogger->logMsgLoadSuccess("WorldConfig:: %u attributes mapped...",MSG_NORMAL,count);		
+		#endif
 	}
 	else
 	{
-	#if !defined(_DEBUG)
-		gLogger->logMsgLoadFailure(" Mapping attributes...",MSG_NORMAL);
-	#endif
-	
-	#if defined(_DEBUG)
-		gLogger->logMsgLoadFailure("WorldConfig::mapping attributes...",MSG_NORMAL);
-	#endif
-				
+		#if !defined(_DEBUG)
+			gLogger->logMsgLoadFailure(" Mapping attributes...",MSG_NORMAL);
+		#endif
+		
+		#if defined(_DEBUG)
+			gLogger->logMsgLoadFailure("WorldConfig::mapping attributes...",MSG_NORMAL);
+		#endif			
 	}
 
 }

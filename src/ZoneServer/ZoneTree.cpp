@@ -44,7 +44,7 @@ void ZoneTree::Init(double fillFactor,uint32 indexCap,uint32 leafCap,uint32 dime
 {
 	
 	#if !defined(_DEBUG)
-		gLogger->logMsgF("SpatialIndex initializing...",MSG_NORMAL);	
+		gLogger->logMsgLoadSuccess("SpatialIndex initializing...",MSG_NORMAL);	
 	#endif
 	
 	#if defined(_DEBUG)
@@ -59,7 +59,7 @@ void ZoneTree::Init(double fillFactor,uint32 indexCap,uint32 leafCap,uint32 dime
 		mTree = RTree::createNewRTree(*mStorageBuffer,fillFactor,indexCap,leafCap,dimensions,SpatialIndex::RTree::RV_RSTAR,mIndexIdentifier);
 
 		mResourceUsage.start();
-		gLogger->logMsgOk(54);
+		//gLogger->logMsgOk(54);
 	}
 	catch(Tools::Exception& e)
 	{
