@@ -67,10 +67,12 @@ void WorldManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 						_loadBuildings();	 //NOT PlayerStructures!!!!!!!!!!!!!!!!!!!!!!!!!! they are handled seperately further down
 						// load objects in world
 						_loadAllObjects(0);
-
-						// load zone regions
-						mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_ZoneRegions),"SELECT id FROM zone_regions WHERE planet_id=%u ORDER BY id;",mZoneId);
-
+						
+						if(mZoneId!=41)
+						{
+							// load zone regions
+							mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_ZoneRegions),"SELECT id FROM zone_regions WHERE planet_id=%u ORDER BY id;",mZoneId);
+						}
 						// load client effects
 						if(!mDebug)
 						mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_ClientEffects),"SELECT * FROM clienteffects ORDER BY id;");
@@ -95,17 +97,21 @@ void WorldManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 						// load npc chatter
 						if(!mDebug)
 						mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_NpcChatter),"SELECT * FROM npc_chatter WHERE planetId=%u OR planetId=99;",mZoneId);
-
-						// load cities
-						mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_Cities),"SELECT id FROM cities WHERE planet_id=%u ORDER BY id;",mZoneId);
-
-						// load badge regions
-						if(!mDebug)
-						mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_BadgeRegions),"SELECT id FROM badge_regions WHERE planet_id=%u ORDER BY id;",mZoneId);
-
-						//load spawn regions
-						mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_SpawnRegions),"SELECT id FROM spawn_regions WHERE planet_id=%u ORDER BY id;",mZoneId);
-
+						
+						if(mZoneId!=41)
+						{
+							// load cities
+							mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_Cities),"SELECT id FROM cities WHERE planet_id=%u ORDER BY id;",mZoneId);
+						
+							
+							// load badge regions
+							if(!mDebug)
+							mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_BadgeRegions),"SELECT id FROM badge_regions WHERE planet_id=%u ORDER BY id;",mZoneId);
+						
+						
+							//load spawn regions
+							mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_SpawnRegions),"SELECT id FROM spawn_regions WHERE planet_id=%u ORDER BY id;",mZoneId);
+						
 						// load world scripts
 						mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_WorldScripts),"SELECT priority,file FROM config_zone_scripts WHERE planet_id=%u ORDER BY id;",mZoneId);
 
@@ -120,7 +126,7 @@ void WorldManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 
 						// load playerhouses
 						mDatabase->ExecuteSqlAsync(this,new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_Houses),"SELECT s.id FROM structures s INNER JOIN houses h ON (s.id = h.id) WHERE zone=%u ORDER BY id;",mZoneId);
-										
+						}		
 
 					}
 					// no objects to load, so we are done
@@ -589,21 +595,25 @@ void WorldManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 					}
 
 					if(result->getRowCount())
-						#if !defined(_DEBUG)
-					gLogger->logMsgLoadSuccess(" Loading %u city regions...",MSG_NORMAL,count);
-				#endif
-				#if defined(_DEBUG)
-					gLogger->logMsgLoadSuccess("WorldManager::Loading %u city regions...",MSG_NORMAL,count);
-				#endif
-					else
-						#if !defined(_DEBUG)
-gLogger->logMsgLoadFailure(" Loading city regions...",MSG_NORMAL);
-#endif
-				#if defined(_DEBUG)
-gLogger->logMsgLoadFailure("WorldManager::Loading city regions...",MSG_NORMAL);
-#endif
-					
 
+					#if !defined(_DEBUG)
+						gLogger->logMsgLoadSuccess(" Loading %u city regions...",MSG_NORMAL,count);
+					#endif
+
+					#if defined(_DEBUG)
+						gLogger->logMsgLoadSuccess("WorldManager::Loading %u city regions...",MSG_NORMAL,count);
+					#endif
+
+					else
+					
+					#if !defined(_DEBUG)
+							gLogger->logMsgLoadFailure(" Loading city regions...",MSG_NORMAL);
+					#endif
+					
+					#if defined(_DEBUG)
+							gLogger->logMsgLoadFailure("WorldManager::Loading city regions...",MSG_NORMAL);
+					#endif
+					
 					mDatabase->DestroyDataBinding(cityBinding);
 				}
 				break;

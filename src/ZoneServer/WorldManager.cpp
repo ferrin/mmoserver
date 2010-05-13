@@ -854,10 +854,12 @@ void WorldManager::_handleLoadComplete()
 	mDatabase->releaseBindingPoolMemory();
 	mWM_DB_AsyncPool.release_memory();
 	gObjectFactory->releaseAllPoolsMemory();
-	gResourceManager->releaseAllPoolsMemory();
+	//gResourceManager->releaseAllPoolsMemory();
 	gSchematicManager->releaseAllPoolsMemory();
 	gSkillManager->releaseAllPoolsMemory();
 
+if(mZoneId!=41)
+{
 	if (!Heightmap::Instance())
 	{
 		assert(false && "WorldManager::_handleLoadComplete Missing heightmap, download at http://www.swganh.com/!!planets!!/PLANET_NAME.rar");
@@ -890,7 +892,7 @@ void WorldManager::_handleLoadComplete()
 	{
 		gLogger->logMsgF("WorldManager::_handleLoadComplete heigthmap cache setup FAILED", MSG_NORMAL);
 	}
-
+}
 	// register script hooks
 	_startWorldScripts();
 
