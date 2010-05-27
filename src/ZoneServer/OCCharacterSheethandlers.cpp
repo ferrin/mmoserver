@@ -229,8 +229,8 @@ void ObjectController::_handleSetBiography(uint64 targetId,Message* message,Obje
 	player->setBiography(bio);
 
 	bio.convert(BSTRType_ANSI);
-	sprintf(sql,"UPDATE character_biography SET biography ='");
-	sprintf(end,"' WHERE character_id = %"PRIu64"",player->getId());
+	snprintf(sql,sizeof(sql),"UPDATE character_biography SET biography ='");
+	snprintf(end,sizeof(end),"' WHERE character_id = %"PRIu64"",player->getId());
 	sqlPointer = sql + strlen(sql);
 	sqlPointer += mDatabase->Escape_String(sqlPointer,bio.getAnsi(),bio.getLength());
 	strcat(sql,end);

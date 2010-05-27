@@ -58,7 +58,7 @@ void CampTerminal::handleObjectMenuSelect(uint8 messageType,Object* srcObject)
 		CampRegion* region = dynamic_cast<CampRegion*>(gWorldManager->getObjectById(this->mCampRegionId));
 
 		int8 text[64];
-		sprintf(text,"Owner: %s",region->getCampOwnerName().getAnsi());
+		snprintf(text,sizeof(text),"Owner: %s",region->getCampOwnerName().getAnsi());
 		mAttributesMenu.push_back(text);
 
 		uint32 time = static_cast<uint32>(region->getUpTime());
@@ -70,17 +70,17 @@ void CampTerminal::handleObjectMenuSelect(uint8 messageType,Object* srcObject)
 		time -=(minutes*60);
 		uint32 seconds = (uint32)time;
 
-		sprintf(text,"Up-Time: %u hours, %u minutes and %u seconds",hours, minutes, seconds);
+		snprintf(text,sizeof(text),"Up-Time: %u hours, %u minutes and %u seconds",hours, minutes, seconds);
 		mAttributesMenu.push_back(text);
 
-		sprintf(text,"Total Visitors: %u ", region->getVisitors());
+		snprintf(text,sizeof(text),"Total Visitors: %u ", region->getVisitors());
 		mAttributesMenu.push_back(text);
 
-		sprintf(text,"Current Visitors: %u ", region->getCurrentVisitors());
+		snprintf(text,sizeof(text),"Current Visitors: %u ", region->getCurrentVisitors());
 		mAttributesMenu.push_back(text);
 
-		//sprintf(text,"Healing Modifier: %f ", camp->getHealingModifier());
-		sprintf(text,"Healing Modifier: 0.65 ");
+		//snprintf(text,sizeof(text),"Healing Modifier: %f ", camp->getHealingModifier());
+		snprintf(text,sizeof(text),"Healing Modifier: 0.65 ");
 		mAttributesMenu.push_back(text);
 
 		gUIManager->createNewListBox(this,"handleMainMenu","Camp status","Below is a summary of the status of the camp.", mAttributesMenu,playerObject,SUI_Window_ListBox);

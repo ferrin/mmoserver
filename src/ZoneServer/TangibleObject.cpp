@@ -174,10 +174,10 @@ void TangibleObject::setCustomNameIncDB(const int8* name)
 {
 	mCustomName = name; 
 	int8 sql[1024],restStr[128],*sqlPointer;
-	sprintf(sql,"UPDATE items SET customName='");
+	snprintf(sql,sizeof(sql),"UPDATE items SET customName='");
 		sqlPointer = sql + strlen(sql);
 		sqlPointer += gWorldManager->getDatabase()->Escape_String(sqlPointer,mCustomName.getAnsi(),mCustomName.getLength());
-		sprintf(restStr,"' WHERE id=%"PRIu64" ",this->getId());
+		snprintf(restStr,sizeof(restStr),"' WHERE id=%"PRIu64" ",this->getId());
 	
 	strcat(sql,restStr);
 	gWorldManager->getDatabase()->ExecuteSqlAsync(0,0,sql);

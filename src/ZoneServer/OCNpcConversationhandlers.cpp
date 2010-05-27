@@ -80,7 +80,7 @@ void ObjectController::_handleNPCConversationStart(uint64 targetId,Message* mess
 		{
             float distance = glm::distance(player->mPosition, npc->mPosition);
 			char buffer[100];
-			sprintf(buffer, "You are out of range (%f m).", distance);
+			snprintf(buffer,sizeof(buffer), "You are out of range (%f m).", distance);
 			string msg(buffer);
 			msg.convert(BSTRType_Unicode16);
 			gMessageLib->sendSystemMessage(player,msg);

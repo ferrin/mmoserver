@@ -392,7 +392,7 @@ void ItemFactory::_postProcessAttributes(Object* object)
 
 					int8 sql[250];
 					item->addAttribute("craft_tool_time","0");
-					sprintf(sql,"INSERT INTO item_attributes VALUES(%"PRIu64",%u,'0',0,0)",item->getId(),AttrType_CraftToolTime);
+					snprintf(sql,sizeof(sql),"INSERT INTO item_attributes VALUES(%"PRIu64",%u,'0',0,0)",item->getId(),AttrType_CraftToolTime);
 					mDatabase->ExecuteSqlAsync(0,0,sql);
 				}
 			}

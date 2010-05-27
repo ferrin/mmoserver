@@ -268,7 +268,7 @@ uint64 AdminManager::handleAdminRequest(uint64 requestType, uint64 timeOverdue)
 			{
 				// We are done.
 				// TODO: halt this zone.
-				sprintf(rawData,"Server shutting down.");
+				snprintf(rawData,sizeof(rawData),"Server shutting down.");
 				mTerminateServer = true;
 			}
 			else
@@ -306,7 +306,7 @@ uint64 AdminManager::handleAdminRequest(uint64 requestType, uint64 timeOverdue)
 						}
 					}
 				}
-				sprintf(rawData,"Server shutting down in %"PRId32" %s.", value, unit.getAnsi());
+				snprintf(rawData,sizeof(rawData),"Server shutting down in %"PRId32" %s.", value, unit.getAnsi());
 			}
 
 			string broadcast(rawData);

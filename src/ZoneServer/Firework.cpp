@@ -202,7 +202,7 @@ void FireworkShow::handleObjectMenuSelect(uint8 messageType,Object* srcObject)
 					Object* object = (*containerObjectIt);
 					if (Item* item = dynamic_cast<Item*>(object))
 					{
-						sprintf(text,"%s",item->getCustomName().getAnsi());
+						snprintf(text, sizeof(text),"%s",item->getCustomName().getAnsi());
 						mFireworkList.push_back(text);
 					}
 					++containerObjectIt;
@@ -227,7 +227,7 @@ void FireworkShow::handleObjectMenuSelect(uint8 messageType,Object* srcObject)
 					float delay = event.delay;
 					delay/=10;
 
-					sprintf(text,"(%i:%0.1fs) %s",fireworkNumber++,delay,_getType(event.typeId).getAnsi());
+					snprintf(text, sizeof(text),"(%i:%0.1fs) %s",fireworkNumber++,delay,_getType(event.typeId).getAnsi());
 
 					mFireworkList.push_back(text);
 					++containerObjectIt;
@@ -254,7 +254,7 @@ void FireworkShow::handleObjectMenuSelect(uint8 messageType,Object* srcObject)
 					float delay = event.delay;
 					delay/=10;
 
-					sprintf(text,"(%i:%0.1fs) %s",fireworkNumber++,delay,_getType(event.typeId).getAnsi());
+					snprintf(text, sizeof(text),"(%i:%0.1fs) %s",fireworkNumber++,delay,_getType(event.typeId).getAnsi());
 
 					mFireworkList.push_back(text);
 					++containerObjectIt;

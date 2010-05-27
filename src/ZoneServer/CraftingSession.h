@@ -152,7 +152,7 @@ class CraftingSession : public DatabaseCallback, public ObjectFactoryCallback
 		//	(float)(i / 100.00);
 
 			int8 str[32];
-			sprintf(str,"%.2f",(float)(i / 100.00));
+			snprintf(str,sizeof(str),"%.2f",(float)(i / 100.00));
 			return boost::lexical_cast<float>(str);
 		}
 
@@ -162,7 +162,7 @@ class CraftingSession : public DatabaseCallback, public ObjectFactoryCallback
 		//	(float)(i / 100.00);
 
 			int8 str[32];
-			sprintf(str,"%.2f",(float)(i / 100.00));
+			snprintf(str,sizeof(str),"%.2f",(float)(i / 100.00));
 			return BString(str);
 		}
 

@@ -44,7 +44,7 @@ void UIInputField::addMessageData()
 	string	strTrue		= L"True";
 
 	string lengthStr;
-	lengthStr.setLength(sprintf(lengthStr.getAnsi(),"%u",mMaxLength));
+	lengthStr.setLength(snprintf(lengthStr.getAnsi(), sizeof(lengthStr.getAnsi()),"%u",mMaxLength));
 	lengthStr.convert(BSTRType_Unicode16);
 
 	if(mEnabled)

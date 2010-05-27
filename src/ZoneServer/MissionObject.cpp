@@ -164,7 +164,7 @@ void MissionObject::sendAttributes(PlayerObject* playerObject)
 	//Description
 	gMessageFactory->addString("description");
 	char buff[255];//crude method but effective for using char %s to wchar_t buffer
-	sprintf(buff,"@%s:%s",mDetailFile.getRawData(),mDetail.getRawData());
+	snprintf(buff, sizeof(buff),"@%s:%s",mDetailFile.getRawData(),mDetail.getRawData());
 	string desc = buff;
 	desc.convert(BSTRType_Unicode16);
 	gMessageFactory->addString(desc);
@@ -178,7 +178,7 @@ void MissionObject::sendAttributes(PlayerObject* playerObject)
 	//Reward
 	char meanBuff[255];
 	gMessageFactory->addString("@ui_mission:table_payment");
-	sprintf(meanBuff,"%d",mReward);
+	snprintf(meanBuff, sizeof(meanBuff),"%d",mReward);
 	
 	str = meanBuff; 
 	str.convert(BSTRType_Unicode16);
@@ -186,7 +186,7 @@ void MissionObject::sendAttributes(PlayerObject* playerObject)
 
 	//Difficulty
 	gMessageFactory->addString("@ui_mission:table_difficulty");
-	sprintf(meanBuff,"%d",mDifficulty);
+	snprintf(meanBuff, sizeof(meanBuff),"%d",mDifficulty);
 	str = meanBuff; 
 	str.convert(BSTRType_Unicode16);
 

@@ -1698,7 +1698,7 @@ void ObjectController::_BurstRun(uint64 targetId,Message* message,ObjectControll
 	
 	//Now send the burst run combat spam message to InRange
 	int8 s[256];
-	sprintf(s,"%s %s puts on a sudden burst of speed.",player->getFirstName().getAnsi(),player->getLastName().getAnsi());
+	snprintf(s, sizeof(s),"%s %s puts on a sudden burst of speed.",player->getFirstName().getAnsi(),player->getLastName().getAnsi());
 	BString bs(s);
 	bs.convert(BSTRType_Unicode16);
 	gMessageLib->sendCombatSpam(player,player,0,"","",0,0,bs.getUnicode16());

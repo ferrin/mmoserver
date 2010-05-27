@@ -572,7 +572,11 @@ void PlayerObject::onBurstRun(const BurstRunEvent* event)
 		{
 			gMessageLib->sendSysMsg(this,"combat_effects","burst_run_not_tired");
 			this->togglePlayerCustomFlagOff(PlayerCustomFlag_BurstRunCD);	
-
+		}
+		else
+		{
+			gMessageLib->sendSysMsg(this,"combat_effects","burst_run_tired");
+			this->togglePlayerCustomFlagOff(PlayerCustomFlag_BurstRun);	
 		}
 	}
 
@@ -583,20 +587,13 @@ void PlayerObject::onBurstRun(const BurstRunEvent* event)
 		{
 			gMessageLib->sendSystemMessage(this,L"You slow down.");
 			int8 s[256];
-			sprintf(s,"%s %s slows down.",this->getFirstName().getAnsi(),this->getLastName().getAnsi());
+			snprintf(s,sizeof(s),"%s %s slows down.",this->getFirstName().getAnsi(),this->getLastName().getAnsi());
 			BString bs(s);
 			bs.convert(BSTRType_Unicode16);
 			gMessageLib->sendCombatSpam(this,this,0,"","",0,0,bs.getUnicode16());
 
-
-			gMessageLib->sendSysMsg(this,"combat_effects","burst_run_tired");
-			this->togglePlayerCustomFlagOff(PlayerCustomFlag_BurstRun);	
-
 			this->setCurrentSpeedModifier(this->getBaseSpeedModifier());
 			gMessageLib->sendUpdateMovementProperties(this);
-
-
-
 		}
 	}
 

@@ -344,7 +344,7 @@ void FactoryFactory::requestObject(ObjectFactoryCallback* ofCallback,uint64 id,u
 	//request the harvesters Data first
 	
 	int8 hmm[1024];
-	sprintf(hmm,	"SELECT s.id,s.owner,s.oX,s.oY,s.oZ,s.oW,s.x,s.y,s.z,"
+	snprintf(hmm, sizeof(hmm),	"SELECT s.id,s.owner,s.oX,s.oY,s.oZ,s.oW,s.x,s.y,s.z,"
 					"std.type,std.object_string,std.stf_name, std.stf_file, s.name,"
 					"std.lots_used, f.active, std.maint_cost_wk, std.power_used, std.schematicMask, s.condition, std.max_condition, f.ManSchematicId "
 					"FROM structures s INNER JOIN structure_type_data std ON (s.type = std.type) INNER JOIN factories f ON (s.id = f.id) " 

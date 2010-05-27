@@ -225,7 +225,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 
 			int8 sql[250];
 			// Now update the time of the last EMail
-			sprintf(sql,"UPDATE structures SET structures.lastMail = %I64u WHERE ID = %I64u", gTradeManagerChat->getGlobalTickCount(), asynContainer->harvesterID);
+			snprintf(sql,sizeof(sql),"UPDATE structures SET structures.lastMail = %I64u WHERE ID = %I64u", gTradeManagerChat->getGlobalTickCount(), asynContainer->harvesterID);
 			
 			mDatabase->ExecuteSqlAsync(0,0,sql);
 
@@ -292,7 +292,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 
 			int8 sql[250];
 			// Now update the time of the last EMail
-			sprintf(sql,"UPDATE structures SET structures.lastMail = %I64u WHERE ID = %I64u", gTradeManagerChat->getGlobalTickCount(), asynContainer->harvesterID);
+			snprintf(sql,sizeof(sql),"UPDATE structures SET structures.lastMail = %I64u WHERE ID = %I64u", gTradeManagerChat->getGlobalTickCount(), asynContainer->harvesterID);
 			
 			mDatabase->ExecuteSqlAsync(0,0,sql);
 
@@ -357,7 +357,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 
 			int8 sql[250];
 			// Now update the time of the last EMail
-			sprintf(sql,"UPDATE structures SET structures.lastMail = %I64u WHERE ID = %I64u", gTradeManagerChat->getGlobalTickCount(), asynContainer->harvesterID);
+			snprintf(sql,sizeof(sql),"UPDATE structures SET structures.lastMail = %I64u WHERE ID = %I64u", gTradeManagerChat->getGlobalTickCount(), asynContainer->harvesterID);
 			
 			mDatabase->ExecuteSqlAsync(0 ,0 ,sql);
 
@@ -389,7 +389,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 				int8 sql[500];
 
 				//start by using power
-				sprintf(sql,"SELECT s.owner, st.stf_file, st.stf_name, s.x, s.z, p.name, s.lastMail FROM structures s INNER JOIN structure_type_data st ON (s.type = st.type) INNER JOIN planet p ON (p.planet_id = s.zone)WHERE ID = %I64u",asynContainer->harvesterID);
+				snprintf(sql,sizeof(sql),"SELECT s.owner, st.stf_file, st.stf_name, s.x, s.z, p.name, s.lastMail FROM structures s INNER JOIN structure_type_data st ON (s.type = st.type) INNER JOIN planet p ON (p.planet_id = s.zone)WHERE ID = %I64u",asynContainer->harvesterID);
 				StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_StructureMailOOFMaint,0);
 				asyncContainer->harvesterID = asynContainer->harvesterID;
 				
@@ -403,7 +403,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 				int8 sql[500];
 
 				//start by using power
-				sprintf(sql,"SELECT s.owner, st.stf_file, st.stf_name, s.x, s.z, p.name, st.max_condition, s.condition, s.lastMail FROM structures s INNER JOIN structure_type_data st ON (s.type = st.type) INNER JOIN planet p ON (p.planet_id = s.zone)WHERE ID = %I64u",asynContainer->harvesterID);
+				snprintf(sql,sizeof(sql),"SELECT s.owner, st.stf_file, st.stf_name, s.x, s.z, p.name, st.max_condition, s.condition, s.lastMail FROM structures s INNER JOIN structure_type_data st ON (s.type = st.type) INNER JOIN planet p ON (p.planet_id = s.zone)WHERE ID = %I64u",asynContainer->harvesterID);
 				StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_StructureMailDamage,0);
 				asyncContainer->harvesterID = asynContainer->harvesterID;
 				
@@ -417,7 +417,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 				int8 sql[500];
 
 				//start by using power
-				sprintf(sql,"SELECT s.owner, st.stf_file, st.stf_name, s.x, s.z, p.name, st.max_condition, st.maint_cost_wk, s.lastMail FROM structures s INNER JOIN structure_type_data st ON (s.type = st.type) INNER JOIN planet p ON (p.planet_id = s.zone)WHERE ID = %I64u",asynContainer->harvesterID);
+				snprintf(sql,sizeof(sql),"SELECT s.owner, st.stf_file, st.stf_name, s.x, s.z, p.name, st.max_condition, st.maint_cost_wk, s.lastMail FROM structures s INNER JOIN structure_type_data st ON (s.type = st.type) INNER JOIN planet p ON (p.planet_id = s.zone)WHERE ID = %I64u",asynContainer->harvesterID);
 				StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_StructureMailCondZero,0);
 				asyncContainer->harvesterID = asynContainer->harvesterID;
 				
@@ -575,7 +575,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 				int8 sql[100];
 
 				// then use maintenance
-				sprintf(sql,"SELECT sf_HarvesterUseMaintenance(%I64u)",harvesterID);
+				snprintf(sql,sizeof(sql),"SELECT sf_HarvesterUseMaintenance(%I64u)",harvesterID);
 				StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_DoneHarvesterMaintenance,0);
 				asyncContainer->harvesterID = harvesterID;
 				
@@ -603,7 +603,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 				int8 sql[100];
 
 				//start by using power
-				sprintf(sql,"SELECT sf_HarvesterUsePower(%I64u)",harvesterID);
+				snprintf(sql,sizeof(sql),"SELECT sf_HarvesterUsePower(%I64u)",harvesterID);
 				StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_DoneHarvesterUsePower,0);
 				asyncContainer->harvesterID = harvesterID;
 				
@@ -638,7 +638,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 				int8 sql[100];
 
 				//now harvest
-				sprintf(sql,"SELECT sf_FactoryProduce(%I64u)",factoryID);
+				snprintf(sql,sizeof(sql),"SELECT sf_FactoryProduce(%I64u)",factoryID);
 				StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_DoneFactoryUpdate,0);
 				asyncContainer->harvesterID = factoryID;
 				
@@ -672,7 +672,7 @@ void StructureManagerChatHandler::handleDatabaseJobComplete(void* ref,DatabaseRe
 				int8 sql[100];
 
 				//now harvest
-				sprintf(sql,"SELECT sf_HarvestResource(%I64u)",harvesterID);
+				snprintf(sql,sizeof(sql),"SELECT sf_HarvestResource(%I64u)",harvesterID);
 				StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_DoneHarvestUpdate,0);
 				asyncContainer->harvesterID = harvesterID;
 				
@@ -769,7 +769,7 @@ void StructureManagerChatHandler::handleCheckHarvesterPower()
 	StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_PowerUpdate,0);
 
 	int8 sql[100];
-	sprintf(sql,"SELECT h.ID FROM harvesters h WHERE h.active > 0 ");
+	snprintf(sql,sizeof(sql),"SELECT h.ID FROM harvesters h WHERE h.active > 0 ");
 	
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
@@ -787,7 +787,7 @@ void StructureManagerChatHandler::handleCheckHarvesterHopper()
 	StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_HopperUpdate,0);
 
 	int8 sql[100];
-	sprintf(sql,"SELECT h.ID FROM harvesters h WHERE h.active > 0 ");
+	snprintf(sql,sizeof(sql),"SELECT h.ID FROM harvesters h WHERE h.active > 0 ");
 	
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
@@ -804,7 +804,7 @@ void StructureManagerChatHandler::handleFactoryUpdate()
 	StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_FactoryUpdate,0);
 
 	int8 sql[100];
-	sprintf(sql,"SELECT f.ID FROM factories f WHERE f.active > 0 ");
+	snprintf(sql,sizeof(sql),"SELECT f.ID FROM factories f WHERE f.active > 0 ");
 	
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
@@ -822,7 +822,7 @@ void StructureManagerChatHandler::handleCheckHarvesterMaintenance()
 	StructureManagerAsyncContainer* asyncContainer = new StructureManagerAsyncContainer(STRMQuery_MaintenanceUpdate,0);
 
 	int8 sql[100];
-	sprintf(sql,"SELECT h.ID FROM harvesters h");
+	snprintf(sql,sizeof(sql),"SELECT h.ID FROM harvesters h");
 	
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 

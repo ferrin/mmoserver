@@ -282,7 +282,7 @@ void CharacterAdminHandler::_processCreateCharacter(Message* message, DispatchCl
 		characterInfo.mLastName = strRep(std::string(characterInfo.mLastName.getAnsi()),"'","''").c_str();
 
 	// Build our procedure call
-	sprintf(sql, "CALL sp_CharacterCreate(%"PRIu32", 2,'%s','%s', '%s', '%s', %f",
+	snprintf(sql,sizeof(sql), "CALL sp_CharacterCreate(%"PRIu32", 2,'%s','%s', '%s', '%s', %f",
 		client->getAccountId(),
 		characterInfo.mFirstName.getAnsi(),
 		characterInfo.mLastName.getAnsi(),
@@ -292,7 +292,7 @@ void CharacterAdminHandler::_processCreateCharacter(Message* message, DispatchCl
   }
   else
   {
-	  sprintf(sql, "CALL sp_CharacterCreate(%"PRIu32", 2, '%s',NULL , '%s', '%s', %f",
+	  snprintf(sql,sizeof(sql), "CALL sp_CharacterCreate(%"PRIu32", 2, '%s',NULL , '%s', '%s', %f",
 		  client->getAccountId(),
 		  characterInfo.mFirstName.getAnsi(),
 		  characterInfo.mProfession.getAnsi(),
@@ -308,7 +308,7 @@ void CharacterAdminHandler::_processCreateCharacter(Message* message, DispatchCl
 	  characterInfo.mBiography = strRep(std::string(characterInfo.mBiography.getAnsi()),"\"","\"\"").c_str();
 	  characterInfo.mBiography = strRep(std::string(characterInfo.mBiography.getAnsi()),"\\","\\\\").c_str();
 
-	  sprintf(sql2,",'%s'",characterInfo.mBiography.getAnsi());
+	  snprintf(sql2,sizeof(sql2),",'%s'",characterInfo.mBiography.getAnsi());
 	  strcat(sql,sql2);
   }
   else
@@ -327,18 +327,18 @@ void CharacterAdminHandler::_processCreateCharacter(Message* message, DispatchCl
 
   if(characterInfo.mHairModel.getLength())
   {
-	  sprintf(sql2,",'%s',%u,%u", characterInfo.mHairModel.getAnsi(),characterInfo.mHairCustomization[1],characterInfo.mHairCustomization[2]);
+	  snprintf(sql2,sizeof(sql2),",'%s',%u,%u", characterInfo.mHairModel.getAnsi(),characterInfo.mHairCustomization[1],characterInfo.mHairCustomization[2]);
   }
 
   else
   {
-	sprintf(sql2,",NULL,0,0");
+	snprintf(sql2,sizeof(sql2),",NULL,0,0");
 
   }
 
   int8 sql3[128];
 
-  sprintf(sql3,",'%s');",characterInfo.mBaseModel.getAnsi());
+  snprintf(sql3,sizeof(sql3),",'%s');",characterInfo.mBaseModel.getAnsi());
 
 
   strcat(sql2,sql3);

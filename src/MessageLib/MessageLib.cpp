@@ -937,7 +937,7 @@ bool MessageLib::sendCreateHarvester(HarvesterObject* harvester,PlayerObject* pl
 	sendEndBaselines(harvester->getId(),player);
 
 	//int8 effectStr[400];
-	//sprintf(effectStr,"clienteffect/lair_med_damage_smoke.cef");
+	//snprintf(effectStr, sizeof(effectStr),"clienteffect/lair_med_damage_smoke.cef");
 	//sendPlayClientEffectObjectMessage(effectStr,"",harvester,player);
 
 	return(true);
@@ -967,7 +967,7 @@ bool MessageLib::sendCreateFactory(FactoryObject* factory,PlayerObject* player)
 	sendEndBaselines(factory->getId(),player);
 
 	//int8 effectStr[400];
-	//sprintf(effectStr,"clienteffect/lair_med_damage_smoke.cef");
+	//snprintf(effectStr, sizeof(effectStr),"clienteffect/lair_med_damage_smoke.cef");
 	//sendPlayClientEffectObjectMessage(effectStr,"",harvester,player);
 
 	return(true);

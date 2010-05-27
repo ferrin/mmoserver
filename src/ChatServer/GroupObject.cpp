@@ -305,7 +305,7 @@ void GroupObject::createChannel()
 	Channel* channel = new Channel();
 	channel->setId(((uint32)(mId)) + 0xf0000000);
 	channel->setCreator(gSystemAvatar);
-	sprintf(channelName, "%"PRIu64".GroupChat", mId);
+	snprintf(channelName,sizeof(channelName), "%"PRIu64".GroupChat", mId);
 	channel->setName(BString(channelName));
 	channel->setGalaxy(gChatManager->getGalaxyName());
 

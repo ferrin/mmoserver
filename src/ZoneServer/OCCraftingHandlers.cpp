@@ -360,7 +360,7 @@ void ObjectController::handleCraftCustomization(Message* message)
 
 
 	int8 sql[550];
-	sprintf(sql,"INSERT INTO item_customization VALUES(%"PRIu64", %u, %u)",session->getItem()->getId(),session->getItem()->getCustomization(1),session->getItem()->getCustomization(2));
+	snprintf(sql,sizeof(sql),"INSERT INTO item_customization VALUES(%"PRIu64", %u, %u)",session->getItem()->getId(),session->getItem()->getCustomization(1),session->getItem()->getCustomization(2));
 	mDatabase->ExecuteSqlAsync(0,0,sql);
 
 	session->setProductionAmount(amount);

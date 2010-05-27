@@ -1448,8 +1448,8 @@ void PlayerObject::handleUIEvent(uint32 action,int32 element,string inputStr,UIW
 			}
 
 			// its a skill - offer to teach it
-			sprintf(text,"@skl_n:%s",skill->mName.getAnsi());
-			sprintf(caption,"%s offers to teach you : %s",mFirstName.getAnsi(),text);
+			snprintf(text, sizeof(text),"@skl_n:%s",skill->mName.getAnsi());
+			snprintf(caption, sizeof(caption),"%s offers to teach you : %s",mFirstName.getAnsi(),text);
 
 			gUIManager->createNewSkillTeachMessageBox(this,"askteach",caption,text,pupilObject,SUI_MB_OKCANCEL,skillSelectBox->getPupil(),skill);
 		}

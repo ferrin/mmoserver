@@ -432,7 +432,7 @@ void PlayerObjectFactory::requestObject(ObjectFactoryCallback* ofCallback,uint64
 	QueryContainerBase* asyncContainer = new(mQueryContainerPool.ordered_malloc()) QueryContainerBase(ofCallback,POFQuery_MainPlayerData,client);
 
 	int8 sql[8152];
-	sprintf(sql,"SELECT characters.id,characters.parent_Id,characters.account_id,characters.oX,characters.oY,characters.oZ,characters.oW,"//7
+	snprintf(sql,sizeof(sql),"SELECT characters.id,characters.parent_Id,characters.account_id,characters.oX,characters.oY,characters.oZ,characters.oW,"//7
 		"characters.x,characters.y,characters.z,character_appearance.base_model_string,"//11
 		"characters.firstname,characters.lastname,character_appearance.hair,character_appearance.hair1,character_appearance.hair2,race.name,"//17
 		"character_appearance.`00FF`,character_appearance.`01FF`,character_appearance.`02FF`,character_appearance.`03FF`,character_appearance.`04FF`,"	  //22
@@ -519,7 +519,7 @@ PlayerObject* PlayerObjectFactory::_createPlayer(DatabaseResult* result)
 
 	// player object
 	int8 tmpModel[128];
-	sprintf(tmpModel,"object/creature/player/shared_%s",&playerObject->mModel.getAnsi()[23]);
+	snprintf(tmpModel, sizeof(tmpModel),"object/creature/player/shared_%s",&playerObject->mModel.getAnsi()[23]);
 	playerObject->setModelString(tmpModel);
 
 	playerObject->buildCustomization(playerObject->mCustomization);
@@ -540,7 +540,7 @@ PlayerObject* PlayerObjectFactory::_createPlayer(DatabaseResult* result)
 	if((playerHair->mModel).getLength())
 	{
 		int8 tmpHair[128];
-		sprintf(tmpHair,"object/tangible/hair/%s/shared_%s",playerObject->mSpecies.getAnsi(),&playerHair->mModel.getAnsi()[22 + playerObject->mSpecies.getLength()]);
+		snprintf(tmpHair, sizeof(tmpHair),"object/tangible/hair/%s/shared_%s",playerObject->mSpecies.getAnsi(),&playerHair->mModel.getAnsi()[22 + playerObject->mSpecies.getLength()]);
 		playerHair->setId(playerObject->mId + 8);
 		playerHair->setParentId(playerObject->mId);
 		playerHair->setModelString(tmpHair);

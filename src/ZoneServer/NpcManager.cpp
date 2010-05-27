@@ -667,11 +667,11 @@ uint8 NpcManager::_executeAttack(CreatureObject* attacker,CreatureObject* defend
 					int8 str[128];
 					if (defender->getLastName().getLength())
 					{
-						sprintf(str,"%s %s", defender->getFirstName().getAnsi(), defender->getLastName().getAnsi());
+						snprintf(str,sizeof(str),"%s %s", defender->getFirstName().getAnsi(), defender->getLastName().getAnsi());
 					}
 					else
 					{
-						sprintf(str,"%s", defender->getFirstName().getAnsi());
+						snprintf(str,sizeof(str),"%s", defender->getFirstName().getAnsi());
 					}
 					string playerName(str);
 					playerName.convert(BSTRType_Unicode16);
@@ -695,11 +695,11 @@ uint8 NpcManager::_executeAttack(CreatureObject* attacker,CreatureObject* defend
 					int8 str[128];
 					if (defender->getLastName().getLength())
 					{
-						sprintf(str,"%s %s", defender->getFirstName().getAnsi(), defender->getLastName().getAnsi());
+						snprintf(str,sizeof(str),"%s %s", defender->getFirstName().getAnsi(), defender->getLastName().getAnsi());
 					}
 					else
 					{
-						sprintf(str,"%s", defender->getFirstName().getAnsi());
+						snprintf(str,sizeof(str),"%s", defender->getFirstName().getAnsi());
 					}
 					string playerName(str);
 					playerName.convert(BSTRType_Unicode16);

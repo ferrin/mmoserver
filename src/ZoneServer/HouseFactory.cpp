@@ -107,7 +107,7 @@ void HouseFactory::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 			asContainer->mObject = house;
 
 			int8 hmm[1024];
-			sprintf(hmm,"SELECT PlayerID FROM structure_admin_data WHERE StructureID = %"PRIu64" AND AdminType like 'ADMIN';",house->getId());
+			snprintf(hmm, sizeof(hmm),"SELECT PlayerID FROM structure_admin_data WHERE StructureID = %"PRIu64" AND AdminType like 'ADMIN';",house->getId());
 			mDatabase->ExecuteSqlAsync(this,asContainer,hmm);
 
 		}
@@ -223,7 +223,7 @@ void HouseFactory::requestObject(ObjectFactoryCallback* ofCallback,uint64 id,uin
 	//request the harvesters Data first
 	
 	int8 hmm[1024];
-	sprintf(hmm,	"SELECT s.id,s.owner,s.oX,s.oY,s.oZ,s.oW,s.x,s.y,s.z, "
+	snprintf(hmm, sizeof(hmm),	"SELECT s.id,s.owner,s.oX,s.oY,s.oZ,s.oW,s.x,s.y,s.z, "
 					"std.type,std.object_string,std.stf_name, std.stf_file, s.name, "
 					"std.lots_used, h.private, std.maint_cost_wk, s.condition, std.max_condition, std.max_storage "
 					"FROM structures s INNER JOIN structure_type_data std ON (s.type = std.type) INNER JOIN houses h ON (s.id = h.id) " 

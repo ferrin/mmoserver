@@ -172,7 +172,7 @@ void CampRegion::update()
 			//This code causes the Zone Server to print relational position and rotation info
 			//to allow the adding of items without much effort.
 			int8 text[256];
-			sprintf(text,"Position: mX=%f mY=%f mZ=%f\nDirection: mX=%f mY=%f mZ=%f mW=%f", (object->mPosition.x - this->mPosition.x), (object->mPosition.y - this->mPosition.y), (object->mPosition.z - this->mPosition.z), object->mDirection.x,object->mDirection.y,object->mDirection.z,object->mDirection.w);
+			snprintf(text,sizeof(text),"Position: mX=%f mY=%f mZ=%f\nDirection: mX=%f mY=%f mZ=%f mW=%f", (object->mPosition.x - this->mPosition.x), (object->mPosition.y - this->mPosition.y), (object->mPosition.z - this->mPosition.z), object->mDirection.x,object->mDirection.y,object->mDirection.z,object->mDirection.w);
 			*/
 		}
 
@@ -233,7 +233,7 @@ void CampRegion::onObjectEnter(Object* object)
 		{
 			PlayerObject* player = dynamic_cast<PlayerObject*>(object);
 			int8 text[64];
-			sprintf(text,"You have entered %s's camp",this->getCampOwnerName().getAnsi());
+			snprintf(text,sizeof(text),"You have entered %s's camp",this->getCampOwnerName().getAnsi());
 			string uT = text;
 			uT.convert(BSTRType_Unicode16);
 			gMessageLib->sendSystemMessage(player, uT);
@@ -272,7 +272,7 @@ void CampRegion::onObjectLeave(Object* object)
 	else
 	{
 		int8 text[64];
-		sprintf(text,"You have left %s's camp", this->getCampOwnerName().getAnsi());
+		snprintf(text,sizeof(text),"You have left %s's camp", this->getCampOwnerName().getAnsi());
 		string uT = text;
 		uT.convert(BSTRType_Unicode16);
 		gMessageLib->sendSystemMessage(player, uT);

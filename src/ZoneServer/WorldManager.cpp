@@ -374,7 +374,7 @@ void WorldManager::LoadCurrentGlobalTick()
 	mDatabase->DestroyResult(temp);
 
 	char strtemp[100];
-	sprintf(strtemp, "Current Global Tick Count = %"PRIu64"",Tick);
+	snprintf(strtemp,sizeof(strtemp), "Current Global Tick Count = %"PRIu64"",Tick);
 	gLogger->log(LogManager::INFORMATION,strtemp, FOREGROUND_GREEN);
 	mTick = Tick;
 	mSubsystemScheduler->addTask(fastdelegate::MakeDelegate(this,&WorldManager::_handleTick),7,1000,NULL);

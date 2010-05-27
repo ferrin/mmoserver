@@ -327,7 +327,7 @@ void TreasuryManager::bankTipOffline(int32 amount,PlayerObject* playerObject,str
 	mDatabase->Escape_String(name,targetName.getAnsi(),targetName.getLength());
 
 	int8 sql[256];
-	sprintf(sql,"SELECT id FROM characters WHERE firstname like '%s'",name);
+	snprintf(sql,sizeof(sql),"SELECT id FROM characters WHERE firstname like '%s'",name);
 
 	TreasuryManagerAsyncContainer* asyncContainer;
 	asyncContainer = new TreasuryManagerAsyncContainer(TREMQuery_BankTipgetId,playerObject->getClient());
@@ -439,9 +439,9 @@ void TreasuryManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result
 
 			Transaction* mTransaction = mDatabase->startTransaction(this,asyncContainer);
 			int8 sql[256];
-			sprintf(sql,"UPDATE banks SET credits=credits-%i WHERE id=%"PRIu64"",asynContainer->amount, asynContainer->player->getId()+4);
+			snprintf(sql,sizeof(sql),"UPDATE banks SET credits=credits-%i WHERE id=%"PRIu64"",asynContainer->amount, asynContainer->player->getId()+4);
 			mTransaction->addQuery(sql);
-			sprintf(sql,"UPDATE banks SET credits=credits+%i WHERE id=%"PRIu64"",asynContainer->amount, id+4);
+			snprintf(sql,sizeof(sql),"UPDATE banks SET credits=credits+%i WHERE id=%"PRIu64"",asynContainer->amount, id+4);
 			mTransaction->addQuery(sql);
 
 			mTransaction->execute();

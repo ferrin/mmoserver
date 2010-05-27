@@ -337,11 +337,11 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		sprintf(zone,"%s",argv[1]);
+		snprintf(zone, sizeof(zone),"%s",argv[1]);
 	}
 
 	int8 configfileName[64];
-	sprintf(configfileName, "%s.cfg", zone);
+	snprintf(configfileName, sizeof(configfileName), "%s.cfg", zone);
 
 	LogManager::Init();
 	gLogger->setupConsoleLogging((LogManager::LOG_PRIORITY)1);

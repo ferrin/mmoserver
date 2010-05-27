@@ -525,7 +525,7 @@ string SkillManager::getSkillProfession(uint32 skillId,string leaveAsIs)
 	//just return languages
 	if(strstr(skillString.getAnsi(),"language"))
 	{
-		sprintf(str,"@skl_n:%s",theSkill->mName.getAnsi());
+		snprintf(str,sizeof(str),"@skl_n:%s",theSkill->mName.getAnsi());
 		return BString(str);
 	}
 	//if its the profession we selected to view just return the proper skill entry
@@ -533,7 +533,7 @@ string SkillManager::getSkillProfession(uint32 skillId,string leaveAsIs)
 	{
 		if(strstr(skillString.getAnsi(),leaveAsIs.getAnsi()))
 		{
-			sprintf(str,"@skl_n:%s",theSkill->mName.getAnsi());
+			snprintf(str,sizeof(str),"@skl_n:%s",theSkill->mName.getAnsi());
 			return BString(str);
 		}
 	}
@@ -542,7 +542,7 @@ string SkillManager::getSkillProfession(uint32 skillId,string leaveAsIs)
 	BStringVector		splitSkill;
 	if(theSkill->mName.split(splitSkill,'_') >= 2)
 	{
-		sprintf(str,"@skl_n:%s_%s",splitSkill[0].getAnsi(),splitSkill[1].getAnsi());
+		snprintf(str,sizeof(str),"@skl_n:%s_%s",splitSkill[0].getAnsi(),splitSkill[1].getAnsi());
 
 		return BString(str);
 	}

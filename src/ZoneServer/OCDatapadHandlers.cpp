@@ -212,10 +212,10 @@ void ObjectController::_handleSetWaypointName(uint64 targetId,Message* message,O
 
 	name.convert(BSTRType_ANSI);
 
-	sprintf(sql,"UPDATE waypoints SET name='");
+	snprintf(sql,sizeof(sql),"UPDATE waypoints SET name='");
 	sqlPointer = sql + strlen(sql);
 	sqlPointer += mDatabase->Escape_String(sqlPointer,name.getAnsi(),name.getLength());
-	sprintf(restStr,"' WHERE waypoint_id=%"PRIu64"",targetId);
+	snprintf(restStr, sizeof(restStr),"' WHERE waypoint_id=%"PRIu64"",targetId);
 	strcat(sql,restStr);
 
 	mDatabase->ExecuteSqlAsync(NULL,NULL,sql);

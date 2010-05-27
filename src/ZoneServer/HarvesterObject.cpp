@@ -527,7 +527,7 @@ void HarvesterObject::handleDatabaseJobComplete(void* ref,DatabaseResult* result
 			asyncContainer->mPlayerId		= player->getId();
 			
 			int8 sql[250];
-			sprintf(sql,"SELECT hr.resourceID, hr.quantity FROM harvester_resources hr WHERE hr.ID = '%"PRIu64"' ",this->getId());
+			snprintf(sql,sizeof(sql),"SELECT hr.resourceID, hr.quantity FROM harvester_resources hr WHERE hr.ID = '%"PRIu64"' ",this->getId());
 			
 			gWorldManager->getDatabase()->ExecuteSqlAsync(this,asyncContainer,sql);	
 

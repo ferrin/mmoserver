@@ -97,7 +97,7 @@ string	ResourceContainer::getBazaarName()
 {
 	string value = string(BSTRType_ANSI,256);
 
-	value.setLength(sprintf(value.getAnsi(),"%s (%s)",getResource()->getType()->getName().getAnsi(),getResource()->getName().getAnsi()));
+	value.setLength(snprintf(value.getAnsi(), sizeof(value.getAnsi()),"%s (%s)",getResource()->getType()->getName().getAnsi(),getResource()->getName().getAnsi()));
 
 	return value;
 }

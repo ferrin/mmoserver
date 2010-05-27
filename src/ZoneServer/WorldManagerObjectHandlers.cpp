@@ -188,7 +188,7 @@ bool WorldManager::addObject(Object* object,bool manual)
 
 			// onPlayerEntered event, notify scripts
 			string params;
-			params.setLength(sprintf(params.getAnsi(),"%s %s %u",getPlanetNameThis(),player->getFirstName().getAnsi(),static_cast<uint32>(mPlayerAccMap.size())));
+			params.setLength(snprintf(params.getAnsi(), sizeof(params.getAnsi()),"%s %s %u",getPlanetNameThis(),player->getFirstName().getAnsi(),static_cast<uint32>(mPlayerAccMap.size())));
 
 			mWorldScriptsListener.handleScriptEvent("onPlayerEntered",params);
 
@@ -509,7 +509,7 @@ void WorldManager::destroyObject(Object* object)
 
 			// onPlayerLeft event, notify scripts
 			string params;
-			params.setLength(sprintf(params.getAnsi(),"%s %s %u",getPlanetNameThis(),player->getFirstName().getAnsi(),static_cast<uint32>(mPlayerAccMap.size())));
+			params.setLength(snprintf(params.getAnsi(), sizeof(params.getAnsi()),"%s %s %u",getPlanetNameThis(),player->getFirstName().getAnsi(),static_cast<uint32>(mPlayerAccMap.size())));
 
 			mWorldScriptsListener.handleScriptEvent("onPlayerLeft",params);
 			// gLogger->log(LogManager::DEBUG,"WorldManager::destroyObject: Player Client set to NULL");
@@ -876,7 +876,7 @@ void WorldManager::_loadAllObjects(uint64 parentId)
 	int8	sql[2048];
 	WMAsyncContainer* asynContainer = new(mWM_DB_AsyncPool.ordered_malloc()) WMAsyncContainer(WMQuery_AllObjectsChildObjects);
 
-	sprintf(sql,"(SELECT \'terminals\',terminals.id FROM terminals INNER JOIN terminal_types ON (terminals.terminal_type = terminal_types.id)"
+	snprintf(sql,sizeof(sql),"(SELECT \'terminals\',terminals.id FROM terminals INNER JOIN terminal_types ON (terminals.terminal_type = terminal_types.id)"
 				" WHERE (terminal_types.name NOT LIKE 'unknown') AND (terminals.parent_id = %"PRIu64") AND (terminals.planet_id = %"PRIu32"))"
 				" UNION (SELECT \'containers\',containers.id FROM containers INNER JOIN container_types ON (containers.container_type = container_types.id)"
 				" WHERE (container_types.name NOT LIKE 'unknown') AND (containers.parent_id = %"PRIu64") AND (containers.planet_id = %u))"

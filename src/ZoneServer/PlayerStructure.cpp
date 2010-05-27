@@ -459,8 +459,8 @@ void PlayerStructure::handleUIEvent(uint32 action,int32 element,string inputStr,
 		
 			int8	sql[255],end[128],*sqlPointer;
 
-			sprintf(sql,"UPDATE structures SET structures.name = '");
-			sprintf(end,"' WHERE structures.ID = %I64u",this->getId());
+			snprintf(sql,sizeof(sql),"UPDATE structures SET structures.name = '");
+			snprintf(end,sizeof(end),"' WHERE structures.ID = %I64u",this->getId());
 			sqlPointer = sql + strlen(sql);
 			sqlPointer += gWorldManager->getDatabase()->Escape_String(sqlPointer,inputStr.getAnsi(),inputStr.getLength());
 			strcat(sql,end);
@@ -485,7 +485,7 @@ void PlayerStructure::handleUIEvent(uint32 action,int32 element,string inputStr,
 			else
 			{
 				int8 text[255];
-				sprintf(text,"@player_structure:incorrect_destroy_code");
+				snprintf(text, sizeof(text),"@player_structure:incorrect_destroy_code");
 				gUIManager->createNewMessageBox(NULL,"","SWG::ANH",text,player);
 			}
 			//we need to get the input

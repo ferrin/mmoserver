@@ -188,7 +188,7 @@ void EntertainerManager::showOutcastList(PlayerObject* entertainer)
 	DenyServiceList*	deniedAudienceList	= entertainer->getDenyAudienceList();
 	DenyServiceList::iterator denieIt = deniedAudienceList->begin();
 
-	sprintf(sql,"SELECT firstname FROM characters where id = ");
+	snprintf(sql,sizeof(sql),"SELECT firstname FROM characters where id = ");
 
 	BStringVector availableOutCasts;
 	uint32 nr = 0;
@@ -197,11 +197,11 @@ void EntertainerManager::showOutcastList(PlayerObject* entertainer)
 		uint64 id = (*denieIt);
 		if (nr == 0)
 		{
-			sprintf(str1,"%s %"PRIu64"",sql,id);
+			snprintf(str1,sizeof(str1),"%s %"PRIu64"",sql,id);
 		}
 		else
 		{
-			sprintf(str1,"%s or %"PRIu64"",sql,id);
+			snprintf(str1,sizeof(str1),"%s or %"PRIu64"",sql,id);
 		}
 		strcpy(sql,str1);
 		//outcastIteration	= dynamic_cast<PlayerObject*> (gWorldManager->getObjectById(id));
@@ -264,7 +264,7 @@ void EntertainerManager::toggleOutcastId(PlayerObject* entertainer,uint64 outCas
 
 		//remove it from the db
 		int8 sql[150];
-		sprintf(sql,"DELETE FROM entertainer_deny_service WHERE entertainer_id = '%"PRIu64"' and outcast_id = '%"PRIu64"'",entertainer->getId(),outCastId);
+		snprintf(sql,sizeof(sql),"DELETE FROM entertainer_deny_service WHERE entertainer_id = '%"PRIu64"' and outcast_id = '%"PRIu64"'",entertainer->getId(),outCastId);
 
 		EntertainerManagerAsyncContainer* asyncContainer = new EntertainerManagerAsyncContainer(EMQuery_NULL,0);
 		mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
@@ -286,7 +286,7 @@ void EntertainerManager::toggleOutcastId(PlayerObject* entertainer,uint64 outCas
 
 	//add it to the db
 	int8 sql[100];
-	sprintf(sql,"INSERT INTO entertainer_deny_service VALUES(%"PRIu64",%"PRIu64")",entertainer->getId(),outCastId);
+	snprintf(sql,sizeof(sql),"INSERT INTO entertainer_deny_service VALUES(%"PRIu64",%"PRIu64")",entertainer->getId(),outCastId);
 
 	EntertainerManagerAsyncContainer* asyncContainer = new EntertainerManagerAsyncContainer(EMQuery_NULL,0);
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
@@ -322,7 +322,7 @@ void EntertainerManager::verifyOutcastName(PlayerObject* entertainer,string outC
 	mDatabase->Escape_String(name,outCastName.getAnsi(),outCastName.getLength());
 
 	//we'll need the id only
-	sprintf(sql,"SELECT id FROM swganh.characters c WHERE c.firstname = '%s'",name);
+	snprintf(sql,sizeof(sql),"SELECT id FROM swganh.characters c WHERE c.firstname = '%s'",name);
 
 
 	EntertainerManagerAsyncContainer* asyncContainer = new EntertainerManagerAsyncContainer(EMQuery_DenyServiceFindName,0);
@@ -584,11 +584,11 @@ void EntertainerManager::handleDatabaseJobComplete(void* ref,DatabaseResult* res
 					EntertainerManagerAsyncContainer* asyncContainer;
 
 					asyncContainer = new EntertainerManagerAsyncContainer(EMQuery_NULL,0);
-					sprintf(sql,"UPDATE swganh.character_attributes SET health_max = %i, strength_max = %i, constitution_max = %i, action_max = %i, quickness_max = %i, stamina_max = %i, mind_max = %i, focus_max = %i, willpower_max = %i where character_id = %"PRIu64"",theTargets.TargetHealth,theTargets.TargetStrength,theTargets.TargetConstitution, theTargets.TargetAction,theTargets.TargetQuickness,theTargets.TargetStamina,theTargets.TargetMind ,theTargets.TargetFocus ,theTargets.TargetWillpower ,asynContainer->customer->getId());
+					snprintf(sql,sizeof(sql),"UPDATE swganh.character_attributes SET health_max = %i, strength_max = %i, constitution_max = %i, action_max = %i, quickness_max = %i, stamina_max = %i, mind_max = %i, focus_max = %i, willpower_max = %i where character_id = %"PRIu64"",theTargets.TargetHealth,theTargets.TargetStrength,theTargets.TargetConstitution, theTargets.TargetAction,theTargets.TargetQuickness,theTargets.TargetStamina,theTargets.TargetMind ,theTargets.TargetFocus ,theTargets.TargetWillpower ,asynContainer->customer->getId());
 					mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
 					asyncContainer = new EntertainerManagerAsyncContainer(EMQuery_NULL,0);
-					sprintf(sql,"UPDATE swganh.character_attributes SET health_current = %i, strength_current = %i, constitution_current = %i, action_current = %i, quickness_current = %i, stamina_current = %i, mind_current = %i, focus_current = %i, willpower_current = %i where character_id = %"PRIu64"",theTargets.TargetHealth,theTargets.TargetStrength,theTargets.TargetConstitution, theTargets.TargetAction,theTargets.TargetQuickness,theTargets.TargetStamina,theTargets.TargetMind ,theTargets.TargetFocus ,theTargets.TargetWillpower ,asynContainer->customer->getId());
+					snprintf(sql,sizeof(sql),"UPDATE swganh.character_attributes SET health_current = %i, strength_current = %i, constitution_current = %i, action_current = %i, quickness_current = %i, stamina_current = %i, mind_current = %i, focus_current = %i, willpower_current = %i where character_id = %"PRIu64"",theTargets.TargetHealth,theTargets.TargetStrength,theTargets.TargetConstitution, theTargets.TargetAction,theTargets.TargetQuickness,theTargets.TargetStamina,theTargets.TargetMind ,theTargets.TargetFocus ,theTargets.TargetWillpower ,asynContainer->customer->getId());
 					mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
 					gSkillManager->addExperience(XpType_imagedesigner,2000,asynContainer->performer);
@@ -681,7 +681,7 @@ void EntertainerManager::handleDatabaseJobComplete(void* ref,DatabaseResult* res
 			else
 			{
 				int8 str[111];
-				sprintf(str,"'%s' does not exist in the known universe",asynContainer->outCastName.getAnsi());
+				snprintf(str,sizeof(str),"'%s' does not exist in the known universe",asynContainer->outCastName.getAnsi());
 				string sstr;
 				sstr = BString(str);
 				sstr.convert(BSTRType_Unicode16);
@@ -771,7 +771,7 @@ void	EntertainerManager::changeDance(PlayerObject* pEntertainer,string performan
 
 			//dance
 			int8 text[32];
-			sprintf(text,"dance_%u",mPerformance->danceVisualId);
+			snprintf(text, sizeof(text),"dance_%u",mPerformance->danceVisualId);
 			pEntertainer->setCurrentAnimation(BString(text));
 
 			//performancecounter
@@ -872,8 +872,8 @@ void	EntertainerManager::startMusicPerformance(PlayerObject* entertainer,string 
 		int8 text[32];
 		//make sure we get the proper animation
 
-		//sprintf(text,"music_5");
-		sprintf(text,"music_%u",performanceStuct->musicVisualId);
+		//snprintf(text, sizeof(text),"music_5");
+		snprintf(text, sizeof(text),"music_%u",performanceStuct->musicVisualId);
 		entertainer->setCurrentAnimation(BString(text));
 		gMessageLib->sendAnimationString(entertainer);
 
@@ -917,7 +917,7 @@ void	EntertainerManager::startDancePerformance(PlayerObject* entertainer,string 
 		entertainer->setPerformance(performanceStruct);
 		//dance
 		int8 text[32];
-		sprintf(text,"dance_%u",performanceStruct->danceVisualId);
+		snprintf(text, sizeof(text),"dance_%u",performanceStruct->danceVisualId);
 		entertainer->setCurrentAnimation(BString(text));
 
 		//performancecounter
@@ -1900,7 +1900,7 @@ void EntertainerManager::handlePerformancePause(CreatureObject* mObject)
 	if(entertainer->getPerformancePaused() == Pause_Start)
 	{
 		int8  animation[32];
-		sprintf(animation,"skill_action_0");
+		snprintf(animation, sizeof(animation),"skill_action_0");
 
 		gMessageLib->sendCreatureAnimation(entertainer, BString(animation));
 		gMessageLib->sendperformFlourish(entertainer, 0);
@@ -1919,7 +1919,7 @@ void EntertainerManager::handlePerformancePause(CreatureObject* mObject)
 	if(entertainer->getPerformancePaused() == Pause_Paused)
 	{
 		entertainer->setPerformancePaused(Pause_None);
-		sprintf(text,"dance_%u",((PerformanceStruct*)entertainer->getPerformance())->danceVisualId);
+		snprintf(text, sizeof(text),"dance_%u",((PerformanceStruct*)entertainer->getPerformance())->danceVisualId);
 		entertainer->setCurrentAnimation(BString(text));
 		gMessageLib->sendAnimationString(entertainer);
 
@@ -2217,7 +2217,7 @@ bool EntertainerManager::handleStartBandIndividual(PlayerObject* performer, stri
 	SkillCommandList::iterator entertainerIt = entertainerSkillCommands->begin();
 
 	int8 musicStr[32];
-	sprintf(musicStr,"startmusic+%s",performance.getAnsi());
+	snprintf(musicStr, sizeof(musicStr),"startmusic+%s",performance.getAnsi());
 
 	//check if w
 	bool found = false;
@@ -2262,7 +2262,7 @@ bool EntertainerManager::handleStartBandDanceIndividual(PlayerObject* performer,
 	SkillCommandList::iterator entertainerIt = entertainerSkillCommands->begin();
 
 	int8 musicStr[32];
-	sprintf(musicStr,"startdance+%s",performance.getAnsi());
+	snprintf(musicStr, sizeof(musicStr),"startdance+%s",performance.getAnsi());
 
 	//check if we can perform the dance
 	bool found = false;
@@ -2584,7 +2584,7 @@ void EntertainerManager::handlestartmusic(PlayerObject* entertainer)
 		{
 			// add it to our dancelist
 			int8 str[64];
-			sprintf(str,"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*entertainerIt).getAnsi());
+			snprintf(str,sizeof(str),"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*entertainerIt).getAnsi());
 			availableCommands.push_back(str);
 			nr++;
 		}
@@ -2648,7 +2648,7 @@ void EntertainerManager::flourish(PlayerObject* entertainer, uint32 mFlourishId)
 	{
 		//send NPCAnimate
 		int8  mAnimation[32];
-		sprintf(mAnimation,"skill_action_%u",mFlourishId);
+		snprintf(mAnimation, sizeof(mAnimation),"skill_action_%u",mFlourishId);
 
 		gMessageLib->sendCreatureAnimation(entertainer, BString(mAnimation));
 	}
@@ -2656,7 +2656,7 @@ void EntertainerManager::flourish(PlayerObject* entertainer, uint32 mFlourishId)
 	{
 		gMessageLib->sendperformFlourish(entertainer, mFlourishId);
 		//int8  mAnimation[32];
-		//sprintf(mAnimation,"skill_action_%u",mFlourishId);
+		//snprintf(mAnimation, sizeof(mAnimation),"skill_action_%u",mFlourishId);
 		//gMessageLib->sendCreatureAnimation(entertainer, BString(mAnimation));
 	}
 
@@ -2792,7 +2792,7 @@ void EntertainerManager::playPlacedInstrument(PlayerObject* entertainer)
 		{
 			// add it to our dancelist
 			int8 str[64];
-			sprintf(str,"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*entertainerIt).getAnsi());
+			snprintf(str,sizeof(str),"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*entertainerIt).getAnsi());
 			availableCommands.push_back(str);
 			nr++;
 		}
@@ -2840,7 +2840,7 @@ void EntertainerManager::_handleCompleteStartBand(PlayerObject* performer, strin
 	SkillCommandList::iterator entertainerIt = entertainerSkillCommands->begin();
 
 	int8 musicStr[32];
-	sprintf(musicStr,"startmusic+%s",dataStr.getAnsi());
+	snprintf(musicStr, sizeof(musicStr),"startmusic+%s",dataStr.getAnsi());
 
 	//check if we can perform the song
 	bool found = false;
@@ -2866,7 +2866,7 @@ void EntertainerManager::_handleCompleteStartBand(PlayerObject* performer, strin
 		//however we might be able to squeeze the dancers in
 		music = false;
 		SkillCommandList::iterator entertainerIt = entertainerSkillCommands->begin();
-		sprintf(musicStr,"startdance+%s",dataStr.getAnsi());
+		snprintf(musicStr, sizeof(musicStr),"startdance+%s",dataStr.getAnsi());
 
 		//check if we can perform the dance
 		found = false;

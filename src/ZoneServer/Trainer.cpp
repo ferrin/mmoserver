@@ -693,28 +693,28 @@ uint32 Trainer::handleConversationEvent(ActiveConversation* av,ConversationPage*
 
 				BStringVector populatedListBox;
 				int8 strCaption[128];
-				sprintf(strCaption,"@%s:%s","skl_n", skill->mName.getAnsi());
+				snprintf(strCaption,sizeof(strCaption),"@%s:%s","skl_n", skill->mName.getAnsi());
 
-				sprintf(str,"MONETARY COST");
+				snprintf(str,sizeof(str),"MONETARY COST");
 				populatedListBox.push_back(str);
 
 				if (gWorldConfig->isTutorial() && (!skill->mSkillsRequired.size()))
 				{
-					sprintf(str,"%u credits", 0);
+					snprintf(str,sizeof(str),"%u credits", 0);
 				}
 				else
 				{
-					sprintf(str,"%u credits", skill->mMoneyRequired);
+					snprintf(str,sizeof(str),"%u credits", skill->mMoneyRequired);
 				}
 				populatedListBox.push_back(str);
 
-				sprintf(str,"SKILL POINT COST");
+				snprintf(str,sizeof(str),"SKILL POINT COST");
 				populatedListBox.push_back(str);
 
-				sprintf(str,"%u points", skill->mSkillPointsRequired);
+				snprintf(str,sizeof(str),"%u points", skill->mSkillPointsRequired);
 				populatedListBox.push_back(str);
 
-				sprintf(str,"REQUIRED SKILLS");
+				snprintf(str,sizeof(str),"REQUIRED SKILLS");
 				populatedListBox.push_back(str);
 
 				SkillsRequiredList::iterator reqSkillIt = skill->mSkillsRequired.begin();
@@ -724,28 +724,28 @@ uint32 Trainer::handleConversationEvent(ActiveConversation* av,ConversationPage*
 					// if (!player->checkSkill(*reqSkillIt))
 					{
 						// We don't have this required skill
-						sprintf(str,"@%s:%s","skl_n", gSkillManager->getSkillById(*reqSkillIt)->mName.getAnsi());
+						snprintf(str,sizeof(str),"@%s:%s","skl_n", gSkillManager->getSkillById(*reqSkillIt)->mName.getAnsi());
 						populatedListBox.push_back(str);
 					}
 					++reqSkillIt;
 				}
 
-				sprintf(str,"XP COST");
+				snprintf(str, sizeof(str),"XP COST");
 				populatedListBox.push_back(str);
 				
 				// gLogger->log(LogManager::DEBUG,"Trainer::conversationEvent: Skill type = %u named %s", skill->mXpType, gSkillManager->getXPTypeById(skill->mXpType).getAnsi());
 
 				if (skill->mXpCost > 0)
 				{
-					sprintf(str,"%s = %u", gSkillManager->getXPTypeExById(skill->mXpType).getAnsi(), skill->mXpCost);
+					snprintf(str,sizeof(str),"%s = %u", gSkillManager->getXPTypeExById(skill->mXpType).getAnsi(), skill->mXpCost);
 				}
 				else
 				{
-					sprintf(str,"%s", gSkillManager->getXPTypeExById(skill->mXpType).getAnsi());
+					snprintf(str,sizeof(str),"%s", gSkillManager->getXPTypeExById(skill->mXpType).getAnsi());
 				}
 				populatedListBox.push_back(str);
 
-				sprintf(str,"You do not have this skill.\n\nDescription:\n%s", gSkillManager->getSkillInfoById(skill->mId).getAnsi());
+				snprintf(str,sizeof(str),"You do not have this skill.\n\nDescription:\n%s", gSkillManager->getSkillInfoById(skill->mId).getAnsi());
 				
 				gUIManager->createNewListBox(NULL,"",strCaption,str,populatedListBox,player);
 				// gUIManager->createNewListBox(NULL,"",strCaption,"@ui_attrib_mod:description \n\n@ui_attrib_mod:description \n@skl_d:combat_1hsword_ability_01",populatedListBox,player);
@@ -807,7 +807,7 @@ void Trainer::postProcessfilter(ActiveConversation* av, PlayerObject* player, ui
 				uint32 length = av->getNpc()->getFirstName().getDataLength() + av->getNpc()->getTitle().getDataLength() + strlen(formatString);
 				char *buffer = new char(length);
 
-				sprintf(buffer,formatString, av->getNpc()->getFirstName().getAnsi(), av->getNpc()->getTitle().getAnsi());
+				snprintf(buffer, sizeof(buffer),formatString, av->getNpc()->getFirstName().getAnsi(), av->getNpc()->getTitle().getAnsi());
 				string npcDesription(buffer);
 
 				gLogger->log(LogManager::DEBUG,"Trainer::conversationEvent: Name-string = %s",  npcDesription.getAnsi());
@@ -859,11 +859,11 @@ void Trainer::postProcessfilter(ActiveConversation* av, PlayerObject* player, ui
 				char *buffer = new char[strlen(masterStringDoubleName) + player->getFirstName().getLength() + player->getLastName().getLength()];
 				if (player->getLastName().getLength())
 				{
-					sprintf(buffer,masterStringDoubleName, player->getFirstName().getAnsi(), player->getLastName().getAnsi());
+					snprintf(buffer, sizeof(buffer),masterStringDoubleName, player->getFirstName().getAnsi(), player->getLastName().getAnsi());
 				}
 				else
 				{
-					sprintf(buffer,masterStringSingleName, player->getFirstName().getAnsi());
+					snprintf(buffer, sizeof(buffer),masterStringSingleName, player->getFirstName().getAnsi());
 				}
 				string aMess(buffer);
 				aMess.convert(BSTRType_Unicode16);
@@ -969,7 +969,7 @@ bool Trainer::preProcessfilterConversation(ActiveConversation* av,Conversation* 
 							if (strstr(gSkillManager->getSkillById(skill->mId)->mName.getAnsi(),"novice"))
 							{
 								// add it to our list
-								sprintf(str,"@%s:%s","skl_n", gSkillManager->getSkillById(*reqSkillIt)->mName.getAnsi());
+								snprintf(str,sizeof(str),"@%s:%s","skl_n", gSkillManager->getSkillById(*reqSkillIt)->mName.getAnsi());
 								// gLogger->log(LogManager::DEBUG,"Trainer::conversationEvent: Skills missing = %u %s", *reqSkillIt, gSkillManager->getSkillById(*reqSkillIt)->mName.getAnsi());
 								skillsRequired.push_back(str);
 							}
@@ -1053,8 +1053,8 @@ bool Trainer::preProcessfilterConversation(ActiveConversation* av,Conversation* 
 
 					// add it to our list
 					// int8 str[128];
-					// sprintf(str,"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*dancerIt).getAnsi());
-					// sprintf(str,"@skl_n:crafting_artisan_engineering_04");
+					// snprintf(str,sizeof(str),"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*dancerIt).getAnsi());
+					// snprintf(str,sizeof(str),"@skl_n:crafting_artisan_engineering_04");
 					// skillsRequired.push_back(str);
 
 					if (!gWorldConfig->isInstance())

@@ -50,7 +50,7 @@ string TravelTicket::getBazaarName()
 {
 	int8	ticketStr[256];
 
-	sprintf(ticketStr,"Travel Ticket %s : %s"
+	snprintf(ticketStr, sizeof(ticketStr),"Travel Ticket %s : %s"
 		,((getAttribute<std::string>("travel_departure_planet")).c_str())
 		,((getAttribute<std::string>("travel_arrival_planet")).c_str()));
 

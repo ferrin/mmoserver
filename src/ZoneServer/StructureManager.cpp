@@ -149,11 +149,11 @@ void StructureManager::checkNameOnPermissionList(uint64 structureId, uint64 play
 
 	int8 sql[512],*sqlPointer,restStr[128];
 //	int8 sql[1024]
-	sprintf(sql,"select sf_CheckPermissionList(%I64u,'",structureId);
+	snprintf(sql,sizeof(sql),"select sf_CheckPermissionList(%I64u,'",structureId);
 
 	sqlPointer = sql + strlen(sql);
 	sqlPointer += gWorldManager->getDatabase()->Escape_String(sqlPointer,name.getAnsi(),name.getLength());
-	sprintf(restStr,"','%s')",list.getAnsi());
+	snprintf(restStr, sizeof(restStr),"','%s')",list.getAnsi());
 	strcat(sql,restStr);
 	
 	gWorldManager->getDatabase()->ExecuteSqlAsync(this,asyncContainer,sql);
@@ -161,7 +161,7 @@ void StructureManager::checkNameOnPermissionList(uint64 structureId, uint64 play
 	asyncContainer->mStructureId = structureId;
 	asyncContainer->mPlayerId = playerId;
 	asyncContainer->command = command;
-	sprintf(asyncContainer->name,"%s",name.getAnsi());
+	snprintf(asyncContainer->name, sizeof(asyncContainer->name),"%s",name.getAnsi());
 
 
 	// 0 is Name on list
@@ -186,7 +186,7 @@ void StructureManager::removeNamefromPermissionList(uint64 structureId, uint64 p
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,"select sf_RemovePermissionList(%I64u,'%s','%s')",structureId,playerName,list.getAnsi());
 	asyncContainer->mStructureId = structureId;
 	asyncContainer->mPlayerId = playerId;
-	sprintf(asyncContainer->name,"%s",name.getAnsi());
+	snprintf(asyncContainer->name,sizeof(asyncContainer->name),"%s",name.getAnsi());
 
 
 	// 0 is sucess
@@ -214,7 +214,7 @@ void StructureManager::addNametoPermissionList(uint64 structureId, uint64 player
 
 	asyncContainer->mStructureId = structureId;
 	asyncContainer->mPlayerId = playerId;
-	sprintf(asyncContainer->name,"%s",name.getAnsi());
+	snprintf(asyncContainer->name,sizeof(asyncContainer->name),"%s",name.getAnsi());
 
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,"SELECT sf_AddPermissionList(%"PRIu64",'%s','%s')",structureId,playerName,list.getAnsi());
 
@@ -443,7 +443,7 @@ string StructureManager::getCode()
 	}
 	chance[6] = 0;
 
-	sprintf(serial,"%s",chance);
+	snprintf(serial,sizeof(serial),"%s",chance);
 
 	return(BString(serial));
 }
@@ -492,7 +492,7 @@ bool StructureManager::_handleStructureObjectTimers(uint64 callTime, void* ref)
 				asyncContainer->mPlayerId		= structure->getOwner();
 				asyncContainer->mStructureId	= structure->getId();
 				int8 sql[150];
-				sprintf(sql,"select sf_DefaultHarvesterUpdateDeed(%"PRIu64",%"PRIu64")", structure->getId(),structure->getOwner()+1);
+				snprintf(sql,sizeof(sql),"select sf_DefaultHarvesterUpdateDeed(%"PRIu64",%"PRIu64")", structure->getId(),structure->getOwner()+1);
 				mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
 			}
@@ -510,7 +510,7 @@ bool StructureManager::_handleStructureObjectTimers(uint64 callTime, void* ref)
 
 				gMessageLib->sendSystemMessage(player,L"","player_structure","structure_destroyed");
 				int8 sql[200];
-				sprintf(sql,"DELETE FROM items WHERE parent_id = %"PRIu64" AND item_family = 15",structure->getId());
+				snprintf(sql,sizeof(sql),"DELETE FROM items WHERE parent_id = %"PRIu64" AND item_family = 15",structure->getId());
 				mDatabase->ExecuteSqlAsync(NULL,NULL,sql);
 				gObjectFactory->deleteObjectFromDB(structure);
 				gMessageLib->sendDestroyObject_InRangeofObject(structure);
@@ -977,7 +977,7 @@ void StructureManager::processVerification(StructureAsyncCommand command, bool o
 					gMessageLib->sendSystemMessage(player,L"this schematic will not fit into the factory anymore as soon as schematictype checks are implemented");
 					
 					int8 s[512];
-					sprintf(s,"schematic Mask %u vs factory Mask %u",mask,factory->getMask());
+					snprintf(s,sizeof(s),"schematic Mask %u vs factory Mask %u",mask,factory->getMask());
 					string message(s);
 					message.convert(BSTRType_Unicode16);
 					gMessageLib->sendSystemMessage(player,message.getUnicode16());

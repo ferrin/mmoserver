@@ -235,7 +235,7 @@ void ObjectController::_handleChangeDance(uint64 targetId,Message* message,Objec
 	dataStr.convert(BSTRType_ANSI);
 
 	int8 danceStr[32];
-	sprintf(danceStr,"startdance+%s",dataStr.getAnsi());
+	snprintf(danceStr,sizeof(danceStr),"startdance+%s",dataStr.getAnsi());
 
 	bool found = false;
 	if(dataStr.getLength() >0 )
@@ -269,7 +269,7 @@ void ObjectController::_handleChangeDance(uint64 targetId,Message* message,Objec
 				// add it to our dancelist
 				int8 str[128];
 
-				sprintf(str,"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*dancerIt).getAnsi());
+				snprintf(str,sizeof(str),"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*dancerIt).getAnsi());
 				availableCommands.push_back(str);
 				nr++;
 			}
@@ -354,7 +354,7 @@ void ObjectController::_handleChangeMusic(uint64 targetId,Message* message,Objec
 	message->getStringUnicode16(dataStr);
 	dataStr.convert(BSTRType_ANSI);
 	int8 musicStr[32];
-	sprintf(musicStr,"startmusic+%s",dataStr.getAnsi());
+	snprintf(musicStr,sizeof(musicStr),"startmusic+%s",dataStr.getAnsi());
 
 	bool found = false;
 	if(dataStr.getLength() >0 )
@@ -390,7 +390,7 @@ void ObjectController::_handleChangeMusic(uint64 targetId,Message* message,Objec
 			{
 				// add it to our dancelist
 				int8 str[128];
-				sprintf(str,"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*entertainerIt).getAnsi());
+				snprintf(str,sizeof(str),"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*entertainerIt).getAnsi());
 				availableCommands.push_back(str);
 				nr++;
 			}
@@ -446,7 +446,7 @@ void ObjectController::_handlestartdance(uint64 targetId,Message* message,Object
 	dataStr.convert(BSTRType_ANSI);
 
 	int8 danceStr[32];
-	sprintf(danceStr,"startdance+%s",dataStr.getAnsi());
+	snprintf(danceStr,sizeof(danceStr),"startdance+%s",dataStr.getAnsi());
 
 	bool found = false;
 	if(dataStr.getLength() >0 )
@@ -482,7 +482,7 @@ void ObjectController::_handlestartdance(uint64 targetId,Message* message,Object
 				// add it to our dancelist
 				int8 str[128];
 
-				sprintf(str,"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*dancerIt).getAnsi());
+				snprintf(str,sizeof(str),"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*dancerIt).getAnsi());
 				availableCommands.push_back(str);
 				nr++;
 			}
@@ -531,7 +531,7 @@ void ObjectController::_handlestartmusic(uint64 targetId,Message* message,Object
 	message->getStringUnicode16(dataStr);
 	dataStr.convert(BSTRType_ANSI);
 	int8 musicStr[32];
-	sprintf(musicStr,"startmusic+%s",dataStr.getAnsi());
+	snprintf(musicStr,sizeof(musicStr),"startmusic+%s",dataStr.getAnsi());
 
 	bool found = false;
 	if(dataStr.getLength() >0 )
@@ -567,7 +567,7 @@ void ObjectController::_handlestartmusic(uint64 targetId,Message* message,Object
 			{
 				// add it to our dancelist
 				int8 str[128];
-				sprintf(str,"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*entertainerIt).getAnsi());
+				snprintf(str,sizeof(str),"@%s:%s","cmd_n",gSkillManager->getSkillCmdById(*entertainerIt).getAnsi());
 				availableCommands.push_back(str);
 				nr++;
 			}
@@ -950,7 +950,7 @@ void ObjectController::_handleRequestStatMigrationData(uint64 targetId,Message* 
 
 	//add it to the db
 	int8 sql[400];
-	sprintf(sql,"call sp_CharacterStatMigrationCreate (%"PRIu64",%u,%u,%u,%u,%u,%u,%u,%u,%u,0)",we->getId(),value1,value2,value3,value4,value5,value6,value7,value8,value9);
+	snprintf(sql,sizeof(sql),"call sp_CharacterStatMigrationCreate (%"PRIu64",%u,%u,%u,%u,%u,%u,%u,%u,%u,0)",we->getId(),value1,value2,value3,value4,value5,value6,value7,value8,value9);
 	ObjControllerAsyncContainer* asyncContainer;
 	asyncContainer = new ObjControllerAsyncContainer(OCQuery_Nope);
 	mDatabase->ExecuteProcedureAsync(this,asyncContainer,sql);
@@ -1011,11 +1011,11 @@ void ObjectController::_handleRequestStatMigrationData(uint64 targetId,Message* 
 					
 			int8 sql[1024];
 			asyncContainer2 = new ObjControllerAsyncContainer(OCQuery_Null);
-			sprintf(sql,"UPDATE swganh.character_attributes SET health_max = %i, strength_max = %i, constitution_max = %i, action_max = %i, quickness_max = %i, stamina_max = %i, mind_max = %i, focus_max = %i, willpower_max = %i where character_id = %"PRIu64"",pHam->getTargetStatValue(HamBar_Health),pHam->getTargetStatValue(HamBar_Strength),pHam->getTargetStatValue(HamBar_Constitution), pHam->getTargetStatValue(HamBar_Action),pHam->getTargetStatValue(HamBar_Quickness),pHam->getTargetStatValue(HamBar_Stamina),pHam->getTargetStatValue(HamBar_Mind) ,pHam->getTargetStatValue(HamBar_Focus) ,pHam->getTargetStatValue(HamBar_Willpower) ,we->getId());
+			snprintf(sql,sizeof(sql),"UPDATE swganh.character_attributes SET health_max = %i, strength_max = %i, constitution_max = %i, action_max = %i, quickness_max = %i, stamina_max = %i, mind_max = %i, focus_max = %i, willpower_max = %i where character_id = %"PRIu64"",pHam->getTargetStatValue(HamBar_Health),pHam->getTargetStatValue(HamBar_Strength),pHam->getTargetStatValue(HamBar_Constitution), pHam->getTargetStatValue(HamBar_Action),pHam->getTargetStatValue(HamBar_Quickness),pHam->getTargetStatValue(HamBar_Stamina),pHam->getTargetStatValue(HamBar_Mind) ,pHam->getTargetStatValue(HamBar_Focus) ,pHam->getTargetStatValue(HamBar_Willpower) ,we->getId());
 			mDatabase->ExecuteSqlAsync(this,asyncContainer2,sql);
 
 			asyncContainer2 = new ObjControllerAsyncContainer(OCQuery_Null);
-			sprintf(sql,"UPDATE swganh.character_attributes SET health_current = %i, strength_current = %i, constitution_current = %i, action_current = %i, quickness_current = %i, stamina_current = %i, mind_current = %i, focus_current = %i, willpower_current = %i where character_id = %"PRIu64"",pHam->getTargetStatValue(HamBar_Health),pHam->getTargetStatValue(HamBar_Strength),pHam->getTargetStatValue(HamBar_Constitution), pHam->getTargetStatValue(HamBar_Action),pHam->getTargetStatValue(HamBar_Quickness),pHam->getTargetStatValue(HamBar_Stamina),pHam->getTargetStatValue(HamBar_Mind) ,pHam->getTargetStatValue(HamBar_Focus) ,pHam->getTargetStatValue(HamBar_Willpower) ,we->getId());
+			snprintf(sql,sizeof(sql),"UPDATE swganh.character_attributes SET health_current = %i, strength_current = %i, constitution_current = %i, action_current = %i, quickness_current = %i, stamina_current = %i, mind_current = %i, focus_current = %i, willpower_current = %i where character_id = %"PRIu64"",pHam->getTargetStatValue(HamBar_Health),pHam->getTargetStatValue(HamBar_Strength),pHam->getTargetStatValue(HamBar_Constitution), pHam->getTargetStatValue(HamBar_Action),pHam->getTargetStatValue(HamBar_Quickness),pHam->getTargetStatValue(HamBar_Stamina),pHam->getTargetStatValue(HamBar_Mind) ,pHam->getTargetStatValue(HamBar_Focus) ,pHam->getTargetStatValue(HamBar_Willpower) ,we->getId());
 			mDatabase->ExecuteSqlAsync(this,asyncContainer2,sql);
 		}
 	}
@@ -1033,7 +1033,7 @@ void ObjectController::_handleStatMigration(uint64 targetId,Message* message,Obj
 	asyncContainer = new ObjControllerAsyncContainer(OCQuery_StatRead);
 	asyncContainer->playerObject = we;
 
-	sprintf(sql,"SELECT target_health, target_strength, target_constitution, target_action, target_quickness, target_stamina, target_mind, target_focus, target_willpower FROM swganh.character_stat_migration where character_id = %"PRIu64, we->getId());
+	snprintf(sql,sizeof(sql),"SELECT target_health, target_strength, target_constitution, target_action, target_quickness, target_stamina, target_mind, target_focus, target_willpower FROM swganh.character_stat_migration where character_id = %"PRIu64, we->getId());
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
 }
@@ -1098,11 +1098,11 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 
 		if(lotsOfStuff)
 		{
-			sprintf(sql1,"Your Holo-Emote generator can play all Holo-Emotes available. You have %u charges remaining."
+			snprintf(sql1,sizeof(sql1),"Your Holo-Emote generator can play all Holo-Emotes available. You have %u charges remaining."
 			"\xa To play your Holo-Emote type \x2fholoemote \x3cname\x3e.\xa To delete your Holo-Emote type \x2fholoemote delete. "
 			"\xa Purchasing a new Holo-Emote will automatically delete your current Holo-Emote.",we->getHoloCharge());
 
-			sprintf(sql,"%s \xa \xa The available Holo-Emote names are: \xa \xa"
+			snprintf(sql,sizeof(sql),"%s \xa \xa The available Holo-Emote names are: \xa \xa"
 			"Beehive \x9 \x9 Blossom \x9 Brainstorm \xa"
 			"Bubblehead \x9 Bullhorns \x9 Butterflies \xa"
 			"Champagne \x9 Haunted \x9 Hearts \xa"
@@ -1112,7 +1112,7 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 		}
 		else
 		{
-			sprintf(sql,"Your current Holo Emote is %s.\xa You have %u charges remaining."
+			snprintf(sql,sizeof(sql),"Your current Holo Emote is %s.\xa You have %u charges remaining."
 			"\xa To play your Holo-Emote type \x2fholoemote %s.\xa To delete your Holo-Emote type \x2fholoemote delete. "
 			"\xa Purchasing a new Holo-Emote will automatically delete your current Holo-Emote.",myEmote->pEmoteName,we->getHoloCharge(),myEmote->pEmoteName);
 		}
@@ -1141,7 +1141,7 @@ void ObjectController::_handlePlayHoloEmote(uint64 targetId,Message* message,Obj
 			string effect = gWorldManager->getClientEffect(requestedEmote->pId);
 			gMessageLib->sendPlayClientEffectObjectMessage(effect,"head",we);
 			int8 sql[256];
-			sprintf(sql,"update swganh.character_holoemotes set charges = charges-1 where character_id = %I64u", we->getId());
+			snprintf(sql,sizeof(sql),"update swganh.character_holoemotes set charges = charges-1 where character_id = %I64u", we->getId());
 			mDatabase->ExecuteSqlAsync(this,new(mDBAsyncContainerPool.malloc()) ObjControllerAsyncContainer(OCQuery_Nope),sql);
 		}
 		else
@@ -1218,7 +1218,7 @@ void ObjectController::_handleDistract(uint64 targetId,Message* message,ObjectCo
 	}
 	int8 effectStr[64];
 	gMessageLib->sendSystemMessage(we,L"","performance","effect_perform_distract");
-	sprintf(effectStr,"clienteffect/entertainer_distract_level_%u.cef",effect);
+	snprintf(effectStr,sizeof(effectStr),"clienteffect/entertainer_distract_level_%u.cef",effect);
 	gMessageLib->sendPlayClientEffectObjectMessage(effectStr,"",we);
 
 }
@@ -1284,7 +1284,7 @@ void ObjectController::_handleFireJet(uint64 targetId,Message* message,ObjectCon
 	}
 	int8 effectStr[64];
 	gMessageLib->sendSystemMessage(we,L"","performance","effect_perform_fire_jets");
-	sprintf(effectStr,"clienteffect/entertainer_fire_jets_level_%u.cef",effect);
+	snprintf(effectStr,sizeof(effectStr),"clienteffect/entertainer_fire_jets_level_%u.cef",effect);
 	gMessageLib->sendPlayClientEffectObjectMessage(effectStr,"",we);
 
 }
@@ -1348,7 +1348,7 @@ void ObjectController::_handleDazzle(uint64 targetId,Message* message,ObjectCont
 	}
 	int8 effectStr[64];
 	gMessageLib->sendSystemMessage(we,L"","performance","effect_perform_dazzle");
-	sprintf(effectStr,"clienteffect/entertainer_Dazzle_level_%u.cef",effect);
+	snprintf(effectStr,sizeof(effectStr),"clienteffect/entertainer_Dazzle_level_%u.cef",effect);
 	gMessageLib->sendPlayClientEffectObjectMessage(effectStr,"",we);
 
 }
@@ -1412,7 +1412,7 @@ void ObjectController::_handleColorLights(uint64 targetId,Message* message,Objec
 	}
 	int8 effectStr[64];
 	gMessageLib->sendSystemMessage(we,L"","performance","effect_perform_color_lights");
-	sprintf(effectStr,"clienteffect/entertainer_color_lights_level_%u.cef",effect);
+	snprintf(effectStr,sizeof(effectStr),"clienteffect/entertainer_color_lights_level_%u.cef",effect);
 	gMessageLib->sendPlayClientEffectObjectMessage(effectStr,"",we);
 
 }
@@ -1476,7 +1476,7 @@ void ObjectController::_handleSmokeBomb(uint64 targetId,Message* message,ObjectC
 	}
 	int8 effectStr[64];
 	gMessageLib->sendSystemMessage(we,L"","performance","effect_perform_smoke_bomb");
-	sprintf(effectStr,"clienteffect/entertainer_smoke_bomb_level_%u.cef",effect);
+	snprintf(effectStr,sizeof(effectStr),"clienteffect/entertainer_smoke_bomb_level_%u.cef",effect);
 	gMessageLib->sendPlayClientEffectObjectMessage(effectStr,"",we);
 
 }
@@ -1539,7 +1539,7 @@ void ObjectController::_handleSpotLight(uint64 targetId,Message* message,ObjectC
 	}
 	int8 effectStr[64];
 	gMessageLib->sendSystemMessage(we,L"","performance","effect_perform_spot_light");
-	sprintf(effectStr,"clienteffect/entertainer_spot_light_level_%u.cef",effect);
+	snprintf(effectStr,sizeof(effectStr),"clienteffect/entertainer_spot_light_level_%u.cef",effect);
 	gMessageLib->sendPlayClientEffectObjectMessage(effectStr,"",we);
 
 }
@@ -1619,7 +1619,7 @@ void ObjectController::_handleVentriloquism(uint64 targetId,Message* message,Obj
 
 	gMessageLib->sendSystemMessage(we,L"","performance","effect_perform_ventriloquism");
 
-	sprintf(effectStr,"clienteffect/entertainer_ventriloquism_level_%u.cef",effect);
+	snprintf(effectStr,sizeof(effectStr),"clienteffect/entertainer_ventriloquism_level_%u.cef",effect);
 
 	gMessageLib->sendPlayClientEffectObjectMessage(effectStr,"",targetObject);
 }

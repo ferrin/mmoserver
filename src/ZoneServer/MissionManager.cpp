@@ -532,7 +532,7 @@ void MissionManager::missionRequest(PlayerObject* player, uint64 mission_id)
 
 		}
 		char name[150];
-		sprintf(name, "@%s:%s",mission->getTitleFile().getRawData(),mission->getTitle().getRawData());
+		snprintf(name, sizeof(name), "@%s:%s",mission->getTitleFile().getRawData(),mission->getTitle().getRawData());
 		updater->getWaypoint()->setName(name);
 		updater->getWaypoint()->setActive(true);
 	}
@@ -729,7 +729,7 @@ bool MissionManager::checkDeliverMission(PlayerObject* player,NPCObject* npc)
 				{
 					//This is the start npc for the deliver mission
 					char mp[10];
-					sprintf(mp,"m%dp",mission->getNum());
+					snprintf(mp, sizeof(mp),"m%dp",mission->getNum());
 					gMessageLib->sendSpatialChat(npc,player,L"",mission->getTitleFile(),mp);
 					mission->setStartNPC(NULL);
 					gMessageLib->sendSystemMessage(player,L"","mission/mission_generic","deliver_received_data");
@@ -740,7 +740,7 @@ bool MissionManager::checkDeliverMission(PlayerObject* player,NPCObject* npc)
 					updater->getWaypoint()->setCoords(mission->getDestination().Coordinates);
 					updater->getWaypoint()->setPlanetCRC(mission->getDestination().PlanetCRC);
 					char name[150];
-					sprintf(name, "@%s:%s",mission->getTitleFile().getRawData(),mission->getTitle().getRawData());
+					snprintf(name, sizeof(name), "@%s:%s",mission->getTitleFile().getRawData(),mission->getTitle().getRawData());
 					updater->getWaypoint()->setName(name);
 					updater->getWaypoint()->setActive(true);
 					gMessageLib->sendMISO_Delta(updater,player);
@@ -751,7 +751,7 @@ bool MissionManager::checkDeliverMission(PlayerObject* player,NPCObject* npc)
 				{
 					//This is the end npc for the deliver mission.
 					char mr[10];
-					sprintf(mr,"m%dr",mission->getNum());
+					snprintf(mr, sizeof(mr),"m%dr",mission->getNum());
 					gMessageLib->sendSpatialChat(npc,player,L"",mission->getTitleFile(),mr);
 					missionComplete(player,mission);
 					mission->setDestinationNPC(NULL);
@@ -857,7 +857,7 @@ void MissionManager::checkSurveyMission(PlayerObject* player,CurrentResource* re
 
 
 							int8 sm[500];
-							sprintf(sm,"That resource pocket is too close (%"PRIu32" meters) to the mission giver to be useful to them. Go find one at least %"PRIu32" meters away to complete your survey mission. ",
+							snprintf(sm, sizeof(sm),"That resource pocket is too close (%"PRIu32" meters) to the mission giver to be useful to them. Go find one at least %"PRIu32" meters away to complete your survey mission. ",
                                 static_cast<uint32>(glm::distance(mission->getIssuingTerminal()->mPosition, highestDist.position)),
                                     (1024 - (int)glm::distance(mission->getIssuingTerminal()->mPosition, highestDist.position)));
 
@@ -892,7 +892,7 @@ bool MissionManager::checkCraftingMission(PlayerObject* player,NPCObject* npc)
 				{
 					//This is the start npc for the deliver mission
 					char mp[10];
-					sprintf(mp,"m%dp",mission->getNum());
+					snprintf(mp, sizeof(mp),"m%dp",mission->getNum());
 					gMessageLib->sendSpatialChat(npc,player,L"",mission->getTitleFile(),mp);
 					mission->setStartNPC(NULL);
 					gMessageLib->sendSystemMessage(player,L"","mission/mission_generic","deliver_received_data");
@@ -903,7 +903,7 @@ bool MissionManager::checkCraftingMission(PlayerObject* player,NPCObject* npc)
 					updater->getWaypoint()->setCoords(mission->getDestination().Coordinates);
 					updater->getWaypoint()->setPlanetCRC(mission->getDestination().PlanetCRC);
 					char name[150];
-					sprintf(name, "@%s:%s",mission->getTitleFile().getRawData(),mission->getTitle().getRawData());
+					snprintf(name, sizeof(name), "@%s:%s",mission->getTitleFile().getRawData(),mission->getTitle().getRawData());
 					updater->getWaypoint()->setName(name);
 					updater->getWaypoint()->setActive(true);
 					gMessageLib->sendMISO_Delta(updater,player);
@@ -914,7 +914,7 @@ bool MissionManager::checkCraftingMission(PlayerObject* player,NPCObject* npc)
 				{
 					//This is the end npc for the deliver mission.
 					char mr[10];
-					sprintf(mr,"m%dr",mission->getNum());
+					snprintf(mr, sizeof(mr),"m%dr",mission->getNum());
 					gMessageLib->sendSpatialChat(npc,player,L"",mission->getTitleFile(),mr);
 					missionComplete(player,mission);
 					mission->setDestinationNPC(NULL);
@@ -1012,7 +1012,7 @@ MissionObject* MissionManager::generateDestroyMission(MissionObject* mission, ui
 
 		//now set the stf
 		char s[255];
-		sprintf(s,"mission/%s",link->missiontype->stf.getAnsi());
+		snprintf(s, sizeof(s),"mission/%s",link->missiontype->stf.getAnsi());
 		mission->setTitleFile(s);
 
 		//the mission within the stf
@@ -1020,12 +1020,12 @@ MissionObject* MissionManager::generateDestroyMission(MissionObject* mission, ui
 		mission->setNum(mission_num);
 
 		//Mission Title
-		sprintf(mt,"m%dt",mission_num);
+		snprintf(mt, sizeof(mt),"m%dt",mission_num);
 		mission->setTitle(mt);
 
 
 		//Mission Description
-		sprintf(md,"m%dd",mission_num);
+		snprintf(md, sizeof(md),"m%dd",mission_num);
 
 		mission->setDetailFile(s);
 		mission->setDetail(md);
@@ -1071,14 +1071,14 @@ MissionObject* MissionManager::generateDestroyMission(MissionObject* mission, ui
 
 	//Creator
 
-	sprintf(mo,"m%do",mission_num);
+	snprintf(mo, sizeof(mo),"m%do",mission_num);
 	string moS(mo);
 	gLogger->log(LogManager::DEBUG,"MissionManager : creator :%s",moS.getAnsi());
 	NameMap nameMap = link->missiontype->names;
 	NameMap::iterator NameMapIt = nameMap.find(moS.getCrc());
 	if(NameMapIt != nameMap.end())
 	{
-		sprintf(mo,"%s",(*NameMapIt).second->name.getAnsi());
+		snprintf(mo, sizeof(mo),"%s",(*NameMapIt).second->name.getAnsi());
 		mission->setCreator(mo);
 		//mo = (*NameMapIt).second->name.getAnsi();
 	}
@@ -1185,13 +1185,13 @@ MissionObject* MissionManager::generateDeliverMission(MissionObject* mission)
 	mission->setCreator(creators[gRandom->getRand() % 9]);
 
     //Mission Title
-	sprintf(mt,"m%dt",mission_num);
+	snprintf(mt, sizeof(mt),"m%dt",mission_num);
 
 	mission->setTitleFile(mission_deliver_hard[stf_file].mSTF);
 	mission->setTitle(mt);
 
 	//Mission Description
-	sprintf(md,"m%dd",mission_num);
+	snprintf(md, sizeof(md),"m%dd",mission_num);
 
 	mission->setDetailFile(mission_deliver_hard[stf_file].mSTF);
 	mission->setDetail(md);
@@ -1259,7 +1259,7 @@ MissionObject* MissionManager::generateEntertainerMission(MissionObject* mission
 	mission->setCreator(creators[gRandom->getRand() % 9]);
 
     //Mission Title
-	sprintf(mt,"m%dt",mission_num);
+	snprintf(mt, sizeof(mt),"m%dt",mission_num);
 
 	count < 5 ?
 		mission->setTitleFile("mission/mission_npc_musician_neutral_easy") :
@@ -1267,7 +1267,7 @@ MissionObject* MissionManager::generateEntertainerMission(MissionObject* mission
 	mission->setTitle(mt);
 
 	//Mission Description
-	sprintf(md,"m%do",mission_num);
+	snprintf(md, sizeof(md),"m%do",mission_num);
 
 	count < 5 ?
 		mission->setDetailFile("mission/mission_npc_musician_neutral_easy") :
@@ -1304,12 +1304,12 @@ MissionObject* MissionManager::generateSurveyMission(MissionObject* mission)
 	mission->setCreator(creators[gRandom->getRand() % 9]);
 
 	//Title
-	sprintf(mt,"m%dt",mission_num);
+	snprintf(mt, sizeof(mt),"m%dt",mission_num);
 	mission->setTitleFile("mission/mission_npc_survey_neutral_easy");
 	mission->setTitle(mt);
 
 	//Details
-	sprintf(md,"m%do",mission_num);
+	snprintf(md, sizeof(md),"m%do",mission_num);
 	mission->setDetailFile("mission/mission_npc_survey_neutral_easy");
 	mission->setDetail(md);
 
@@ -1393,12 +1393,12 @@ MissionObject* MissionManager::generateCraftingMission(MissionObject* mission)
 	mission->setCreator(creators[gRandom->getRand() % 9]);
 
 	//Title
-	sprintf(mt,"m%dt",mission_num);
+	snprintf(mt, sizeof(mt),"m%dt",mission_num);
 	mission->setTitleFile("mission/mission_npc_crafting_neutral_easy");
 	mission->setTitle(mt);
 
 	//Details
-	sprintf(md,"m%dd",mission_num);
+	snprintf(md, sizeof(md),"m%dd",mission_num);
 	mission->setDetailFile("mission/mission_npc_crafting_neutral_easy");
 	mission->setDetail(md);
 
@@ -1507,13 +1507,13 @@ MissionObject* MissionManager::generateReconMission(MissionObject* mission)
 	mission->setCreator(creators[gRandom->getRand() % 9]);
 
     //Mission Title
-	sprintf(mt,"m%dt",mission_num);
+	snprintf(mt, sizeof(mt),"m%dt",mission_num);
 
 	mission->setTitleFile(mission_recon[stf_file].mSTF);
 	mission->setTitle(mt);
 
 	//Mission Description
-	sprintf(md,"m%do",mission_num);
+	snprintf(md, sizeof(md),"m%do",mission_num);
 
 	mission->setDetailFile(mission_recon[stf_file].mSTF);
 	mission->setDetail(md);

@@ -132,7 +132,7 @@ void ObjectController::teach(PlayerObject* pupilObject,PlayerObject* teacherObje
 							{
 								//teachContainer->addSkill(nr,(*teacherIt)->mId);
 								int8 str[64];
-								sprintf(str,"@%s:%s","skl_n",gSkillManager->getSkillById((*teacherIt)->mId)->mName.getAnsi());
+								snprintf(str,sizeof(str),"@%s:%s","skl_n",gSkillManager->getSkillById((*teacherIt)->mId)->mName.getAnsi());
 								availableSkills.push_back(str);
 								nr++;
 							}
@@ -146,7 +146,7 @@ void ObjectController::teach(PlayerObject* pupilObject,PlayerObject* teacherObje
 							{
 								//teachContainer->addSkill(nr,(*teacherIt)->mId);
 								int8 str[64];
-								sprintf(str,"@%s:%s","skl_n",gSkillManager->getSkillById((*teacherIt)->mId)->mName.getAnsi());
+								snprintf(str,sizeof(str),"@%s:%s","skl_n",gSkillManager->getSkillById((*teacherIt)->mId)->mName.getAnsi());
 								availableSkills.push_back(str);
 								nr++;
 							}

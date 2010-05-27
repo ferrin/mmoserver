@@ -192,7 +192,7 @@ void ObjectController::_handleAdminSysMsg(uint64 targetId,Message* message,Objec
 				// Now ADD a proper spelled command. It HAS to match the crc.
 				string newCommandString;
 				newCommandString.setLength(adminCommands[commandIndex].command.getLength() + ansiData.getLength() + 1);
-				sprintf(newCommandString.getAnsi(),"%s %s", adminCommands[commandIndex].command.getAnsi(), ansiData.getAnsi());
+				snprintf(newCommandString.getAnsi(), sizeof(newCommandString.getAnsi()),"%s %s", adminCommands[commandIndex].command.getAnsi(), ansiData.getAnsi());
 
 				// Execute the command.
 				string opcodeStr(adminCommands[commandIndex].command);
@@ -215,17 +215,17 @@ void ObjectController::_handleAdminSysMsg(uint64 targetId,Message* message,Objec
 			else
 			{
 				// Invalid command.
-				sprintf(rawData,"Admin: [%s No such command]", adminCommand.getAnsi());
+				snprintf(rawData,  sizeof(rawData),"Admin: [%s No such command]", adminCommand.getAnsi());
 			}
 		}
 		else
 		{
-			sprintf(rawData,"Admin: [Unexpected error]");
+			snprintf(rawData, sizeof(rawData),"Admin: [Unexpected error]");
 		}
 	}
 	else
 	{
-		sprintf(rawData,"Admin: [Missing command]");
+		snprintf(rawData, sizeof(rawData),"Admin: [Missing command]");
 	}
 
 	// Send reply to caller.
@@ -254,7 +254,7 @@ void ObjectController::_handleBroadcast(uint64 targetId, Message* message, Objec
 	msgString = skipToNextField(msgString);
 
 	string feedback(this->handleBroadcast(msgString));
-	sprintf(rawData,"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
+	snprintf(rawData, sizeof(rawData),"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
 	this->sendAdminFeedback(rawData);
 }
 
@@ -314,7 +314,7 @@ void ObjectController::_handleBroadcastPlanet(uint64 targetId, Message* message,
 	msgString = skipToNextField(msgString);
 
 	string feedback = this->handleBroadcastPlanet(msgString);
-	sprintf(rawData,"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
+	snprintf(rawData, sizeof(rawData),"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
 	this->sendAdminFeedback(rawData);
 }
 
@@ -350,26 +350,26 @@ string ObjectController::handleBroadcastPlanet(string message) const
 					// string planetName(gWorldManager->getPlanetNameById(planetId));
 
 					this->broadcastGalaxyMessage(ansiData, planetId);
-					sprintf(rawData,"OK");
+					snprintf(rawData, sizeof(rawData),"OK");
 				}
 				else
 				{
-					sprintf(rawData,"No broadcast supplied");
+					snprintf(rawData, sizeof(rawData),"No broadcast supplied");
 				}
 			}
 			else
 			{
-				sprintf(rawData,"No valid broadcast supplied");
+				snprintf(rawData, sizeof(rawData),"No valid broadcast supplied");
 			}
 		}
 		else
 		{
-			sprintf(rawData,"%s is not valid planet name", planet.getAnsi());
+			snprintf(rawData, sizeof(rawData),"%s is not valid planet name", planet.getAnsi());
 		}
 	}
 	else
 	{
-		sprintf(rawData,"Missing planet name");
+		snprintf(rawData, sizeof(rawData),"Missing planet name");
 	}
 	return rawData;
 }
@@ -394,7 +394,7 @@ void ObjectController::_handleBroadcastGalaxy(uint64 targetId, Message* message,
 	msgString = skipToNextField(msgString);
 
 	string feedback = this->handleBroadcastGalaxy(msgString);
-	sprintf(rawData,"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
+	snprintf(rawData, sizeof(rawData),"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
 	this->sendAdminFeedback(rawData);
 }
 
@@ -455,7 +455,7 @@ void ObjectController::_handleShutdownGalaxy(uint64 targetId, Message* message, 
 	msgString = skipToNextField(msgString);
 
 	string feedback = this->handleShutdownGalaxy(msgString);
-	sprintf(rawData,"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
+	snprintf(rawData, sizeof(rawData),"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
 	this->sendAdminFeedback(rawData);
 }
 
@@ -466,11 +466,11 @@ string ObjectController::handleShutdownGalaxy(string message) const
 
 	if (AdminManager::Instance()->shutdownPending())
 	{
-		sprintf(replyData,"Shutdown already in progress");
+		snprintf(replyData, sizeof(replyData),"Shutdown already in progress");
 	}
 	else
 	{
-		sprintf(replyData,"OK");
+		snprintf(replyData, sizeof(replyData),"OK");
 		// Get time for shutdown
 		//
 		int32 minutesToShutdown;
@@ -506,12 +506,12 @@ string ObjectController::handleShutdownGalaxy(string message) const
 			}
 			else
 			{
-				sprintf(replyData,"%d is not valid shutdown time", minutesToShutdown);
+				snprintf(replyData, sizeof(replyData),"%d is not valid shutdown time", minutesToShutdown);
 			}
 		}
 		else
 		{
-			sprintf(replyData,"No shutdown time supplied");
+			snprintf(replyData, sizeof(replyData),"No shutdown time supplied");
 		}
 	}
 	return replyData;
@@ -538,7 +538,7 @@ void ObjectController::_handleCancelShutdownGalaxy(uint64 targetId, Message* mes
 	msgString = skipToNextField(msgString);
 
 	string feedback = this->handleCancelShutdownGalaxy(msgString);
-	sprintf(rawData,"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
+	snprintf(rawData, sizeof(rawData),"%s: [%s]", cmdProperties->mCommandStr.getAnsi(), feedback.getAnsi());
 	this->sendAdminFeedback(rawData);
 }
 
@@ -549,11 +549,11 @@ string ObjectController::handleCancelShutdownGalaxy(string message) const
 
 	if (!AdminManager::Instance()->shutdownPending())
 	{
-		sprintf(replyData,"No shutdown in progress");
+		snprintf(replyData, sizeof(replyData),"No shutdown in progress");
 	}
 	else
 	{
-		sprintf(replyData,"OK");
+		snprintf(replyData, sizeof(replyData),"OK");
 
 		// We have no idea of how much white space are inserted in string...
 		string ansiData;

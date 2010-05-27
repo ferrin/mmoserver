@@ -83,7 +83,7 @@ void FactoryBase::_buildAttributeMap(Object* object,DatabaseResult* result)
 		if(attribute.mKey.getCrc() == BString("cat_manf_schem_ing_resource").getCrc())
 		{
 			attribute.mValue.split(dataElements,' ');
-			sprintf(str,"cat_manf_schem_ing_resource.\"%s",dataElements[0].getAnsi());
+			snprintf(str,sizeof(str),"cat_manf_schem_ing_resource.\"%s",dataElements[0].getAnsi());
 
 			attribute.mKey		= BString(str);
 			attribute.mValue	= dataElements[1].getAnsi();

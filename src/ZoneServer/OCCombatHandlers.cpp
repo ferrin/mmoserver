@@ -357,7 +357,7 @@ void ObjectController::cloneAtPreDesignatedFacility(PlayerObject* player, SpawnP
 		// There is noo need to do it, we will save the correct in DB when we store the player data.
 		// And... pick a better name for the sp_.. below... like updateWoundsWithCloneData-something....
 		// int8 sql_sp[128];
-		// sprintf(sql_sp,"call swganh.sp_CharacterActivateClone(%I64u)", player->getId());
+		// snprintf(sql_sp,sizeof(sql_sp),"call swganh.sp_CharacterActivateClone(%I64u)", player->getId());
 		// (gWorldManager->getDatabase())->ExecuteSqlAsync(NULL,NULL,sql_sp);
 
 		// Update player objct with new data for wounds.
@@ -368,7 +368,7 @@ void ObjectController::cloneAtPreDesignatedFacility(PlayerObject* player, SpawnP
 		asyncContainer->anyPtr = (void*)spawnPoint;
 
 		int8 sql[256];
-		sprintf(sql,"SELECT health_wounds,strength_wounds,constitution_wounds,action_wounds,quickness_wounds,"
+		snprintf(sql,sizeof(sql),"SELECT health_wounds,strength_wounds,constitution_wounds,action_wounds,quickness_wounds,"
 			"stamina_wounds,mind_wounds,focus_wounds,willpower_wounds"
 			" FROM character_clone"
 			" WHERE"
@@ -463,7 +463,7 @@ void ObjectController::lootAll(uint64 targetId, PlayerObject* playerObject)
 							int32 splittedCredits = lootedCredits/(noOfMembers + 1);
 											
 							int8 str[64];
-							sprintf(str,"%u", lootedCredits);
+							snprintf(str,sizeof(str),"%u", lootedCredits);
 							string lootCreditsString(str);
 							lootCreditsString.convert(BSTRType_Unicode16);
 
@@ -495,7 +495,7 @@ void ObjectController::lootAll(uint64 targetId, PlayerObject* playerObject)
 								}
 
 								int8 str[64];
-								sprintf(str,"%u", totalProse);
+								snprintf(str,sizeof(str),"%u", totalProse);
 								string splitedLootCreditsString(str);
 								splitedLootCreditsString.convert(BSTRType_Unicode16);
 

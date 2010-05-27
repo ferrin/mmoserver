@@ -151,7 +151,7 @@ void NonPersistantObjectFactory::createTangible(ObjectFactoryCallback* ofCallbac
 	newItem->setId(gWorldManager->getRandomNpId());
 
 	int8 sql[256];
-	sprintf(sql,"SELECT item_types.object_string,item_types.stf_name,item_types.stf_file,item_types.stf_detail_name, item_types.stf_detail_file FROM item_types WHERE item_types.id = '%u'",typeId);
+	snprintf(sql,sizeof(sql),"SELECT item_types.object_string,item_types.stf_name,item_types.stf_file,item_types.stf_detail_name, item_types.stf_detail_file FROM item_types WHERE item_types.id = '%u'",typeId);
 	mDatabase->ExecuteSqlAsync(this,new(mQueryContainerPool.ordered_malloc()) NonPersistantQueryContainerBase(ofCallback,NonPersistantItemFactoryQuery_MainData,client,newItem),sql);
 	
 	//asyncContainer->mOfCallback->handleObjectReady(item,asyncContainer->mClient);

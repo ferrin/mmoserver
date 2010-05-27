@@ -183,7 +183,7 @@ void InsuranceTerminal::handleObjectMenuSelect(uint8 messageType,Object* srcObje
 						{
 							uint32 insuranceFee = insuranceList.size() * 100;
 							int8 sql[256];
-							sprintf(sql,"@terminal_ui:insure_all_d_prefix %u @terminal_ui:insure_all_d_suffix \n\n @terminal_ui:insure_all_confirm", insuranceFee);
+							snprintf(sql,sizeof(sql),"@terminal_ui:insure_all_d_prefix %u @terminal_ui:insure_all_d_suffix \n\n @terminal_ui:insure_all_confirm", insuranceFee);
 							gUIManager->createNewMessageBox(this,"","@terminal_ui:insure_all_t",sql,playerObject, SUI_Window_InsuranceAll_MessageBox, SUI_MB_YESNO);
 						}
 					}
@@ -382,7 +382,7 @@ void InsuranceTerminal::handleUIEvent(uint32 action,int32 element,string inputSt
 
 					uint32 insuranceFee = insuranceList.size() * mInsuranceFee;
 					int8 sql[256];
-					sprintf(sql,"@terminal_ui:insure_all_d_prefix %u @terminal_ui:insure_all_d_suffix \n\n @terminal_ui:insure_all_confirm", insuranceFee);
+					snprintf(sql,sizeof(sql),"@terminal_ui:insure_all_d_prefix %u @terminal_ui:insure_all_d_suffix \n\n @terminal_ui:insure_all_confirm", insuranceFee);
 					gUIManager->createNewMessageBox(this,"","@terminal_ui:insure_all_t",sql,playerObject, SUI_Window_InsuranceAll_MessageBox, SUI_MB_YESNO);
 				}
 				break;

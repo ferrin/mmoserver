@@ -340,7 +340,7 @@ void DatapadFactory::handleObjectReady(Object* object,DispatchClient* client)
 				asContainer->mObject = datapad;
 				asContainer->mId = item->getId();//queryContainer.mId;
 				int8 sql[256];
-				sprintf(sql,"SELECT items.id FROM items WHERE (parent_id=%"PRIu64")",item->getId());
+				snprintf(sql,sizeof(sql),"SELECT items.id FROM items WHERE (parent_id=%"PRIu64")",item->getId());
 				mDatabase->ExecuteSqlAsync(this,asContainer,sql);
 
 				mObjectLoadMap.insert(std::make_pair(item->getId(),new(mILCPool.ordered_malloc()) InLoadingContainer(datapad,0,0,1)));

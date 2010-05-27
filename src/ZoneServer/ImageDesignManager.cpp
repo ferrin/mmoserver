@@ -69,7 +69,7 @@ HoloStruct* EntertainerManager::getHoloEmoteByClientCRC(uint32 crc)
 string EntertainerManager::getHoloNames()
 {
 	int8 collection[512];
-	sprintf(collection,"");
+	snprintf(collection, sizeof(collection),"");
 	bool isNew = true;
 
 	HoloEmoteEffects::iterator it = mHoloList.begin();
@@ -79,11 +79,11 @@ string EntertainerManager::getHoloNames()
 		{
 			if(isNew)
 			{
-				sprintf(collection,"%s",(*it)->pEmoteName);
+				snprintf(collection, sizeof(collection),"%s",(*it)->pEmoteName);
 				isNew = false;
 			}
 			else
-				sprintf(collection,"%s, %s",collection,(*it)->pEmoteName);
+				snprintf(collection, sizeof(collection),"%s, %s",collection,(*it)->pEmoteName);
 		}
 		it++;
 	}
@@ -279,7 +279,7 @@ string EntertainerManager::commitIdheight(PlayerObject* customer, float value)
 	//update the db
 	int8 sql[50];
 
-	sprintf(sql,"scale = '%.2f'",(totalScale));
+	snprintf(sql,sizeof(sql),"scale = '%.2f'",(totalScale));
 	return(BString(sql));
 }
 
@@ -311,7 +311,7 @@ string EntertainerManager::commitIdColor(PlayerObject* customer, string attribut
 	char		*Token;
 	char		separation[] = ".";
 
-	sprintf(mString,"%s",&customer->getModelString().getAnsi()[30]);
+	snprintf(mString, sizeof(mString),"%s",&customer->getModelString().getAnsi()[30]);
 
 
 
@@ -345,7 +345,7 @@ string EntertainerManager::commitIdColor(PlayerObject* customer, string attribut
 
 			//update hair customization db side seperately
 			int8 sql[300];
-			sprintf(sql,"UPDATE character_appearance set %s = %u where character_id = '%"PRIu64"'",iDContainer->Atr1Name, value,customer->getId());
+			snprintf(sql,sizeof(sql),"UPDATE character_appearance set %s = %u where character_id = '%"PRIu64"'",iDContainer->Atr1Name, value,customer->getId());
 			mDatabase->ExecuteSqlAsync(NULL,NULL,sql);
 
 			//update object clientside
@@ -384,7 +384,7 @@ string EntertainerManager::commitIdColor(PlayerObject* customer, string attribut
 	}
 
 	int8 sql[50];
-	sprintf(sql,"%s = '%u'",iDContainer->Atr1Name,value);
+	snprintf(sql,sizeof(sql),"%s = '%u'",iDContainer->Atr1Name,value);
 
 	return(BString(sql));
 
@@ -405,11 +405,11 @@ string EntertainerManager::commitIdAttribute(PlayerObject* customer, string attr
 	uint16	uVal,sk;
 	string genderrace;
 
-	//sprintf(attrName,"");
-	//sprintf(add,"");
+	//snprintf(attrName, sizeof(attrName),"");
+	//snprintf(add, sizeof(add),"");
 
 	// get our gender and race so we can get hold of our Information from the id_attribute table
-	sprintf(mString,"%s",&customer->getModelString().getAnsi()[30]);
+	snprintf(mString, sizeof(mString),"%s",&customer->getModelString().getAnsi()[30]);
 
 	char *Token;
 	char separation[] = ".";
@@ -477,7 +477,7 @@ string EntertainerManager::commitIdAttribute(PlayerObject* customer, string attr
 		customer->setCustomization (0x2b,0);
 
 		int8 sql[250];
-		sprintf(sql,"ABFF = '%u', AB2FF = '%u'",v1,v2);
+		snprintf(sql,sizeof(sql),"ABFF = '%u', AB2FF = '%u'",v1,v2);
 		return(BString(sql));
 	}
 
@@ -498,12 +498,12 @@ string EntertainerManager::commitIdAttribute(PlayerObject* customer, string attr
 			sk = 255 - uVal;
 		}
 
-		sprintf(add,",%s = '%u'",iDContainer->Atr2Name,sk);
+		snprintf(add, sizeof(add),",%s = '%u'",iDContainer->Atr2Name,sk);
 		customer->setCustomization(static_cast<uint8>(iDContainer->Atr2ID),sk);
 	}
 
 	int8 sql[150];
-	sprintf(sql,"%s = '%u'%s",iDContainer->Atr1Name,uVal,add);
+	snprintf(sql,sizeof(sql),"%s = '%u'%s",iDContainer->Atr1Name,uVal,add);
 
 	return(BString(sql));
 
@@ -550,7 +550,7 @@ void EntertainerManager::applyHair(PlayerObject* customer,string newHairString)
 			if(!newHairString.getLength())
 			{
 				// update the db
-				sprintf(sql,"UPDATE character_appearance set hair = '' where character_id = '%"PRIu64"'",customer->getId());
+				snprintf(sql,sizeof(sql),"UPDATE character_appearance set hair = '' where character_id = '%"PRIu64"'",customer->getId());
 				mDatabase->ExecuteSqlAsync(NULL,NULL,sql);
 			}
 		}
@@ -567,7 +567,7 @@ void EntertainerManager::applyHair(PlayerObject* customer,string newHairString)
 		customer->setHair(playerHair);
 
 		int8 tmpHair[128];
-		sprintf(tmpHair,"object/tangible/hair/%s/shared_%s",customer->getSpeciesString().getAnsi(),&newHairString.getAnsi()[22 + customer->getSpeciesString().getLength()]);
+		snprintf(tmpHair, sizeof(tmpHair),"object/tangible/hair/%s/shared_%s",customer->getSpeciesString().getAnsi(),&newHairString.getAnsi()[22 + customer->getSpeciesString().getLength()]);
 		playerHair->setId(customer->getId() + 8);
 		playerHair->setParentId(customer->getId());
 		playerHair->setModelString(tmpHair);
@@ -580,7 +580,7 @@ void EntertainerManager::applyHair(PlayerObject* customer,string newHairString)
 
 
 		// update the db
-		sprintf(sql,"UPDATE character_appearance set hair = '%s' where character_id = '%"PRIu64"'",newHairString.getAnsi(),customer->getId());
+		snprintf(sql,sizeof(sql),"UPDATE character_appearance set hair = '%s' where character_id = '%"PRIu64"'",newHairString.getAnsi(),customer->getId());
 		mDatabase->ExecuteSqlAsync(NULL,NULL,sql);
 
 		// now update the modelstring in the creo6 equipped list and the corresponding tano
@@ -630,11 +630,11 @@ void EntertainerManager::applyMoney(PlayerObject* customer,PlayerObject* designe
 	asyncContainer->amountbank = amountbank;
 
 
-	sprintf(sql,"UPDATE inventories SET credits=credits-%i WHERE id=%"PRIu64"",amountcash, customer->getId()+1);
+	snprintf(sql,sizeof(sql),"UPDATE inventories SET credits=credits-%i WHERE id=%"PRIu64"",amountcash, customer->getId()+1);
 	mTransaction->addQuery(sql);
-	sprintf(sql,"UPDATE banks SET credits=credits-%i WHERE id=%"PRIu64"",amountbank, customer->getId()+4);
+	snprintf(sql,sizeof(sql),"UPDATE banks SET credits=credits-%i WHERE id=%"PRIu64"",amountbank, customer->getId()+4);
 	mTransaction->addQuery(sql);
-	sprintf(sql,"UPDATE banks SET credits=credits+%i WHERE id=%"PRIu64"",amount, designer->getId()+4);
+	snprintf(sql,sizeof(sql),"UPDATE banks SET credits=credits+%i WHERE id=%"PRIu64"",amount, designer->getId()+4);
 	mTransaction->addQuery(sql);
 
 	mTransaction->execute();
@@ -681,7 +681,7 @@ void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* de
 	string						data;
 	bool						firstUpdate		 = true;
 
-	sprintf(mySQL,"UPDATE character_appearance set ");
+	snprintf(mySQL, sizeof(mySQL),"UPDATE character_appearance set ");
 
 	while(it != aList->end())
 	{
@@ -699,11 +699,11 @@ void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* de
 
 		if (firstUpdate)
 		{
-			sprintf(mySQL,"%s %s",mySQL,data.getAnsi());
+			snprintf(mySQL, sizeof(mySQL),"%s %s",mySQL,data.getAnsi());
 			firstUpdate = false;
 		}
 		else
-			sprintf(mySQL,"%s, %s",mySQL,data.getAnsi());
+			snprintf(mySQL, sizeof(mySQL),"%s, %s",mySQL,data.getAnsi());
 
 		++it;
 	}
@@ -719,11 +719,11 @@ void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* de
 		{
 			if (firstUpdate)
 			{
-				sprintf(mySQL,"%s %s",mySQL,data.getAnsi());
+				snprintf(mySQL, sizeof(mySQL),"%s %s",mySQL,data.getAnsi());
 				firstUpdate = false;
 			}
 			else
-				sprintf(mySQL,"%s, %s",mySQL,data.getAnsi());
+				snprintf(mySQL, sizeof(mySQL),"%s, %s",mySQL,data.getAnsi());
 		}
 
 
@@ -733,7 +733,7 @@ void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* de
 	//do we have actual data or only the primer ??? "UPDATE character_appearance set "
 	if(strlen(mySQL) > 33)
 	{
-		sprintf(sql,"%s where character_id = '%"PRIu64"'",mySQL,customer->getId());
+		snprintf(sql,sizeof(sql),"%s where character_id = '%"PRIu64"'",mySQL,customer->getId());
 		gLogger->log(LogManager::DEBUG,"ID apply changes : sql: %s ",sql);
 		asyncContainer = new EntertainerManagerAsyncContainer(EMQuery_NULL,0);
 		mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
@@ -762,7 +762,7 @@ void EntertainerManager::commitIdChanges(PlayerObject* customer,PlayerObject* de
 		asyncContainer->customer = customer;
 		asyncContainer->performer = designer;
 
-		sprintf(sql,"SELECT target_health, target_strength, target_constitution, target_action, target_quickness, target_stamina, target_mind, target_focus, target_willpower FROM swganh.character_stat_migration where character_id = %"PRIu64"", customer->getId());
+		snprintf(sql,sizeof(sql),"SELECT target_health, target_strength, target_constitution, target_action, target_quickness, target_stamina, target_mind, target_focus, target_willpower FROM swganh.character_stat_migration where character_id = %"PRIu64"", customer->getId());
 		mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 	}
 	else
@@ -836,7 +836,7 @@ void EntertainerManager::applyHoloEmote(PlayerObject* customer,string holoEmote)
 	asyncContainer = new EntertainerManagerAsyncContainer(EMQuery_NULL,0);
 	asyncContainer->customer = customer;
 
-	sprintf(sql,"call swganh.sp_CharacterHoloEmoteCreate(%"PRIu64",%u,%u)", customer->getId(),myEmote->pCRC,20);
+	snprintf(sql,sizeof(sql),"call swganh.sp_CharacterHoloEmoteCreate(%"PRIu64",%u,%u)", customer->getId(),myEmote->pCRC,20);
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
 	//send message box holoemote bought
@@ -853,11 +853,11 @@ void EntertainerManager::applyHoloEmote(PlayerObject* customer,string holoEmote)
 
 		if(lotsOfStuff)
 		{
-			sprintf(sql1,"Your Holo-Emote generator can play all Holo-Emotes available. You have %u charges remaining."
+			snprintf(sql1,sizeof(sql1),"Your Holo-Emote generator can play all Holo-Emotes available. You have %u charges remaining."
 			"\xa To play your Holo-Emote type \x2fholoemote \x3cname\x3e.\xa To delete your Holo-Emote type \x2fholoemote delete. "
 			"\xa Purchasing a new Holo-Emote will automatically delete your current Holo-Emote.",customer->getHoloCharge());
 
-			sprintf(sql,"%s \xa \xa The available Holo-Emote names are: \xa \xa"
+			snprintf(sql,sizeof(sql),"%s \xa \xa The available Holo-Emote names are: \xa \xa"
 			"Beehive \x9 \x9 Blossom \x9 Brainstorm \xa"
 			"Bubblehead \x9 Bullhorns \x9 Butterflies \xa"
 			"Champagne \x9 Haunted \x9 Hearts \xa"
@@ -867,7 +867,7 @@ void EntertainerManager::applyHoloEmote(PlayerObject* customer,string holoEmote)
 		}
 		else
 		{
-			sprintf(sql,"Your current Holo Emote is %s.\xa You have %u charges remaining."
+			snprintf(sql,sizeof(sql),"Your current Holo Emote is %s.\xa You have %u charges remaining."
 			"\xa To play your Holo-Emote type \x2fholoemote %s.\xa To delete your Holo-Emote type \x2fholoemote delete. "
 			"\xa Purchasing a new Holo-Emote will automatically delete your current Holo-Emote.",myEmote->pEmoteName,customer->getHoloCharge(),myEmote->pEmoteName);
 		}

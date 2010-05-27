@@ -1062,7 +1062,7 @@ string CraftingSession::getSerial()
 	}
 	chance[8] = 0;
 
-	sprintf(serial,"(%s)",chance);
+	snprintf(serial, sizeof(serial),"(%s)",chance);
 
 	return(BString(serial));
 }
@@ -1318,16 +1318,16 @@ void CraftingSession::collectResources()
 	{
 		//build these attributes by hand the attribute wont be found in the attributes table its custom made
 		name = gResourceManager->getResourceById((*checkResIt).first)->getName();
-		sprintf(attr,"cat_manf_schem_ing_resource.\"%s",name .getAnsi());
+		snprintf(attr, sizeof(attr),"cat_manf_schem_ing_resource.\"%s",name .getAnsi());
 		string attrName = BString(attr);
 
-		sprintf(str,"%u",(*checkResIt).second);
+		snprintf(str,sizeof(str),"%u",(*checkResIt).second);
 
 		//add to the public attribute list
 		mManufacturingSchematic->addAttribute(attrName.getAnsi(),str);
 
 		//now add to the db
-		sprintf(str,"%s %u",name.getAnsi(),(*checkResIt).second);
+		snprintf(str,sizeof(str),"%s %u",name.getAnsi(),(*checkResIt).second);
 
 		//update db
 		//enter it slotdependent as we dont want to clot our attributes table with resources
@@ -1420,16 +1420,16 @@ void CraftingSession::collectComponents()
 				componentSerial = tO->getAttribute<std::string>("serial").c_str();
 
 		name = tO->getName();
-		sprintf(attr,"cat_manf_schem_ing_component.\"%s",name .getAnsi());
+		snprintf(attr, sizeof(attr),"cat_manf_schem_ing_component.\"%s",name .getAnsi());
 		string attrName = BString(attr);
 
-		sprintf(str,"%u",(*checkResIt).second);
+		snprintf(str,sizeof(str),"%u",(*checkResIt).second);
 
 		//add to the public attribute list
 		mManufacturingSchematic->addAttribute(attrName.getAnsi(),str);
 
 		//now add to the db
-		sprintf(str,"%s %u",name.getAnsi(),(*checkResIt).second);
+		snprintf(str,sizeof(str),"%s %u",name.getAnsi(),(*checkResIt).second);
 
 		//update db
 		//enter it slotdependent as we dont want to clot our attributes table with resources

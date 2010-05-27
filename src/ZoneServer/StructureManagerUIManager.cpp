@@ -135,7 +135,7 @@ void StructureManager::createNewStructureStatusBox(PlayerObject* player, PlayerS
 
 	//Owner
 	int8 text[128];
-	sprintf(text,"Owner:%s",structure->getOwnersName());
+	snprintf(text, sizeof(text),"Owner:%s",structure->getOwnersName());
 	attributesMenu.push_back(text);
 
 
@@ -143,11 +143,11 @@ void StructureManager::createNewStructureStatusBox(PlayerObject* player, PlayerS
 	HouseObject* house = dynamic_cast<HouseObject*>(structure);
 	if(house && house->getPublic())
 	{
-		sprintf(text,"This structure is public");
+		snprintf(text, sizeof(text),"This structure is public");
 	}
 	else
 	{
-		sprintf(text,"This structure is private");	
+		snprintf(text, sizeof(text),"This structure is private");	
 	}
 
 	attributesMenu.push_back(text);
@@ -155,7 +155,7 @@ void StructureManager::createNewStructureStatusBox(PlayerObject* player, PlayerS
 	// condition
 	uint32 currentCondition = structure->getMaxCondition() - structure->getDamage();
 
-	sprintf(text,"Condition: %u%s",(uint32)(currentCondition/(structure->getMaxCondition() /100)),"%");
+	snprintf(text, sizeof(text),"Condition: %u%s",(uint32)(currentCondition/(structure->getMaxCondition() /100)),"%");
 
 	attributesMenu.push_back(text);
 
@@ -174,11 +174,11 @@ void StructureManager::createNewStructureStatusBox(PlayerObject* player, PlayerS
 
 	minutes = (uint32)(maint/(rate/60));
 	
-	sprintf(text,"Maintenance Pool: %u(%u days, %u hours, %u minutes)",(uint32)structure->getCurrentMaintenance(),days,hours,minutes);
+	snprintf(text, sizeof(text),"Maintenance Pool: %u(%u days, %u hours, %u minutes)",(uint32)structure->getCurrentMaintenance(),days,hours,minutes);
 	attributesMenu.push_back(text);
 
 	//Maintenance rate
-	sprintf(text,"Maintenance Rate: %u/hr",(uint32)rate);
+	snprintf(text, sizeof(text),"Maintenance Rate: %u/hr",(uint32)rate);
 	attributesMenu.push_back(text);
 
 	//Power Pool do not display with houses or powerharvesters
@@ -213,11 +213,11 @@ void StructureManager::createNewStructureStatusBox(PlayerObject* player, PlayerS
 	
 	minutes = (uint32)(power/ (rate/60));
 	
-	sprintf(text,"Power Reserves: %u(%u days, %u hours, %u minutes)",structure->getCurrentPower(),days,hours,minutes);
+	snprintf(text, sizeof(text),"Power Reserves: %u(%u days, %u hours, %u minutes)",structure->getCurrentPower(),days,hours,minutes);
 	attributesMenu.push_back(text);
 
 	//Power Consumption
-	sprintf(text,"Power Consumption: %u units/hr",structure->getPowerConsumption());
+	snprintf(text, sizeof(text),"Power Consumption: %u units/hr",structure->getPowerConsumption());
 	attributesMenu.push_back(text);
 	
 
@@ -239,7 +239,7 @@ void StructureManager::createRenameStructureBox(PlayerObject* player, PlayerStru
 	string text = "Please enter the new name you would like for this object.";
 	
 	int8 caption[32];
-	sprintf(caption,"NAME THE OBJECT");
+	snprintf(caption, sizeof(caption),"NAME THE OBJECT");
 
 	BStringVector vector;
 
@@ -248,10 +248,10 @@ void StructureManager::createRenameStructureBox(PlayerObject* player, PlayerStru
 
 	string name = structure->getCustomName();			
 	name.convert(BSTRType_ANSI);
-	sprintf(sName,"%s",name.getAnsi());
+	snprintf(sName, sizeof(sName),"%s",name.getAnsi());
 	if(!name.getLength())
 	{
-		sprintf(sName,"@%s:%s",structure->getNameFile().getAnsi(),structure->getName().getAnsi());
+		snprintf(sName, sizeof(sName),"@%s:%s",structure->getNameFile().getAnsi(),structure->getName().getAnsi());
 		
 	}
 
@@ -272,18 +272,18 @@ void StructureManager::createPowerTransferBox(PlayerObject* player, PlayerStruct
 	uint32 structurePower = structure->getCurrentPower();
 	uint32 playerPower = gStructureManager->getCurrentPower(player);
 
-	sprintf(text,"Select the amount of power you would like to deposit.\xa\xa Current Power Value = %u ",structurePower);
+	snprintf(text, sizeof(text),"Select the amount of power you would like to deposit.\xa\xa Current Power Value = %u ",structurePower);
 	
 	int8 caption[32];
-	sprintf(caption,"SELECT AMOUNT");
+	snprintf(caption, sizeof(caption),"SELECT AMOUNT");
 	int8 sName[128];
 
 	string name = structure->getCustomName();			
 	name.convert(BSTRType_ANSI);
-	sprintf(sName,"%s",name.getAnsi());
+	snprintf(sName, sizeof(sName),"%s",name.getAnsi());
 	if(!name.getLength())
 	{
-		sprintf(sName,"@%s:%s",structure->getNameFile().getAnsi(),structure->getName().getAnsi());
+		snprintf(sName, sizeof(sName),"@%s:%s",structure->getNameFile().getAnsi(),structure->getName().getAnsi());
 		
 	}
 
@@ -301,18 +301,18 @@ void StructureManager::createPayMaintenanceTransferBox(PlayerObject* player, Pla
 	int32 structureFunds = structure->getCurrentMaintenance();
 
 	int8 text[255];
-	sprintf(text,"Select the total amount you would like to pay to the existing maintenance pool.\xa\xa Current maintenance pool: %u cr.",structureFunds);
+	snprintf(text, sizeof(text),"Select the total amount you would like to pay to the existing maintenance pool.\xa\xa Current maintenance pool: %u cr.",structureFunds);
 	
 	int8 caption[32];
-	sprintf(caption,"SELECT AMOUNT");
+	snprintf(caption, sizeof(caption),"SELECT AMOUNT");
 	int8 sName[128];
 
 	string name = structure->getCustomName();			
 	name.convert(BSTRType_ANSI);
-	sprintf(sName,"%s",name.getAnsi());
+	snprintf(sName, sizeof(sName),"%s",name.getAnsi());
 	if(!name.getLength())
 	{
-		sprintf(sName,"@%s:%s",structure->getNameFile().getAnsi(),structure->getName().getAnsi());
+		snprintf(sName, sizeof(sName),"@%s:%s",structure->getNameFile().getAnsi(),structure->getName().getAnsi());
 		
 	}
 
@@ -339,11 +339,11 @@ void StructureManager::createNewStructureDeleteConfirmBox(PlayerObject* player, 
 	
 	int8 code [32];
 	structure->setCode();
-	sprintf(code,"code: %s",structure->getCode().getAnsi());
+	snprintf(code, sizeof(code),"code: %s",structure->getCode().getAnsi());
 	text << code;
 
 	int8 caption[32];
-	sprintf(caption,"CONFIRM STRUCTURE DESTRUCTION");
+	snprintf(caption, sizeof(caption),"CONFIRM STRUCTURE DESTRUCTION");
 
 	BStringVector vector;
 
@@ -363,7 +363,7 @@ void StructureManager::createNewStructureDestroyBox(PlayerObject* player, Player
 		text <<"WILL REDEED:\\#"SOE_GREEN" YES";			
 
 		int8 redeedText[64];
-		sprintf(redeedText,"CAN REDEED: \\#"SOE_GREEN" YES");
+		snprintf(redeedText, sizeof(redeedText),"CAN REDEED: \\#"SOE_GREEN" YES");
 		attributesMenu.push_back(redeedText);
 	}
 	else
@@ -371,7 +371,7 @@ void StructureManager::createNewStructureDestroyBox(PlayerObject* player, Player
 		text <<"WILL REDEED:\\#"SOE_RED" NO";			
 
 		int8 redeedText[64];
-		sprintf(redeedText,"CAN REDEED:\\#"SOE_RED" NO");
+		snprintf(redeedText, sizeof(redeedText),"CAN REDEED:\\#"SOE_RED" NO");
 		attributesMenu.push_back(redeedText);
 	}
 	
@@ -381,14 +381,14 @@ void StructureManager::createNewStructureDestroyBox(PlayerObject* player, Player
 	if( cond < maxCond)
 	{
 		int8 condition[64];
-		sprintf(condition," - CONDITION: \\#"SOE_RED"%u/%u",cond,maxCond);
+		snprintf(condition, sizeof(condition)," - CONDITION: \\#"SOE_RED"%u/%u",cond,maxCond);
 		attributesMenu.push_back(condition);
 		
 	}
 	else
 	{
 		int8 condition[64];
-		sprintf(condition," - CONDITION: \\#"SOE_GREEN"%u/%u",cond,maxCond);
+		snprintf(condition, sizeof(condition)," - CONDITION: \\#"SOE_GREEN"%u/%u",cond,maxCond);
 		attributesMenu.push_back(condition);
 	}
 
@@ -398,13 +398,13 @@ void StructureManager::createNewStructureDestroyBox(PlayerObject* player, Player
 	if(maintIs >= maintNeed)
 	{
 		int8 maintenance[128];
-		sprintf(maintenance," - MAINTENANCE: \\#"SOE_GREEN"%u/%u",maintIs,maintNeed);
+		snprintf(maintenance, sizeof(maintenance)," - MAINTENANCE: \\#"SOE_GREEN"%u/%u",maintIs,maintNeed);
 		attributesMenu.push_back(maintenance);
 	}
 	else
 	{
 		int8 maintenance[128];
-		sprintf(maintenance," - MAINTENANCE: \\#"SOE_RED"%u/%u",maintIs,maintNeed);
+		snprintf(maintenance, sizeof(maintenance)," - MAINTENANCE: \\#"SOE_RED"%u/%u",maintIs,maintNeed);
 		attributesMenu.push_back(maintenance);
 	}
 
@@ -412,10 +412,10 @@ void StructureManager::createNewStructureDestroyBox(PlayerObject* player, Player
 
 	string name = structure->getCustomName();			
 	name.convert(BSTRType_ANSI);
-	sprintf(sName,"%s",name.getAnsi());
+	snprintf(sName, sizeof(sName),"%s",name.getAnsi());
 	if(!name.getLength())
 	{
-		sprintf(sName,"@%s:%s",structure->getNameFile().getAnsi(),structure->getName().getAnsi());
+		snprintf(sName, sizeof(sName),"@%s:%s",structure->getNameFile().getAnsi(),structure->getName().getAnsi());
 		
 	}
 

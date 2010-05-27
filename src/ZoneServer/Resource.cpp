@@ -78,7 +78,7 @@ void Resource::sendAttributes(PlayerObject* playerObject)
 				case ResAttr_FL: attrName = "res_flavor";			break;
 			}
 
-			sprintf(tmpStr,"%u",attrValue);
+			snprintf(tmpStr, sizeof(tmpStr),"%u",attrValue);
 			tmpValueStr = tmpStr;
 			tmpValueStr.convert(BSTRType_Unicode16);
 

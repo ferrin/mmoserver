@@ -160,7 +160,7 @@ void CraftingSession::handleDatabaseJobComplete(void* ref,DatabaseResult* result
 			uint32 groupId = mDraftSchematic->getWeightsBatchId();
 
 			int8 sql[550];
-			sprintf(sql,"SELECT DISTINCT skills_skillmods.skillmod_id FROM draft_schematics INNER JOIN skills_schematicsgranted ON draft_schematics.group_id = skills_schematicsgranted.schem_group_id INNER JOIN skills_skillmods ON skills_schematicsgranted.skill_id = skills_skillmods.skill_id INNER JOIN skillmods ON skills_skillmods.skillmod_id = skillmods.skillmod_id WHERE draft_schematics.weightsbatch_id = %u AND skillmods.skillmod_name LIKE %s",groupId,"'%%asse%%'");
+			snprintf(sql,sizeof(sql),"SELECT DISTINCT skills_skillmods.skillmod_id FROM draft_schematics INNER JOIN skills_schematicsgranted ON draft_schematics.group_id = skills_schematicsgranted.schem_group_id INNER JOIN skills_skillmods ON skills_schematicsgranted.skill_id = skills_skillmods.skill_id INNER JOIN skillmods ON skills_skillmods.skillmod_id = skillmods.skillmod_id WHERE draft_schematics.weightsbatch_id = %u AND skillmods.skillmod_name LIKE %s",groupId,"'%%asse%%'");
 
 			mDatabase->ExecuteSqlAsyncNoArguments(this,container,sql);
 			//mDatabase->ExecuteSqlAsync(this,container,sql);
@@ -206,7 +206,7 @@ void CraftingSession::handleDatabaseJobComplete(void* ref,DatabaseResult* result
 			uint32 groupId = mDraftSchematic->getWeightsBatchId();
 
 			int8 sql[550];
-			sprintf(sql,"SELECT dsc.attribute, dsc.cust_attribute, dsc.palette_size, dsc.default_value FROM draft_schematic_customization dsc WHERE dsc.batchId = %u",groupId);
+			snprintf(sql,sizeof(sql),"SELECT dsc.attribute, dsc.cust_attribute, dsc.palette_size, dsc.default_value FROM draft_schematic_customization dsc WHERE dsc.batchId = %u",groupId);
 			mDatabase->ExecuteSqlAsync(this,container,sql);
 
 
@@ -356,7 +356,7 @@ void CraftingSession::handleObjectReady(Object* object,DispatchClient* client)
 
 
 		int8 sql[550];
-		sprintf(sql,"SELECT DISTINCT skills_skillmods.skillmod_id FROM draft_schematics INNER JOIN skills_schematicsgranted ON draft_schematics.group_id = skills_schematicsgranted.schem_group_id INNER JOIN skills_skillmods ON skills_schematicsgranted.skill_id = skills_skillmods.skill_id INNER JOIN skillmods ON skills_skillmods.skillmod_id = skillmods.skillmod_id WHERE draft_schematics.weightsbatch_id = %u AND skillmods.skillmod_name LIKE %s",groupId,"'%%exper%%'");
+		snprintf(sql,sizeof(sql),"SELECT DISTINCT skills_skillmods.skillmod_id FROM draft_schematics INNER JOIN skills_schematicsgranted ON draft_schematics.group_id = skills_schematicsgranted.schem_group_id INNER JOIN skills_skillmods ON skills_schematicsgranted.skill_id = skills_skillmods.skill_id INNER JOIN skillmods ON skills_skillmods.skillmod_id = skillmods.skillmod_id WHERE draft_schematics.weightsbatch_id = %u AND skillmods.skillmod_name LIKE %s",groupId,"'%%exper%%'");
 
 		//% just upsets the standard query
 		mDatabase->ExecuteSqlAsyncNoArguments(this,container,sql);
@@ -818,10 +818,10 @@ void CraftingSession::createPrototype(uint32 noPractice,uint32 counter)
 
 
 		// update the custom name and parent
-		sprintf(sql,"UPDATE items SET parent_id=%"PRIu64", customName='",mOwner->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory)->getId());
+		snprintf(sql,sizeof(sql),"UPDATE items SET parent_id=%"PRIu64", customName='",mOwner->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory)->getId());
 		sqlPointer = sql + strlen(sql);
 		sqlPointer += mDatabase->Escape_String(sqlPointer,mItem->getCustomName().getAnsi(),mItem->getCustomName().getLength());
-		sprintf(restStr,"' WHERE id=%"PRIu64" ",mItem->getId());
+		snprintf(restStr,sizeof(restStr),"' WHERE id=%"PRIu64" ",mItem->getId());
 		strcat(sql,restStr);
 
 		t->addQuery(sql);

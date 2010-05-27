@@ -73,7 +73,7 @@ void CloningTerminal::handleObjectMenuSelect(uint8 messageType,Object* srcObject
 							// TODO: We need to save the current data before creating the clone data.
 
 							int8 sql[128];
-							sprintf(sql,"call swganh.sp_CharacterCreateClone(%"PRIu64",%"PRIu64")", playerObject->getId(),playerObject->getPreDesignatedCloningFacilityId());
+							snprintf(sql,sizeof(sql),"call swganh.sp_CharacterCreateClone(%"PRIu64",%"PRIu64")", playerObject->getId(),playerObject->getPreDesignatedCloningFacilityId());
 							(gWorldManager->getDatabase())->ExecuteSqlAsync(NULL,NULL,sql);
 
 							// Clone location successfully updated
@@ -169,7 +169,7 @@ void CloningTerminal::handleUIEvent(uint32 action,int32 element,string inputStr,
 				playerObject->setBindCoords(bindPosition);
 
 				int8 sql[128];
-				sprintf(sql,"call swganh.sp_CharacterCreateClone(%"PRIu64",%"PRIu64")", playerObject->getId(),playerObject->getPreDesignatedCloningFacilityId());
+				snprintf(sql,sizeof(sql),"call swganh.sp_CharacterCreateClone(%"PRIu64",%"PRIu64")", playerObject->getId(),playerObject->getPreDesignatedCloningFacilityId());
 				(gWorldManager->getDatabase())->ExecuteSqlAsync(NULL,NULL,sql);
 
 				// Clone location successfully updated

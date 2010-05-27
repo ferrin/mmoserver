@@ -181,7 +181,7 @@ void SchematicManager::handleDatabaseJobComplete(void* ref,DatabaseResult* resul
 				ScMAsyncContainer* asContainer = new(mDBAsyncPool.ordered_malloc()) ScMAsyncContainer(ScMQuery_SchematicSlots);
 				asContainer->mSchematic = schematic;
 				int8 sql[2048];
-				sprintf(sql,"SELECT draft_slots.component_file,draft_slots.component_name,draft_slots.resource_name,draft_slots.amount,draft_slots.optional,draft_slots.type"
+				snprintf(sql,sizeof(sql),"SELECT draft_slots.component_file,draft_slots.component_name,draft_slots.resource_name,draft_slots.amount,draft_slots.optional,draft_slots.type"
 							" FROM	draft_slots"
 							" INNER JOIN draft_schematics_slots ON (draft_slots.id = draft_schematics_slots.draft_slot_id)"
 							" WHERE"
@@ -193,7 +193,7 @@ void SchematicManager::handleDatabaseJobComplete(void* ref,DatabaseResult* resul
 				// assemblybatches
 				asContainer = new(mDBAsyncPool.ordered_malloc()) ScMAsyncContainer(ScMQuery_SchematicAssemblyBatches);
 				asContainer->mSchematic = schematic;
-				sprintf(sql,"SELECT draft_assembly_batches.id,draft_assembly_batches.list_id"
+				snprintf(sql,sizeof(sql),"SELECT draft_assembly_batches.id,draft_assembly_batches.list_id"
 							" FROM"
 							" draft_weights"
 							" INNER JOIN draft_assembly_batches ON (draft_weights.assembly_batch_id = draft_assembly_batches.id)"
@@ -205,7 +205,7 @@ void SchematicManager::handleDatabaseJobComplete(void* ref,DatabaseResult* resul
 				// experimentbatches
 				asContainer = new(mDBAsyncPool.ordered_malloc()) ScMAsyncContainer(ScMQuery_SchematicExperimentBatches);
 				asContainer->mSchematic = schematic;
-				sprintf(sql,"SELECT draft_experiment_batches.id,draft_experiment_batches.list_id"
+				snprintf(sql,sizeof(sql),"SELECT draft_experiment_batches.id,draft_experiment_batches.list_id"
 							" FROM"
 							" draft_weights"
 							" INNER JOIN draft_experiment_batches ON (draft_weights.experiment_batch_id = draft_experiment_batches.id)"
@@ -217,7 +217,7 @@ void SchematicManager::handleDatabaseJobComplete(void* ref,DatabaseResult* resul
 				// craftingbatches
 				asContainer = new(mDBAsyncPool.ordered_malloc()) ScMAsyncContainer(ScMQuery_SchematicCraftBatches);
 				asContainer->mSchematic = schematic;
-				sprintf(sql,"SELECT draft_craft_batches.id,draft_craft_batches.list_id,draft_craft_batches.expGroup"
+				snprintf(sql,sizeof(sql),"SELECT draft_craft_batches.id,draft_craft_batches.list_id,draft_craft_batches.expGroup"
 							" FROM"
 							" draft_weights"
 							" INNER JOIN draft_craft_batches ON (draft_weights.craft_batch_id = draft_craft_batches.id)"
@@ -229,7 +229,7 @@ void SchematicManager::handleDatabaseJobComplete(void* ref,DatabaseResult* resul
 				// craftingbatches
 				asContainer = new(mDBAsyncPool.ordered_malloc()) ScMAsyncContainer(ScMQuery_SchematicCraftBatches);
 				asContainer->mSchematic = schematic;
-				sprintf(sql,"SELECT draft_craft_batches.id,draft_craft_batches.list_id,draft_craft_batches.expGroup"
+				snprintf(sql,sizeof(sql),"SELECT draft_craft_batches.id,draft_craft_batches.list_id,draft_craft_batches.expGroup"
 							" FROM"
 							" draft_weights"
 							" INNER JOIN draft_craft_batches ON (draft_weights.craft_batch_id = draft_craft_batches.id)"

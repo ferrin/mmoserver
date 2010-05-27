@@ -487,9 +487,9 @@ void ChatManager::handleDatabaseJobComplete(void* ref,DatabaseResult* result)
 				int8 sql[20000],*sqlPointer;
 				int8 footer[64];
 				int8 receiverStr[64];
-				sprintf(receiverStr,"',%"PRIu64",'",receiverId);
-				sprintf(footer,",%u,%"PRIu32")",(asyncContainer->mMail->mAttachments.getLength() << 1),asyncContainer->mMail->mTime);
-				sprintf(sql,"SELECT sf_MailCreate('");
+				snprintf(receiverStr,sizeof(receiverStr),"',%"PRIu64",'",receiverId);
+				snprintf(footer,sizeof(footer),",%u,%"PRIu32")",(asyncContainer->mMail->mAttachments.getLength() << 1),asyncContainer->mMail->mTime);
+				snprintf(sql,sizeof(sql),"SELECT sf_MailCreate('");
 
 				sqlPointer = sql + strlen(sql);
 
@@ -2325,7 +2325,7 @@ void ChatManager::sendSystemMailMessage(Mail* mail,uint64 recipient)
 	asyncContainer->mClient = NULL;
 
 	int8 sql[100];
-	sprintf(sql,"SELECT firstname FROM characters WHERE id LIKE %"PRIu64"",recipient);
+	snprintf(sql,sizeof(sql),"SELECT firstname FROM characters WHERE id LIKE %"PRIu64"",recipient);
 
 	mDatabase->ExecuteSqlAsyncNoArguments(this,asyncContainer,sql);
 }
@@ -2376,7 +2376,7 @@ void ChatManager::_processSystemMailMessage(Message* message,DispatchClient* cli
 	asyncContainer->mClient = client;
 
 	int8 sql[100];
-	sprintf(sql,"SELECT firstname FROM characters WHERE id LIKE %"PRIu64"",ReceiverID);
+	snprintf(sql,sizeof(sql),"SELECT firstname FROM characters WHERE id LIKE %"PRIu64"",ReceiverID);
 
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql);
 
@@ -2414,9 +2414,9 @@ void ChatManager::_PersistentMessagebySystem(Mail* mail,DispatchClient* client, 
 		int8 sql[20000],*sqlPointer;
 		int8 footer[64];
 		int8 receiverStr[64];
-		sprintf(receiverStr,"',%"PRIu64",'",receiver->getCharId());
-		sprintf(footer,",%u,%"PRIu32")",(mail->mAttachments.getLength() << 1),mail->mTime);
-		sprintf(sql,"SELECT sf_MailCreate('");
+		snprintf(receiverStr,sizeof(receiverStr),"',%"PRIu64",'",receiver->getCharId());
+		snprintf(footer,sizeof(footer),",%u,%"PRIu32")",(mail->mAttachments.getLength() << 1),mail->mTime);
+		snprintf(sql,sizeof(sql),"SELECT sf_MailCreate('");
 		sqlPointer = sql + strlen(sql);
 		sqlPointer += mDatabase->Escape_String(sqlPointer,mail->getSender().getAnsi(),mail->getSender().getLength());
 		strcat(sql,receiverStr);
@@ -2446,7 +2446,7 @@ void ChatManager::_PersistentMessagebySystem(Mail* mail,DispatchClient* client, 
 		asyncContainer->mMailCounter = mailId;
 
 		int8 sql[256],*sqlPointer;
-		sprintf(sql,"SELECT id FROM characters WHERE LOWER(firstname) LIKE '");
+		snprintf(sql,sizeof(sql),"SELECT id FROM characters WHERE LOWER(firstname) LIKE '");
 		sqlPointer = sql + strlen(sql);
 		sqlPointer += mDatabase->Escape_String(sqlPointer,receiverStr.getAnsi(),receiverStr.getLength());
 		*sqlPointer++ = '\'';
@@ -2525,9 +2525,9 @@ void ChatManager::_processPersistentMessageToServer(Message* message,DispatchCli
 		int8 sql[20000],*sqlPointer;
 		int8 footer[64];
 		int8 receiverStr[64];
-		sprintf(receiverStr,"',%"PRIu64",'",receiver->getCharId());
-		sprintf(footer,",%u,%"PRIu32")",(mail->mAttachments.getLength() << 1),mail->mTime);
-		sprintf(sql,"SELECT sf_MailCreate('%s",sender->getName().getAnsi());
+		snprintf(receiverStr,sizeof(receiverStr),"',%"PRIu64",'",receiver->getCharId());
+		snprintf(footer,sizeof(footer),",%u,%"PRIu32")",(mail->mAttachments.getLength() << 1),mail->mTime);
+		snprintf(sql,sizeof(sql),"SELECT sf_MailCreate('%s",sender->getName().getAnsi());
 		sqlPointer = sql + strlen(sql);
 		sqlPointer += mDatabase->Escape_String(sqlPointer,sender->getName().getAnsi(),sender->getName().getLength());
 		strcat(sql,receiverStr);
@@ -2555,7 +2555,7 @@ void ChatManager::_processPersistentMessageToServer(Message* message,DispatchCli
 		asyncContainer->mMailCounter = mailId;
 
 		int8 sql[256],*sqlPointer;
-		sprintf(sql,"SELECT id FROM characters WHERE LOWER(firstname) LIKE '");
+		snprintf(sql,sizeof(sql),"SELECT id FROM characters WHERE LOWER(firstname) LIKE '");
 		sqlPointer = sql + strlen(sql);
 		sqlPointer += mDatabase->Escape_String(sqlPointer,targetName.getAnsi(),targetName.getLength());
 		*sqlPointer++ = '\'';
@@ -2584,7 +2584,7 @@ void ChatManager::_processRequestPersistentMessage(Message* message,DispatchClie
 	asyncContainer->mRequestId = dbMailId;
 
 	int8 sql[256];
-	sprintf(sql,"CALL swganh.sp_ReturnChatMailById(%"PRIu32");",dbMailId);
+	snprintf(sql,sizeof(sql),"CALL swganh.sp_ReturnChatMailById(%"PRIu32");",dbMailId);
 
 	mDatabase->ExecuteProcedureAsync(this,asyncContainer,sql);
 }
@@ -2835,7 +2835,7 @@ void ChatManager::updateFriendsOnline(Player* player,bool action)
 			err = ctime_s(timebuf, 32, &ltime);
 			if (err)
 			{
-			   sprintf(timebuf,"%s","");
+			   snprintf(timebuf,sizeof(timebuf),"%s","");
 			}
 			*/
 			string time = ctime(&ltime);
@@ -2951,8 +2951,8 @@ void ChatManager::_processFindFriendMessage(Message* message,DispatchClient* cli
 	asyncContainer->mName = friendName.getAnsi();
 	asyncContainer->mSender = playerObject;
 
-	sprintf(sql,"SELECT id from swganh.characters where firstname like '");
-	sprintf(end,"'");
+	snprintf(sql,sizeof(sql),"SELECT id from swganh.characters where firstname like '");
+	snprintf(end,sizeof(end),"'");
 	sqlPointer = sql + strlen(sql);
 	sqlPointer += mDatabase->Escape_String(sqlPointer,friendName.getAnsi(),friendName.getLength());
 	strcat(sql,end);

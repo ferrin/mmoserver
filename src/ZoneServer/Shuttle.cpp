@@ -81,7 +81,7 @@ void Shuttle::useShuttle(PlayerObject* playerObject)
 	if(!collector)
 	{
 		int8 sql[128];
-		sprintf(sql,"No ticket collector on duty error : %"PRIu64,mTicketCollectorId);
+		snprintf(sql,sizeof(sql),"No ticket collector on duty error : %"PRIu64,mTicketCollectorId);
 		string u = BString(sql);
 		u.convert(BSTRType_Unicode16);
 

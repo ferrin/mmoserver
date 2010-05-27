@@ -282,8 +282,8 @@ void CharacterLoginHandler::handleDispatchMessage(uint32 opcode, Message* messag
 
 			// Some info about the current build
 			int8 rawData[128];
-			// sprintf(rawData,"Running %s",ConfigManager::getBuildString());
-			sprintf(rawData,"Running build %s created %s", ConfigManager::getBuildNumber().c_str(), ConfigManager::getBuildTime().c_str());
+			// snprintf(rawData,sizeof(rawData),"Running %s",ConfigManager::getBuildString());
+			snprintf(rawData,sizeof(rawData),"Running build %s created %s", ConfigManager::getBuildNumber().c_str(), ConfigManager::getBuildTime().c_str());
 
 			string buildString(rawData);
 			buildString.convert(BSTRType_Unicode16);

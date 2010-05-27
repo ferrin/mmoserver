@@ -190,7 +190,7 @@ void AttackableCreature::handleObjectMenuSelect(uint8 messageType,Object* srcObj
 									int32 splittedCredits = lootedCredits/(noOfMembers + 1);
 
 									int8 str[64];
-									sprintf(str,"%u", lootedCredits);
+									snprintf(str,sizeof(str),"%u", lootedCredits);
 									string lootCreditsString(str);
 									lootCreditsString.convert(BSTRType_Unicode16);
 
@@ -222,7 +222,7 @@ void AttackableCreature::handleObjectMenuSelect(uint8 messageType,Object* srcObj
 										}
 
 										int8 str[64];
-										sprintf(str,"%u", totalProse);
+										snprintf(str,sizeof(str),"%u", totalProse);
 										string splitedLootCreditsString(str);
 										splitedLootCreditsString.convert(BSTRType_Unicode16);
 
@@ -241,7 +241,7 @@ void AttackableCreature::handleObjectMenuSelect(uint8 messageType,Object* srcObj
 								{
 									// We looted some credits, always a start.
 									// int8 str[128];
-									// sprintf(str,"%u credits", lootedCredits);
+									// snprintf(str,sizeof(str),"%u credits", lootedCredits);
 									// string lootCreditsString(str);
 									// lootCreditsString.convert(BSTRType_Unicode16);
 									// gMessageLib->sendSystemMessage(playerObject, L"", "spam", "loot_item_self", "", "", L"", 0, getSpeciesGroup(), getSpeciesString(), L"", 0, 0, 0, "", "", lootCreditsString);

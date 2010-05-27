@@ -186,7 +186,7 @@ void BuffManager::LoadBuffsFromResult(buffAsyncContainer* asyncContainer, Databa
 	envelope->mQueryType = BMQuery_Delete;
 
 	int8 sql2[550];
-	sprintf(sql2, "delete from character_buffs where character_id = %"PRIu64";", player->getId());
+	snprintf(sql2,sizeof(sql2), "delete from character_buffs where character_id = %"PRIu64";", player->getId());
 	mDatabase->ExecuteSqlAsync(this,envelope,sql2);
 }
 
@@ -220,7 +220,7 @@ void BuffManager::LoadBuffAttributesFromResult(buffAsyncContainer* asyncContaine
 	asyncContainer->player->DecBuffAsyncCount();
 	asyncContainer->mQueryType=BMQuery_Delete;
 	int8 sql2[550];
-	sprintf(sql2, "delete from character_buff_attributes where character_id = %"PRIu64" and buff_id = %"PRIu64";", asyncContainer->player->getId(), asyncContainer->buff->GetDBID());
+	snprintf(sql2,sizeof(sql2), "delete from character_buff_attributes where character_id = %"PRIu64" and buff_id = %"PRIu64";", asyncContainer->player->getId(), asyncContainer->buff->GetDBID());
 	mDatabase->ExecuteSqlAsync(this,asyncContainer,sql2);
 	SAFE_DELETE(asyncContainer);
 }
@@ -314,7 +314,7 @@ void BuffManager::LoadBuffs(PlayerObject* playerObject, uint64 currenttime)
 	envelope->player		= playerObject;
 
 	int8 sql[550];
-	sprintf(sql, "SELECT buff_id,character_id,instigator_id,max_ticks,tick_length,current_tick,icon,current_global_tick,start_global_tick from character_buffs where character_id = %"PRIu64"", playerObject->getId());
+	snprintf(sql,sizeof(sql), "SELECT buff_id,character_id,instigator_id,max_ticks,tick_length,current_tick,icon,current_global_tick,start_global_tick from character_buffs where character_id = %"PRIu64"", playerObject->getId());
 	mDatabase->ExecuteSqlAsync(this,envelope,sql);
 }
 
@@ -333,7 +333,7 @@ void BuffManager::LoadBuffAttributes(buffAsyncContainer* envelope)
 	temp->player = envelope->player;
 
 	int8 sql[550];
-	sprintf(sql, "SELECT type,initial,tick,final from character_buff_attributes where character_id = %"PRIu64" and buff_id = %"PRIu64";", envelope->player->getId(), envelope->buff->GetDBID());
+	snprintf(sql,sizeof(sql), "SELECT type,initial,tick,final from character_buff_attributes where character_id = %"PRIu64" and buff_id = %"PRIu64";", envelope->player->getId(), envelope->buff->GetDBID());
 	mDatabase->ExecuteSqlAsync(this,temp,sql);
 }
 
@@ -372,16 +372,19 @@ bool BuffManager::AddBuffToDB(WMAsyncContainer* asyncContainer,DatabaseCallback*
 
 		uint32 bufficon = buff->GetIcon();
 		int8 sql[550];
-		sprintf(sql, "INSERT INTO character_buffs (character_id, buff_id, instigator_id, max_ticks, tick_length, current_tick, icon, current_global_tick, start_global_tick) values(");
-		sprintf(sql+strlen(sql), "%"PRIu64",", player->getId());
-		sprintf(sql+strlen(sql), "%"PRIu64",", buff->GetID());
-		sprintf(sql+strlen(sql), "%"PRIu64",", instigatorid);
-		sprintf(sql+strlen(sql), "%u,", buff->GetNoOfTicks());
-		sprintf(sql+strlen(sql), "%"PRIu64",", buff->GetTickLength());
-		sprintf(sql+strlen(sql), "%u,", buff->GetCurrentTickNumber());
-		sprintf(sql+strlen(sql), "%u,", bufficon);
-		sprintf(sql+strlen(sql), "%"PRIu64",", currenttime);
-		sprintf(sql+strlen(sql), "%"PRIu64");", buff->GetStartGlobalTick());
+		snprintf(	sql, 
+					sizeof(sql),
+					"INSERT INTO character_buffs (character_id, buff_id, instigator_id, max_ticks, tick_length, current_tick, icon, current_global_tick, start_global_tick) values(%"PRIu64",%"PRIu64",%"PRIu64",%u,%"PRIu64",%u,%u, %"PRIu64",,%"PRIu64");", 
+					player->getId(), 
+					buff->GetID(), 
+					instigatorid, 
+					buff->GetNoOfTicks(), 
+					buff->GetTickLength(), 
+					buff->GetCurrentTickNumber(),
+					bufficon,
+					currenttime,
+					buff->GetStartGlobalTick()	
+				);
 
 		buffAsyncContainer*	asContainer = new(buffAsyncContainer);
 		asContainer->mQueryType		= BMQuery_Save_Async;
@@ -394,7 +397,7 @@ bool BuffManager::AddBuffToDB(WMAsyncContainer* asyncContainer,DatabaseCallback*
 
 
 		int8 sql2[550];
-		sprintf(sql2, "INSERT INTO character_buff_attributes (buff_id,character_id,type,initial,tick,final) VALUES");
+		snprintf(sql2, sizeof(sql2), "INSERT INTO character_buff_attributes (buff_id,character_id,type,initial,tick,final) VALUES");
 		//Add Attributes
 		AttributeList::iterator it = buff->Attributes.begin();
 
@@ -408,19 +411,19 @@ bool BuffManager::AddBuffToDB(WMAsyncContainer* asyncContainer,DatabaseCallback*
 		{
 			BuffAttribute* batemp = *it;
 
-			sprintf(sql2+strlen(sql2), "(%"PRIu64",", buff->GetID());
-			sprintf(sql2+strlen(sql2), "%"PRIu64",", player->getId());
-			sprintf(sql2+strlen(sql2), "%d,", (int32)batemp->GetType());
-			sprintf(sql2+strlen(sql2), "%d,", batemp->GetInitialValue());
-			sprintf(sql2+strlen(sql2), "%d,", batemp->GetTickValue());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "(%"PRIu64",", buff->GetID());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "%"PRIu64",", player->getId());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "%d,", (int32)batemp->GetType());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "%d,", batemp->GetInitialValue());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "%d,", batemp->GetTickValue());
 			
 			AttributeList::iterator it2 = it; it2++;
 			if(it2 != buff->Attributes.end())
 			{
-				sprintf(sql2+strlen(sql2), "%d),", batemp->GetFinalValue());
+				snprintf(sql2+strlen(sql2),sizeof(sql2), "%d),", batemp->GetFinalValue());
 			} else
 			{
-				sprintf(sql2+strlen(sql2), "%d);", batemp->GetFinalValue());
+				snprintf(sql2+strlen(sql2),sizeof(sql2), "%d);", batemp->GetFinalValue());
 			}
 			it++;
 		}
@@ -479,23 +482,26 @@ void BuffManager::AddBuffToDB(Buff* buff, uint64 currenttime)
 
 		uint32 bufficon = buff->GetIcon();
 		int8 sql[550];
-		sprintf(sql, "INSERT INTO character_buffs (character_id, buff_id, instigator_id, max_ticks, tick_length, current_tick, icon, current_global_tick, start_global_tick) values(");
-		sprintf(sql+strlen(sql), "%"PRIu64",", Player->getId());
-		sprintf(sql+strlen(sql), "%"PRIu64",", buff->GetID());
-		sprintf(sql+strlen(sql), "%"PRIu64",", instigatorid);
-		sprintf(sql+strlen(sql), "%u,", buff->GetNoOfTicks());
-		sprintf(sql+strlen(sql), "%"PRIu64",", buff->GetTickLength());
-		sprintf(sql+strlen(sql), "%u,", buff->GetCurrentTickNumber());
-		sprintf(sql+strlen(sql), "%u,", bufficon);
-		sprintf(sql+strlen(sql), "%"PRIu64",", currenttime);
-		sprintf(sql+strlen(sql), "%"PRIu64");", buff->GetStartGlobalTick());
+		snprintf(	sql,
+					sizeof(sql), 
+					"INSERT INTO character_buffs (character_id, buff_id, instigator_id, max_ticks, tick_length, current_tick, icon, current_global_tick, start_global_tick) values(%"PRIu64",%"PRIu64",%"PRIu64",%u,%"PRIu64",%u,%u%"PRIu64",%"PRIu64");"
+					, Player->getId()
+					, buff->GetID()
+					, instigatorid
+					, buff->GetNoOfTicks()
+					, buff->GetTickLength()
+					, buff->GetCurrentTickNumber()
+					, bufficon
+					, currenttime
+					, buff->GetStartGlobalTick()
+				);
 
 		//Lloydyboy Changed Save SQL back to Sync, not ASync to ensure this is saved, before new zone loads
 		//mDatabase->ExecuteSqlAsync(this,envelope,sql);
 		mDatabase->DestroyResult(mDatabase->ExecuteSynchSql(sql));
 
 		int8 sql2[550];
-		sprintf(sql2, "INSERT INTO character_buff_attributes (buff_id,character_id,type,initial,tick,final) VALUES");
+		snprintf(sql2, sizeof(sql2),"INSERT INTO character_buff_attributes (buff_id,character_id,type,initial,tick,final) VALUES");
 		//Add Attributes
 		AttributeList::iterator it = buff->Attributes.begin();
 
@@ -512,18 +518,18 @@ void BuffManager::AddBuffToDB(Buff* buff, uint64 currenttime)
 			//undo the attribute pre safe - we will reapply this on login
 			buff->ModifyAttribute(batemp->GetType(), batemp->GetFinalValue());
 
-			sprintf(sql2+strlen(sql2), "(%"PRIu64",", buff->GetID());
-			sprintf(sql2+strlen(sql2), "%"PRIu64",", Player->getId());
-			sprintf(sql2+strlen(sql2), "%d,", (int32)batemp->GetType());
-			sprintf(sql2+strlen(sql2), "%d,", batemp->GetInitialValue());
-			sprintf(sql2+strlen(sql2), "%d,", batemp->GetTickValue());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "(%"PRIu64",", buff->GetID());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "%"PRIu64",", Player->getId());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "%d,", (int32)batemp->GetType());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "%d,", batemp->GetInitialValue());
+			snprintf(sql2+strlen(sql2),sizeof(sql2), "%d,", batemp->GetTickValue());
 			
 			AttributeList::iterator it2 = it; it2++;
 			if(it2 != buff->Attributes.end())
 			{
-				sprintf(sql2+strlen(sql2), "%d),", batemp->GetFinalValue());
+				snprintf(sql2+strlen(sql2),sizeof(sql2), "%d),", batemp->GetFinalValue());
 			} else {
-				sprintf(sql2+strlen(sql2), "%d);", batemp->GetFinalValue());
+				snprintf(sql2+strlen(sql2),sizeof(sql2), "%d);", batemp->GetFinalValue());
 			}
 			it++;
 		}

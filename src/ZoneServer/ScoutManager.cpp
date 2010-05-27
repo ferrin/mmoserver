@@ -195,7 +195,7 @@ bool ScoutManager::createCamp(uint32 typeId,uint64 parentId, const glm::vec3& po
 	gWorldManager->addObject(region);
 
 	int8 name[64];
-	sprintf(name,"%s %s",player->getFirstName().getAnsi(),player->getLastName().getAnsi());
+	snprintf(name, sizeof(name),"%s %s",player->getFirstName().getAnsi(),player->getLastName().getAnsi());
 	region->setCampOwnerName(BString(name));
 
 	player->setHasCamp(true);
