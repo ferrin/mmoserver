@@ -419,9 +419,9 @@ void TreasuryManager::handleBankTipSurchargeConfirmed(TreasuryManagerAsyncContai
 {
 	Transaction* mTransaction = mDatabase->startTransaction(this,asyncContainer);
 	int8 sql[256];
-	sprintf(sql,"UPDATE banks SET credits=credits-%i WHERE id=%"PRIu64"",asyncContainer->amount, asyncContainer->player->getId() + 4);
+	snprintf(sql, sizeof(sql),"UPDATE banks SET credits=credits-%i WHERE id=%"PRIu64"",asyncContainer->amount, asyncContainer->player->getId() + 4);
 	mTransaction->addQuery(sql);
-	sprintf(sql,"UPDATE banks SET credits=credits+%i WHERE id=%"PRIu64"",asyncContainer->amount, asyncContainer->targetId + 4);
+	snprintf(sql,sizeof(sql),"UPDATE banks SET credits=credits+%i WHERE id=%"PRIu64"",asyncContainer->amount, asyncContainer->targetId + 4);
 	mTransaction->addQuery(sql);
 	mTransaction->execute();
 
