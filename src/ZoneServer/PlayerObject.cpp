@@ -139,7 +139,7 @@ PlayerObject::PlayerObject()
 PlayerObject::~PlayerObject()
 {
 	// store any eventually spawned vehicle
-	Datapad* datapad = dynamic_cast<Datapad*>(mEquipManager.getEquippedObject(CreatureEquipSlot_Datapad));
+	Datapad* datapad			= getDataPad();
 
 	if(mMount && datapad)
 	{
@@ -418,7 +418,8 @@ void PlayerObject::resetProperties()
 	mDefenderUpdateCounter				= 0;
 	mReady								= false;
 
-	if(Datapad* datapad = dynamic_cast<Datapad*>(mEquipManager.getEquippedObject(CreatureEquipSlot_Datapad)))
+	Datapad* datapad			= getDataPad();
+	if(datapad)
 	{
 		datapad->mWaypointUpdateCounter = datapad->getWaypoints()->size();
 	}
@@ -2177,11 +2178,11 @@ void PlayerObject::setSitting(Message* message)
 			// TODO: check if we need to send transforms to others
 			if(chairCell)
 			{
-				gMessageLib->sendDataTransformWithParent(this);
+				gMessageLib->sendDataTransformWithParent053(this);
 			}
 			else
 			{
-				gMessageLib->sendDataTransform(this);
+				gMessageLib->sendDataTransform053(this);
 			}
 
 			gMessageLib->sendUpdateMovementProperties(this);

@@ -531,21 +531,21 @@ void TradeManager::_processFindFriendCreateWaypointMessage(Message* message,Disp
 
 	PlayerObject* playerObject = dynamic_cast<PlayerObject*>(gWorldManager->getObjectById(playerId));
 
-	Datapad* thePad = dynamic_cast<Datapad*>(playerObject->getEquipManager()->getEquippedObject(CreatureEquipSlot_Datapad));
+	Datapad* datapad			= playerObject->getDataPad();
 
     glm::vec3 position;
 	position.x = x;
 	position.z = z;
 
-	WaypointObject* wp = thePad->getWaypointByName(playerFriendName);
+	WaypointObject* wp = datapad->getWaypointByName(playerFriendName);
 	if(wp)
 	{
-		thePad->removeWaypoint(wp->getId());
+		datapad->removeWaypoint(wp->getId());
 	}
 
-	if(thePad->getCapacity())
+	if(datapad->getCapacity())
 	{
-		thePad->requestNewWaypoint(playerFriendName.getAnsi(),position,static_cast<uint16>(planet),Waypoint_blue);
+		datapad->requestNewWaypoint(playerFriendName.getAnsi(),position,static_cast<uint16>(planet),Waypoint_blue);
 	}
 }
 
@@ -947,11 +947,11 @@ void TradeManager::TradeTransaction(DispatchClient* client,PlayerObject* player1
 
 		if (!player1->testCash(asyncContainer->amount1) )
 		{
-			gLogger->log(LogManager::DEBUG,"Player : %S, id %"PRIu64" wanted to trade %u credits but had only %u left",player1->getFirstName().getAnsi(),player1->getId(),asyncContainer->amount1,dynamic_cast<Inventory*>(player1->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory))->getCredits());
+			gLogger->log(LogManager::DEBUG,"Player : %s, id %"PRIu64" wanted to trade %u credits but had only %u left",player1->getFirstName().getAnsi(),player1->getId(),asyncContainer->amount1,dynamic_cast<Inventory*>(player1->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory))->getCredits());
 		}
 		if (!player2->testCash(asyncContainer->amount2) )
 		{
-			gLogger->log(LogManager::DEBUG,"Player : %S, id %"PRIu64" wanted to trade %u credits but had only %u left",player2->getFirstName().getAnsi(),player2->getId(),asyncContainer->amount2,dynamic_cast<Inventory*>(player2->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory))->getCredits());
+			gLogger->log(LogManager::DEBUG,"Player : %s, id %"PRIu64" wanted to trade %u credits but had only %u left",player2->getFirstName().getAnsi(),player2->getId(),asyncContainer->amount2,dynamic_cast<Inventory*>(player2->getEquipManager()->getEquippedObject(CreatureEquipSlot_Inventory))->getCredits());
 		}
 	}
 }

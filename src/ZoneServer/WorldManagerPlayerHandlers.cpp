@@ -227,7 +227,7 @@ void WorldManager::addDisconnectedPlayer(PlayerObject* playerObject)
 	playerObject->stopTutorial();
 
 
-	Datapad* datapad = dynamic_cast<Datapad*>(playerObject->getEquipManager()->getEquippedObject(CreatureEquipSlot_Datapad));
+	Datapad* datapad			= playerObject->getDataPad();
 
 	if(playerObject->getMount() && datapad)
 	{
@@ -377,7 +377,8 @@ void WorldManager::warpPlanet(PlayerObject* playerObject, const glm::vec3& desti
 	removeCreatureHamToProcess(playerObject->getHam()->getTaskId());
 	removeCreatureStomachToProcess(playerObject->getStomach()->mDrinkTaskId);
 	removeCreatureStomachToProcess(playerObject->getStomach()->mFoodTaskId);
-	//playerObject->getHam()->setTaskId(0);
+	//we've removed the taskId, now lets reset the Id
+	playerObject->getHam()->setTaskId(0);
 
 	// reset player properties
 	playerObject->resetProperties();

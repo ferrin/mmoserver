@@ -585,7 +585,7 @@ void CraftingSession::addComponentAttribute()
 					gLogger->log(LogManager::DEBUG,"addComponentAttribute checking item for attribute %s",(*cAPPiT)->getAffectedAttributeKey().getAnsi());
 					if(mItem->hasAttribute( (*cAPPiT)->getAffectedAttributeKey().getAnsi() ))
 					{
-						gLogger->log(LogManager::DEBUG,"CraftingSession::addComponentAttribute %s will affect %S",(*cAPPiT)->getAttributeKey().getAnsi() ,(*cAPPiT)->getAffectedAttributeKey().getAnsi() );
+						gLogger->log(LogManager::DEBUG,"CraftingSession::addComponentAttribute %s will affect %s",(*cAPPiT)->getAttributeKey().getAnsi() ,(*cAPPiT)->getAffectedAttributeKey().getAnsi() );
 
 						// add the attribute (to the schematic) if it doesnt exist already to the relevant list for storage
 						// on sending the msco deltas respective producing the final items the values will be added to the attributes
@@ -1086,7 +1086,7 @@ void CraftingSession::createManufactureSchematic(uint32 counter)
 	//we have a datapad associated man schematic
 
 	//set the datapad Id of the man schematic so it wont get deleted
-	Datapad* datapad = dynamic_cast<Datapad*>(mOwner->getEquipManager()->getEquippedObject(CreatureEquipSlot_Datapad));
+	Datapad* datapad = mOwner->getDataPad();
 	mManufacturingSchematic->setParentId(datapad->getId());
 	mManufacturingSchematic->mDataPadId = datapad->getId();
 
