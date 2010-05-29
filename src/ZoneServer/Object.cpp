@@ -239,6 +239,11 @@ bool Object::removeKnownObject(Object* object)
 
 bool Object::checkKnownObjects(Object* object) const
 {
+  // If the object is invalid it's not a known object for certain.
+  if (!object) {
+    return false;
+  }
+
 	if(object->getType() == ObjType_Player)
 	{
 		PlayerObjectSet::const_iterator it = mKnownPlayers.find(dynamic_cast<PlayerObject*>(object));
