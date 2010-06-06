@@ -266,9 +266,13 @@ void Vehicle::dismountPlayer()
 	mOwner->setPosture(CreaturePosture_Upright);
 
 	//make sure we restore previous speed values
-	mOwner->setCurrentSpeedModifier(mOwner->getBaseSpeedModifier());
+	if(mOwner->checkPlayerCustomFlag(PlayerCustomFlag_BurstRun)){
+		mOwner->setCurrentSpeedModifier(mOwner->getCurrentSpeedModifier()*2);
+	}else{
+		mOwner->setCurrentSpeedModifier(mOwner->getBaseSpeedModifier());
+	}
 	gMessageLib->sendUpdateMovementProperties(mOwner);
-	gLogger->logMsg("Vehicle::dismountPlayer() player curSpeed set to player BaseSpeed");
+
 
 	gMessageLib->sendStateUpdate(mBody);
 	gMessageLib->sendStateUpdate(mOwner);
@@ -307,7 +311,6 @@ void Vehicle::mountPlayer()
 	
 	//make sure we restore previous speed values
 	mOwner->setCurrentSpeedModifier(mBody->getBaseSpeedModifier());
-	gLogger->logMsg("Vehicle::mountPlayer() player curSpeed set to mount BaseSpeed");	
 	gMessageLib->sendUpdateMovementProperties(mOwner);
 
 	gMessageLib->sendStateUpdate(mOwner);
